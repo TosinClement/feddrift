@@ -232,6 +232,9 @@ def main():
     style_sheet(w5, inv)
     w6 = wb.create_sheet("Sources")
     style_sheet(w6, reg, widths={"title": 60, "url": 70})
+    import datetime as _dt
+    wb.properties.created = wb.properties.modified = _dt.datetime(2026, 10, 3)   # deterministic file metadata
+    wb.properties.creator = "FedDrift code/07_build_review.py"
     wb.save(os.path.join(REVIEW, "FedDrift_label_review.xlsx"))
     print(f"review package: {len(rr)} rules, {len(rel)} releases, {len(jc)} judgment calls, "
           f"{len(inv)} events, {len(reg)} sources")

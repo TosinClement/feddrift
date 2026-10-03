@@ -78,7 +78,7 @@ data/processed/               drift_events.csv, event_inventory.csv, anchor_vint
 evidence/   source registry, rule evidence, release evidence with automated checks
 labels/     review package (labels/review/) and the label owner's decisions (labels/decisions/)
 paper/      stats.json, benchmark results, tables, figures, data descriptor
-docs/       METHODOLOGY, CODEBOOK, PROVENANCE, LICENSING_PROTOCOL, ETHICS_AND_LIMITATIONS, CONTRIBUTIONS, RELEASE_CHECKLIST
+docs/       METHODOLOGY, CODEBOOK, PROVENANCE, REPRODUCIBILITY, LICENSING_PROTOCOL, ETHICS_AND_LIMITATIONS, CONTRIBUTIONS, RELEASE_CHECKLIST
 zenodo/     deposit metadata and description
 ```
 
