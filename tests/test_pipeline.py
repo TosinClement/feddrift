@@ -75,7 +75,8 @@ def test_rule_engine_routes_events():
     rules = pd.read_csv(os.path.join(REPO, "config", "revision_rules.csv"), dtype=str).fillna("")
     rules["priority"] = rules.priority.astype(int)
     rules = rules.sort_values("priority")
-    base = dict(n_revised=2, n_dropped_obs=0, n_obs_next=10, n_obs_prev=9, rebase_like=False, depth_censored=False)
+    base = dict(n_revised=2, n_dropped_obs=0, n_obs_next=10, n_obs_prev=9, rebase_like=False, depth_censored=False,
+                max_abs_pct_revision=1.0)
     cases = [
         (dict(series_id="DGORDER", vintage_month=6, revision_depth_months=3), "R23_ROUTINE_M3"),
         (dict(series_id="DGORDER", vintage_month=5, revision_depth_months=160), "R30_CENSUS_ANNUAL"),
@@ -84,6 +85,9 @@ def test_rule_engine_routes_events():
         (dict(series_id="CPIAUCSL", vintage_month=2, revision_depth_months=19, depth_censored=True), "R10_BLS_SA_FEB"),
         (dict(series_id="CPIAUCNS", vintage_month=2, revision_depth_months=61), "R90_UNCLASSIFIED"),
         (dict(series_id="TSIFRGHT", vintage_month=9, revision_depth_months=250), "R26_ROUTINE_TSI"),
+        (dict(series_id="TSITTL", vintage_month=9, revision_depth_months=250, max_abs_pct_revision=3.0), "R26_ROUTINE_TSI"),
+        (dict(series_id="TSITTL", vintage_month=6, revision_depth_months=250, max_abs_pct_revision=3.01),
+         "R27_TSI_SCREENED"),
         (dict(series_id="RSAFS", vintage_month=4, revision_depth_months=100, rebase_like=True), "R02_REBASE"),
         (dict(series_id="RSAFS", vintage_month=4, revision_depth_months=0, n_revised=0), "R00_EXTENSION"),
         (dict(series_id="CPIAUCSL", vintage_month=4, revision_depth_months=0, n_revised=0, n_dropped_obs=1,

@@ -1,0 +1,15 @@
+Revision Policy for the Transportation Services Index
+Friday, November 22, 2024
+Policy Summary
+
+The Bureau of Transportation Statistics (BTS) publishes the TSI monthly. The monthly publication includes the release of the latest month of data and revisions to previous months.
+
+Reasons for Revision
+
+BTS revises the TSI to include updates and revisions to the input data used to calculate TSI and changes in the methodology. Specifically, TSI estimates may change in response to the following:
+
+Revisions to recent months input data:  To improve the timeliness of the TSI, BTS may forecast an input data series if the release of that input data series lags all other series.
+
+Revisions to historical input data:  Occasionally, the sources for TSI input data revise their historical data to reflect newly available information or changes in their data compilation methods. Such changes in source data also result in changes to the TSI estimates.
+
+Changes in estimated seasonality pattern caused by adding new data to the input data series:  TSI is a seasonally adjusted index, which means seasonality patterns must be removed from the data. Adding a new data point to the data series for the most recent month changes the seasonality estimation in previous months.

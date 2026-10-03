@@ -23,6 +23,10 @@ import pandas as pd
 
 from fd_common import CONFIG, PROCESSED, load_panel
 
+# TSI screening threshold set by the label owner (2026-10-03): a TSI event whose largest single-month revision
+# exceeds this many percent is not covered by R26 and goes to release-level review. Not evidence of a cause.
+TSI_SCREEN_PCT = 3.0
+
 
 def series_set(cell):
     return None if cell == "ALL" else set(cell.split(";"))
@@ -49,9 +53,13 @@ def propose(row, rules):
             return rid
         if rid == "R10_BLS_SA_FEB" and m == 2 and ((50 <= d <= 62) or bool(row.depth_censored)):
             return rid
-        if rid.startswith("R2") and rid != "R26_ROUTINE_TSI" and d <= float(r.routine_window_months):
+        if rid.startswith("R2") and rid not in ("R26_ROUTINE_TSI", "R27_TSI_SCREENED") and d <= float(r.routine_window_months):
             return rid
         if rid == "R26_ROUTINE_TSI":
+            if float(row.max_abs_pct_revision) <= TSI_SCREEN_PCT:
+                return rid
+            continue
+        if rid == "R27_TSI_SCREENED":
             return rid
         if rid == "R30_CENSUS_ANNUAL" and 3 <= m <= 7:
             return rid

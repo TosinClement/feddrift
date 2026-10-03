@@ -3,16 +3,23 @@
  "n_drift_events": 4109,
  "n_excluded": 2186,
  "by_status": {
-  "rule_pending_review": 3667,
-  "release_pending_review": 442
+  "rule_verified": 3653,
+  "release_pending_review": 456
  },
  "by_review_level": {
-  "rule": 3667,
-  "release": 442
+  "rule": 3653,
+  "release": 456
  },
- "n_verified": 0,
- "n_unverified": 4109,
+ "n_verified": 3653,
+ "n_unverified": 456,
  "n_final_unknown": 0,
- "final_cause_counts": {},
- "decision_files_present": []
+ "final_cause_counts": {
+  "advance_to_revised": 3400,
+  "routine_reestimation": 253
+ },
+ "decision_files_present": [
+  "DECISION_LOG.md",
+  "judgment_calls.csv",
+  "rule_decisions.csv"
+ ]
 }

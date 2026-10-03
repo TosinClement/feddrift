@@ -88,6 +88,22 @@ def register_reader(url, publisher, title, doc_type, pub_date, accessed, note):
     return sid
 
 
+def register_capture(url, publisher, title, doc_type, pub_date, capture_file, captured_utc, rendered_sha, rendered_bytes,
+                     doc_id=""):
+    """A page read in an ordinary browser and saved as a dated text excerpt capture (not the server's file)."""
+    p = os.path.join(EVID, "captures", capture_file)
+    b = open(p, "rb").read()
+    sid = "SRC-" + hashlib.sha256(url.encode()).hexdigest()[:10].upper()
+    REGISTRY[sid] = {"source_id": sid, "publisher": publisher, "title": title, "doc_type": doc_type,
+                     "document_id": doc_id, "publication_date": pub_date, "url": url,
+                     "retrieval": (f"browser_excerpt_capture: evidence/captures/{capture_file} (text of the page's <main> "
+                                   f"element, built-in browser, {captured_utc}); sha256 is of the capture, not the server "
+                                   f"file; rendered page HTML at capture time: {rendered_bytes} bytes, "
+                                   f"sha256 {rendered_sha} (not stored)"),
+                     "accessed_utc": captured_utc, "sha256": hashlib.sha256(b).hexdigest(), "bytes": len(b)}
+    return sid
+
+
 def text_of(path):
     tp = path + ".txt"
     if os.path.exists(tp):
@@ -255,18 +271,31 @@ def rule_evidence():
             raise SystemExit(f"BLS Handbook PPI {page}: expected statements not found; page may have changed")
         add("R25_ROUTINE_PPI", sid2, " ".join(qq), loc)
     add("R10_BLS_SA_FEB", sid, " ".join(q), page_of(t, q[0]) if q else "")
-    s1 = register_reader("https://www.bts.gov/browse-statistical-products-and-data/transportation-economic-trends/revision-policy-tsi",
-                         "Bureau of Transportation Statistics", "Revision Policy for the Transportation Services Index",
-                         "methodology", "2024-11-22", "2026-10-03T18:20:00Z", "bts.gov returns HTTP 403 to scripted clients")
-    add("R26_ROUTINE_TSI", s1, "The TSI is published monthly, with the release of the latest month of data and revisions to "
-        "previous months. ... Adding a new data point to the data series for the most recent month changes the seasonality "
-        "estimation in previous months. ... Occasionally, the sources for TSI input data revise their historical data to "
-        "reflect newly available information or changes in their data compilation methods.", "web page")
-    s2 = register_reader("https://www.bts.gov/newsroom/may-2025-freight-transportation-services-index-tsi-down-01-previous-month-and-down-09-same",
-                         "Bureau of Transportation Statistics", "May 2025 Freight Transportation Services Index (TSI) release",
-                         "release", "2025-07-10", "2026-10-03T18:20:00Z", "bts.gov returns HTTP 403 to scripted clients")
-    add("R26_ROUTINE_TSI", s2, "Monthly data has changed from previous releases due to the use of concurrent seasonal analysis, "
-        "which results in seasonal analysis factors changing as each month's data are added.", "web page")
+    # bts.gov refuses scripted downloads (HTTP 403). The two BTS pages were opened in the built-in browser pane
+    # (ordinary browser access, 2026-10-03) and the relevant text of each page's <main> element was saved as a dated
+    # excerpt capture in evidence/captures/. Each capture's SHA-256 equals the hash computed inside the browser on the
+    # same text. These are captures, not the original server files.
+    s1 = register_capture("https://www.bts.gov/browse-statistical-products-and-data/transportation-economic-trends/revision-policy-tsi",
+                          "Bureau of Transportation Statistics", "Revision Policy for the Transportation Services Index",
+                          "methodology", "2024-11-22", "bts_tsi_revision_policy.excerpt.txt", "2026-10-03T22:36:37Z",
+                          "feeee572744fab6737b258a3a770b75107fc546cc87dd75748d68e61624bf10c", 103214)
+    t1 = open(os.path.join(EVID, "captures", "bts_tsi_revision_policy.excerpt.txt"), encoding="utf-8").read()
+    add("R26_ROUTINE_TSI", s1, " ".join(sentences(t1, ["publishes the tsi monthly"], limit=1)
+                                        + sentences(t1, ["monthly publication includes"], limit=1)
+                                        + sentences(t1, ["occasionally, the sources for tsi input data"], limit=1)
+                                        + sentences(t1, ["such changes in source data"], limit=1)
+                                        + sentences(t1, ["adding a new data point"], limit=1)),
+        "Policy Summary; Reasons for Revision (excerpt capture)")
+    s2 = register_capture("https://www.bts.gov/newsroom/may-2025-freight-transportation-services-index-tsi-down-01-previous-month-and-down-09-same",
+                          "Bureau of Transportation Statistics",
+                          "May 2025 Freight Transportation Services Index (TSI) Down 0.1% from the Previous Month and Down 0.9% "
+                          "from the Same Month Last Year (BTS 42-25)", "release", "2025-07-10",
+                          "bts_tsi_release_2025-07-10.excerpt.txt", "2026-10-03T22:35:05Z",
+                          "165e03529e8a6d001c2364f2e72c39f2eca1f28979fa0378fe13b2d886925bec", 275972, doc_id="BTS 42-25")
+    t2 = open(os.path.join(EVID, "captures", "bts_tsi_release_2025-07-10.excerpt.txt"), encoding="utf-8").read()
+    add("R26_ROUTINE_TSI", s2, " ".join(sentences(t2, ["monthly data has changed"], limit=1)
+                                        + sentences(t2, ["the entire freight tsi is revised monthly"], limit=1)),
+        "'Revisions' paragraph; note to Table A (excerpt capture)")
     sid, p = fetch("https://www.bls.gov/cpi/seasonal-adjustment/", "U.S. Bureau of Labor Statistics",
                    "Seasonal Adjustment in the CPI", "methodology", "", "", must=True)
     t = text_of(p)

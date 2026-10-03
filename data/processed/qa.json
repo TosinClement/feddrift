@@ -81,7 +81,7 @@
    "id": "Q12",
    "check": "Counts reconcile: pairs = drift events + excluded; drift events = rule-level + release-level; release-level = sum of cluster sizes",
    "expected": "all equalities hold",
-   "actual": "pairs 6295 = 4109 + 2186; 4109 = 3667 + 442; clusters 220 hold 442",
+   "actual": "pairs 6295 = 4109 + 2186; 4109 = 3653 + 456; clusters 231 hold 456",
    "status": "PASS"
   },
   {
@@ -123,7 +123,7 @@
    "id": "Q18",
    "check": "Release-package content rules (no ALFRED value rows, no keys, no cache, no withheld file)",
    "expected": "0 violations",
-   "actual": "0 violations in 110 files []",
+   "actual": "0 violations in 117 files []",
    "status": "PASS"
   },
   {
@@ -137,7 +137,7 @@
    "id": "Q20",
    "check": "Every drift event carries a label verified by the label owner (release-gate condition)",
    "expected": "0 unverified",
-   "actual": "4109 of 4109 unverified ({'rule_pending_review': 3667, 'release_pending_review': 442})",
+   "actual": "456 of 4109 unverified ({'rule_verified': 3653, 'release_pending_review': 456})",
    "status": "BLOCKING"
   }
  ],

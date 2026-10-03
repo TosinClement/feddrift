@@ -12,17 +12,17 @@
  "n_vintage_pairs": 6295,
  "n_drift_events": 4109,
  "n_excluded": 2186,
- "n_rule_level_events": 3667,
- "n_release_level_events": 442,
- "n_release_clusters": 220,
+ "n_rule_level_events": 3653,
+ "n_release_level_events": 456,
+ "n_release_clusters": 231,
  "n_rules_for_review": 7,
  "n_depth_censored_events": 215,
  "label_status": {
-  "rule_pending_review": 3667,
-  "release_pending_review": 442
+  "rule_verified": 3653,
+  "release_pending_review": 456
  },
- "n_verified": 0,
- "n_unverified": 4109,
+ "n_verified": 3653,
+ "n_unverified": 456,
  "n_final_unknown": 0,
  "events_by_recommended_cause": [
   {
@@ -62,10 +62,10 @@
   },
   {
    "recommended_cause": "routine_reestimation",
-   "n": 267,
-   "median_depth_months": 237.0,
-   "median_mean_abs_pct_revision": 0.1106,
-   "median_ks": 0.0193
+   "n": 253,
+   "median_depth_months": 234.0,
+   "median_mean_abs_pct_revision": 0.1085,
+   "median_ks": 0.019
   },
   {
    "recommended_cause": "seasonal_factor_recompute",
@@ -76,20 +76,35 @@
   },
   {
    "recommended_cause": "unknown",
-   "n": 13,
-   "median_depth_months": 18.0,
-   "median_mean_abs_pct_revision": 0.1332,
-   "median_ks": 0.1373
+   "n": 27,
+   "median_depth_months": 164.0,
+   "median_mean_abs_pct_revision": 0.1908,
+   "median_ks": 0.0367
   }
  ],
- "events_by_final_cause": [],
+ "events_by_final_cause": [
+  {
+   "final_cause": "advance_to_revised",
+   "n": 3400,
+   "median_depth_months": 3.0,
+   "median_mean_abs_pct_revision": 0.1563,
+   "median_ks": 0.0833
+  },
+  {
+   "final_cause": "routine_reestimation",
+   "n": 253,
+   "median_depth_months": 234.0,
+   "median_mean_abs_pct_revision": 0.1085,
+   "median_ks": 0.019
+  }
+ ],
  "recommendation_confidence_by_release": {
   "strong": 150,
   "moderate": 42,
-  "weak": 18,
-  "none": 10
+  "none": 21,
+  "weak": 18
  },
- "n_sources": 325,
+ "n_sources": 327,
  "copyright_tags": [
   "public domain: citation requested"
  ],
@@ -161,7 +176,7 @@
   "T1_cause_attribution": {
    "status": "pending_author_labels",
    "n_drift_events": 4109,
-   "n_verified": 0,
+   "n_verified": 3653,
    "splits": {
     "train": "vintage_next < 2010-01-01",
     "validation": "2010-01-01 <= vintage_next < 2015-01-01",
