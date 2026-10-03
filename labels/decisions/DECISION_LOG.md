@@ -10,3 +10,4 @@ Every entry records a decision the label owner (Tosin Clement) explicitly approv
 | 4 | 2026-10-03 15:28 | J4 review granularity | review_per_release | chat |
 | 5 | 2026-10-03 15:28 | J5 evidence bar | strong_or_moderate | chat |
 | 6 | 2026-10-03 15:56 | Rule R20_ROUTINE_MARTS_SA (594 events) | approve -> advance_to_revised; note recorded in rule_decisions.csv | chat |
+| 7 | 2026-10-03 16:01 | Rule R21_ROUTINE_MARTS_NSA (298 events) | approve -> advance_to_revised; note recorded in rule_decisions.csv | chat |
