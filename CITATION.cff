@@ -1,19 +1,19 @@
 cff-version: 1.2.0
 message: "If you use FedDrift, please cite it as below."
 type: dataset
-title: "FedDrift: an open benchmark of vintage-labeled distribution shift in U.S. federal economic and freight statistics"
+title: "FedDrift: vintage-labeled distribution shift in U.S. federal economic and freight statistics"
 version: "0.1.0"
-date-released: "[date]"
+date-released: "{{RELEASE_DATE}}"
+doi: "{{ZENODO_DOI}}"
+repository-code: "{{GITHUB_REPO_URL}}"
+license: CC-BY-4.0
 authors:
   - family-names: "Clement"
     given-names: "Tosin"
     orcid: "https://orcid.org/0009-0001-2055-5113"
     email: "clementtosin92@gmail.com"
     affiliation: "Independent Researcher"
-license: CC-BY-4.0
-repository-code: "https://github.com/[repository URL]"
-doi: "[DOI]"
-abstract: "Vintage-labeled revision events for 17 U.S. federal economic and freight series (Census MARTS, MRTS, M3, MTIS; BLS CPI, PPI; BTS TSI), with government release dates, revision footprints, author-verified cause labels, agency-sourced anchor values, ALFRED reconstruction manifests, and two benchmark tasks."
+abstract: "Revision events for 17 U.S. federal economic and freight series (Census MARTS, MRTS, M3, MTIS; BLS CPI, PPI; BTS TSI) built from 6312 ALFRED real-time vintages, with revision footprints, cause labels verified by the author against cited agency documents, an agency-sourced anchor vintage, hash-verified reconstruction manifests, and two benchmark tasks."
 keywords:
   - real-time data
   - data revisions

@@ -1,84 +1,109 @@
 # FedDrift
 
-**Status:** DRAFT v0.1 (unverified) | **Maintainer:** Tosin Clement, ORCID [0009-0001-2055-5113](https://orcid.org/0009-0001-2055-5113) | **License:** code MIT, data CC BY 4.0 | **DOI:** [DOI]
+**Vintage-labeled distribution shift in U.S. federal economic and freight statistics**
 
-> **DRAFT v0.1, not verified.** Revision-event causes are rule-engine proposals until the label owner verifies each one against agency methodology. Do not cite.
+**Version:** 0.1.0 (draft, not released) · **Maintainer:** Tosin Clement, ORCID [0009-0001-2055-5113](https://orcid.org/0009-0001-2055-5113) · **License:** code MIT, data CC BY 4.0 · **DOI:** {{ZENODO_DOI}}
 
-FedDrift is an open benchmark of **vintage-labeled distribution shift** in U.S. federal economic and freight statistics. Each time an agency revises a published series, the series' history shifts. FedDrift records every such shift for 17 headline series from the Census Bureau, the Bureau of Labor Statistics and the Bureau of Transportation Statistics. For each shift it records when it happened (the vintage date), how far back it reached, how large it was, and why. The why is one of a fixed set of causes: advance-to-revised transitions, annual benchmarking, sample redesign, seasonal-factor recomputation (including the January recomputation of five years of CPI seasonal factors), and rebasing.
+> **Status: DRAFT, not released.** 4,109 of 4,109 drift events do not yet carry a label verified by the label owner; causes shown are recommendations. Do not cite until the v0.1.0 release.
 
-## At a glance (from `paper/stats.json`)
+FedDrift records every revision of 17 monthly U.S. federal statistics. The series come from the Census Bureau (retail sales, manufacturers' orders, business inventories), the Bureau of Labor Statistics (CPI, PPI) and the Bureau of Transportation Statistics (Transportation Services Index). For each revision FedDrift gives:
 
-- **17 series**, **6,312 vintages** (1949-03-24 to 2026-10-02), observations from 1947-01.
-- **6,295 consecutive vintage pairs**, of which **4,109 are drift events** (at least one published value revised). The remaining 2,186 only append new months, or are ALFRED archival-window artifacts.
-- Agency files fetched directly from the agencies match ALFRED's newest vintage exactly for 16 of 17 series. Partial matches, with explanations, are in `data/processed/qa_report.txt`.
-- Negative control: NSA CPI-U is revised in 0.97% of releases (9 vintages), against 8.68% for the seasonally adjusted CPI-U.
-- Labels: 445 events need individual labels; 40 are currently unclassified.
+- the date the revised numbers entered the public real-time record;
+- what changed, how far back and by how much;
+- a distribution-shift statistic;
+- a cause label verified by the label owner and citing the agency document it rests on, or `unknown` where no agency source establishes the cause.
 
-| Cause | Events | Median depth (months) | Median mean abs. revision (%) | Median KS (growth) |
-|---|---:|---:|---:|---:|
-| `advance_to_revised` | 3,400 | 3 | 0.156 | 0.083 |
-| `annual_benchmark` | 309 | 159 | 0.299 | 0.035 |
-| `routine_reestimation` | 267 | 237 | 0.111 | 0.019 |
-| `seasonal_factor_recompute` | 89 | 60 | 0.057 | 0.083 |
-| `unclassified` | 40 | 58 | 0.139 | 0.057 |
-| `rebase_or_definition` | 4 | 235 | 42.561 | 0.110 |
+The causes are advance-to-revised transitions, annual benchmarks, seasonal-factor recomputation, sample redesign, rebasing or definition changes, methodology changes and corrections.
 
-*Causes above are proposals from the rule engine, pending verification.*
+## At a glance (generated from `paper/stats.json`)
+
+- 17 series; 6,312 real-time vintages from 1949-03-24 to 2026-10-02; observations 1947-01 to 2026-08.
+- 6,295 consecutive vintage pairs. 4,109 are **drift events** (at least one published value revised). The other 2,186 only add new months.
+- Drift events by review level: 3,667 routine events under 7 rules; 442 non-routine events in 220 agency releases.
+- Evidence: 325 agency documents registered with URL, publication date and SHA-256.
+- Agency files fetched directly from the agencies match ALFRED's newest vintage exactly for 16 of 17 series. The exception is explained in `data/processed/qa_report.md`.
+- Negative control: NSA CPI-U is revised in 0.97% of releases, against 8.68% for SA CPI-U.
+
+### Label status
+
+| Label status | Events |
+|---|---:|
+| `rule_pending_review` | 3,667 |
+| `release_pending_review` | 442 |
+| **drift events total** | **4,109** |
+| `excluded_not_drift` (no value revised) | 2,186 |
+
+
+
+### Drift events by verified cause
+
+_No verified labels yet._
 
 ## Benchmark tasks
 
-**T1: Revision-cause attribution.** Given the footprint of a vintage pair (what changed, how far back, how much, and when), predict its cause. Temporal split (train before 2015, test 2015 onward), macro-F1. Status: `pending_author_labels`. T1 is scored only against author-verified labels.
+**T1 — revision-cause attribution.** Predict the cause of a drift event from its footprint. Splits are by vintage date (train before 2010, validation 2010–2014, test 2015 onward); the metric is macro-F1.
+T1 is scored only on labels verified by the label owner. Status: `pending_author_labels` (0 of 4,109 drift events verified).
 
-**T2: Real-time revision correction.** Given a first-release month-over-month growth rate, predict its value 36 months later. Test observations: 2016-01-01 to 2022-09-01 (1,352 observations, 17 series).
+**T2 — real-time revision correction.** Predict the month-over-month growth rate as it stands 36 months after first release, from the first-release value. Splits are leakage-free in calendar time; the test set covers first releases from 2016-01-01 to 2022-09-30 (1,349 observations, 17 series).
 
-| Baseline | MAE (pp) | RMSE (pp) |
-|---|---:|---:|
-| B0 no revision | 0.4864 | 0.8687 |
-| B1 mean-revision correction | 0.4886 | 0.8699 |
-| B2 per-series OLS | 0.4934 | 0.8759 |
+| Baseline | MAE (pp) | RMSE (pp) | MAE − B0 (95% bootstrap interval) |
+|---|---:|---:|---|
+| B0 no revision | 0.4899 | 0.8745 | — |
+| B1 + train mean revision | 0.4897 | 0.8726 | -0.0002 (-0.0019, +0.0016) |
+| B2 per-series OLS | 0.4953 | 0.8871 | +0.0054 (-0.0041, +0.0154) |
+| B3 validation-selected | 0.4916 | 0.8836 | +0.0017 (-0.0045, +0.0084) |
 
-## What is here
+No simple correction improves on the no-revision baseline B0 (MAE 0.490 pp): every 95% bootstrap interval for the MAE difference to B0 includes zero. This is consistent with revisions carrying new information that was not available at first release, but the test set does not establish why. See `paper/tables/t2_by_series.csv` for per-series results, and `docs/METHODOLOGY.md` §5 for the full specification.
 
-```
-code/       numbered pipeline, run in order (run_all.sh)
-config/     panel definition, revision rules, agency-documented events
-data/raw/agency/     agency files as fetched (public domain), with PROVENANCE.txt
-data/manifests/      ALFRED vintage manifests: dates, counts, content hashes (no values)
-data/processed/      drift_events.csv (main table), anchor_vintage.csv, QA report
-labels/     the author's label sheets and labeling instructions
-docs/       CODEBOOK, LICENSING_PROTOCOL, LIMITATIONS, VERIFY_CHECKLIST, NEXT_STEPS
-paper/      stats.json, benchmark results, figures, data-descriptor draft
-```
+## Reproduce
 
-## Run it
-
-```
+```bash
+git clone {{GITHUB_REPO_URL}} feddrift && cd feddrift
+python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
-export FRED_API_KEY=your_key   # free: https://fredaccount.stlouisfed.org/apikeys
-bash run_all.sh
+export FRED_API_KEY=your_key        # free: https://fredaccount.stlouisfed.org/apikeys
+bash run_all.sh                     # pinned snapshot: rebuilds the ALFRED layer, verifies hashes, QA, benchmark, docs, tests
 ```
 
-Agency files need no key. The ALFRED layer is rebuilt from the FRED API. `code/06_qa.py` then checks every rebuilt vintage against the published hashes in `data/manifests/`.
+The ALFRED layer is rebuilt with `realtime_end` pinned to 2026-10-03, so later vintages never enter. QA check Q03 compares every rebuilt vintage with its published SHA-256. `bash run_all.sh --harvest` also re-downloads the agency evidence documents.
 
-## Sources
+## Repository
 
-| Source | What | License / terms | Snapshot |
-|---|---|---|---|
-| ALFRED, Federal Reserve Bank of St. Louis (FRED API) | Real-time vintage histories | FRED API Terms of Use; series tagged public domain: citation requested. **Not redistributed:** rebuilt from manifests | 2026-10-03 |
-| U.S. Census Bureau, Economic Indicators (MARTS, MRTS, M3, MTIS) | Agency anchor vintage | Public domain (U.S. government work) | 2026-10-03 |
-| U.S. Bureau of Labor Statistics, LABSTAT (CPI `cu`, PPI `wp`) | Agency anchor vintage | Public domain | 2026-10-03 |
-| U.S. DOT Bureau of Transportation Statistics, Monthly Transportation Statistics | TSI anchor values (BTS-produced fields only) | Public domain U.S. Government | 2026-10-03 |
+```
+code/       01-13 pipeline in run order; import_review.py; publish_gate.py
+config/     panel, snapshot, causes, rules, schema, placeholders
+data/raw/agency/2026-10-03/   agency files (public domain) + data/raw/PROVENANCE.txt
+data/manifests/               ALFRED vintage manifests: dates, counts, SHA-256 (no values)
+data/processed/               drift_events.csv, event_inventory.csv, anchor_vintage.csv, release_clusters.csv, QA
+evidence/   source registry, rule evidence, release evidence with automated checks
+labels/     review package (labels/review/) and the label owner's decisions (labels/decisions/)
+paper/      stats.json, benchmark results, tables, figures, data descriptor
+docs/       METHODOLOGY, CODEBOOK, PROVENANCE, LICENSING_PROTOCOL, ETHICS_AND_LIMITATIONS, CONTRIBUTIONS, RELEASE_CHECKLIST
+zenodo/     deposit metadata and description
+```
 
-See `docs/LICENSING_PROTOCOL.md` for what is and is not redistributed, and why.
+## Data use and licensing
+
+- Agency values: U.S. Government works, public domain.
+- FedDrift's tables, labels and documentation: CC BY 4.0.
+- Code: MIT.
+- ALFRED observation values are **not** redistributed. They are rebuilt with your own FRED API key, under the FRED API Terms of Use.
+
+See `docs/LICENSING_PROTOCOL.md`.
+
+This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis.
 
 ## Limitations
 
-Read `docs/LIMITATIONS.md` before using or citing anything here.
+Read `docs/ETHICS_AND_LIMITATIONS.md` before using FedDrift. In short:
+- vintage dates are ALFRED's, not always the agency's;
+- some early vintages censor revision depth;
+- evidence strength varies and is graded per label.
 
-## Contributions and AI assistance
+## Contributions
 
-Tosin Clement designed FedDrift, chose the panel and the cause taxonomy, and owns every revision-event label. Each label is verified against the issuing agency's published methodology. Claude (Anthropic) assisted with retrieval code, harmonization, QA scaffolding and documentation drafts.
+Tosin Clement designed FedDrift and owns every substantive labeling decision. Claude (Anthropic) assisted with code, data harmonization, evidence retrieval and documentation drafts. See `docs/CONTRIBUTIONS.md`.
 
 ## Citation
 
-See `CITATION.cff`. Clement, T. (2026). *FedDrift: an open benchmark of vintage-labeled distribution shift in U.S. federal economic and freight statistics* (v0.1.0). Zenodo. [DOI]
+Clement, T. (2026). *FedDrift: vintage-labeled distribution shift in U.S. federal economic and freight statistics* (Version 0.1.0) [Data set]. Zenodo. https://doi.org/{{ZENODO_DOI}}

@@ -1,50 +1,56 @@
-# FedDrift licensing protocol
+# FedDrift data-use and licensing protocol
 
-**Status:** DRAFT v0.1. The author must review this before release.
+This document decides what FedDrift redistributes and under which terms. `code/13_package.py` enforces it mechanically, and QA check Q18 tests that enforcement. Decisions marked **(J1)–(J3)** are the label owner's judgment calls, recorded in `labels/decisions/judgment_calls.csv`.
 
-FedDrift draws on two kinds of source. This protocol decides what each kind contributes to the public release, and it is enforced in code by `code/10_package.py`.
+## Sources and their terms (as read on 2026-10-03)
 
-## Layer A: agency anchor vintage (redistributed)
+| Layer | Source | Terms that apply | What FedDrift ships |
+|---|---|---|---|
+| A | U.S. Census Bureau Economic Indicators bulk files (MARTS, MRTS, M3, MTIS) | Works of the U.S. Government, not subject to U.S. copyright (17 U.S.C. § 105) | The raw files as fetched, plus the extracted panel values (`anchor_vintage.csv`) |
+| A | U.S. Bureau of Labor Statistics LABSTAT flat files (`cu`, `wp`) | Same as above | Same as above |
+| A | Bureau of Transportation Statistics, Monthly Transportation Statistics (Socrata `crem-w557`) | Dataset labelled "Public Domain U.S. Government". It compiles 136 columns from many providers, with no per-column source notes | **Only the two BTS-produced TSI columns**, extracted. The full file is withheld; its URL and SHA-256 are in `data/raw/PROVENANCE.txt` **(J3)** |
+| B | ALFRED real-time vintages via the FRED® API (Federal Reserve Bank of St. Louis) | FRED API Terms of Use and FRED Legal. All 17 panel series are tagged *Public Domain: Citation Requested* (recorded per series in `data/manifests/alfred_manifest.json`) | Manifests and reconstruction code only; no observation values **(J1)** |
+| C | FedDrift's own outputs: event table, footprints, labels, evidence registry, QA and benchmark results | CC BY 4.0 | Everything in `data/processed/`, `labels/`, `evidence/`, `paper/` |
 
-These values come straight from the agency that publishes them. They are works of the U.S. federal government and are not subject to copyright in the United States (17 U.S.C. § 105).
+### What the FRED terms say (quoted 2026-10-03)
 
-| Agency | File(s) | What FedDrift redistributes |
-|---|---|---|
-| U.S. Census Bureau | EITS bulk files for MARTS, MRTS, M3 and MTIS | Raw zips and the extracted panel series |
-| Bureau of Labor Statistics | LABSTAT flat files `cu` (CPI) and `wp` (PPI) | Raw flat files and the extracted panel series |
-| Bureau of Transportation Statistics | Monthly Transportation Statistics (Socrata `crem-w557`), labelled *Public Domain U.S. Government* | **Only the BTS-produced TSI fields**, extracted into `anchor_vintage.csv`. The full MTS file is **not** redistributed (see below) |
+- **FRED Legal, *Public Domain: Citation Requested*:** "These series may be under copyright or in the public domain and may be used without permission, provided you do not engage in any prohibited use. When using, please cite the data source and acknowledge that you obtained the data from FRED (example, 'Source: BLS via FRED') when displaying or publishing it."
+- **FRED Legal, prohibited use:** "You may not take all the data on FRED or related services and claim it is a unique product or service or otherwise provide the essential experience of the FRED website, data, or service."
+- **FRED API Terms of Use, third parties:** "Before using data series owned by third parties for anything other than your own personal use, you must contact the data owner to obtain permission."
+- **FRED API Terms of Use, required notice:** applications must state "This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis." FedDrift's reconstruction code uses the FRED API, so this notice appears in the README.
 
-The full MTS file is held back because it is compiled from many contributors. Some of its columns, for example the truck tonnage index, are produced by private organizations. The dataset-level public-domain label does not settle the status of every column. FedDrift therefore keeps only the columns BTS itself produces. Anyone who wants the full file can re-fetch it using the URL and SHA-256 recorded in `data/raw/PROVENANCE.txt`.
+### Decision J1: ALFRED values
 
-## Layer B: real-time vintage history from ALFRED (reconstructed, not redistributed)
+The tags as read permit redistribution with citation. FedDrift nevertheless follows the stricter rule set in the original project brief: it **ships no ALFRED observation values**. The reasons are:
+1. A FRED tag can change after a release, and a no-values release never needs to be withdrawn.
+2. The agency layer already redistributes current values directly from the agencies.
+3. Hash-verified reconstruction gives users the identical history with a free FRED key.
 
-Each series' revision history comes from ALFRED, which is operated by the Federal Reserve Bank of St. Louis, through the FRED API. The FRED API Terms of Use apply to how the data is accessed. FRED marks each series with a copyright tag. On the 2026-10-03 snapshot, all 17 panel series carry the tag `public domain: citation requested` (recorded per series in `data/manifests/alfred_manifest.json`).
+The alternative, `ship_values`, remains open to the label owner.
 
-Even so, FedDrift **does not redistribute ALFRED observation values**. This conservative rule was set by the author in the project brief. It keeps the release independent of any change to FRED's terms or tags, and of any later panel series that is not in the public domain. What FedDrift ships instead:
+### Decision J2: derived statistics
 
-1. **Reconstruction code:** `code/03_fetch_alfred.py`. Anyone with a free FRED API key can rebuild the identical history.
-2. **Vintage manifests:** `data/manifests/<SERIES>.vintages.csv`. There is one row per vintage, holding the vintage date, the observation count, the first and last observation, and a SHA-256 content hash of that vintage.
-3. **Verification:** `code/06_qa.py`, section 2. It rebuilds every vintage and checks it against the published hash, so a user can confirm they hold exactly the data FedDrift was built from.
+`drift_events.csv` contains statistics computed from ALFRED values: percentage revision magnitudes, growth-rate revisions and KS statistics. These are summaries of public-domain series. They contain no observation level and do not replicate the FRED experience, so FedDrift ships them. This keeps T1 usable without a FRED key. Users who rebuild Layer B reproduce them exactly (QA check Q03).
 
-The local cache `data/raw/alfred_cache/` is excluded from the release by `.gitignore` and by `code/10_package.py`.
+### Decision J3: BTS file
 
-## Layer C: derived statistics and labels (redistributed, CC BY 4.0)
+The full MTS file is withheld. Its dataset-level public-domain label does not establish the status of each of its third-party columns, and FedDrift needs only the TSI columns that BTS itself produces.
 
-`drift_events.csv`, the label sheets, the QA outputs and the benchmark results are FedDrift's own contribution. This covers revision footprints (depth, counts, percentage magnitudes, KS statistics) and the cause labels. None of these files contains an observation level from Layer B.
+## Enforcement
 
-> **[VERIFY] Author decision required.** Percentage revision magnitudes are derived from ALFRED values. The author confirms that redistributing these derived statistics fits the protocol's intent, or chooses to move those columns into the reconstruction path instead.
+`code/13_package.py` refuses to package any file that contains:
+- ALFRED real-time observation rows (JSON or CSV form);
+- a FRED API key or a GitHub token;
+- a private key or credential file.
 
-## Licenses
+The following are always excluded from the archive: `data/raw/alfred_cache/`, `evidence_cache/` and the full BTS file.
 
-- Code: MIT (`LICENSE`).
-- FedDrift's own data and documentation (Layer C): CC BY 4.0 (`LICENSE-DATA.md`).
-- Layer A values: public domain U.S. government works, redistributed with attribution to each agency.
-- Layer B: not redistributed. Users who rebuild it are bound by the FRED API Terms of Use.
+## Citation requirements for users
 
-## Adding a series
+When using FedDrift, cite FedDrift (see `CITATION.cff`). When displaying values, also cite the agencies: "Source: U.S. Census Bureau", "Source: U.S. Bureau of Labor Statistics", "Source: Bureau of Transportation Statistics". When displaying rebuilt ALFRED values, cite "Source: <agency> via FRED®, Federal Reserve Bank of St. Louis (ALFRED)".
 
-Before adding a series to `config/panel.csv`:
+## Adding a series later
 
-1. Check its FRED copyright tag. Any series tagged `copyrighted: ...` stays out of Layer A and out of the derived magnitudes until the author approves it in writing in this file.
-2. Confirm that the agency file the anchor comes from is a government work.
-3. Re-run `code/10_package.py`. It refuses to package if its checks fail.
+1. Check its FRED copyright tag (`series/tags`, group `cc`). A series tagged `copyrighted: …` stays out until its owner grants written permission.
+2. Confirm that the agency file it comes from is a U.S. Government work.
+3. Re-run QA. Check Q18 must pass.

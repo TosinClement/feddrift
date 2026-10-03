@@ -1,71 +1,80 @@
-# FedDrift codebook (DRAFT v0.1)
+# FedDrift codebook and data dictionary
 
-All dates are ISO 8601. In FedDrift, **"vintage"** means the date a version of a series became publicly available, which is ALFRED's `realtime_start`. **"obs"** means the reference month of an observation, written as the first day of that month.
+Dates are ISO 8601. A **vintage** is the date a version of a series became part of the public real-time record (ALFRED `realtime_start`). An **observation month** (`obs`) is the reference month of a value, written as the first day of that month. The column order of `drift_events.csv` is locked in `config/schema.json`, and QA check Q06 enforces it.
 
-## Cause taxonomy (`proposed_cause`, `final_cause`)
+## Cause taxonomy (`config/causes.csv`)
 
-| Cause | Meaning | Typical footprint |
+| Cause | Definition | Allowed as final label |
 |---|---|---|
-| `advance_to_revised` | Routine scheduled revision. An advance or preliminary estimate is replaced by a revised one, sometimes together with routine concurrent seasonal re-estimation. For PPI this is the scheduled recalculation about four months after first publication. | Shallow: within the series' routine window |
-| `annual_benchmark` | Annual revision. Benchmarking to annual surveys or the Economic Census, often with updated seasonal factors. | Deep (years), spring |
-| `seasonal_factor_recompute` | Annual recalculation of seasonal factors. For BLS CPI and PPI this happens with the January release and revises five years of SA data. | February; depth about 60 months (about 19 months before 1995 for CPI) |
-| `sample_redesign` | A new survey sample is introduced. | Varies. The agency may link samples so that no level shift appears |
-| `rebase_or_definition` | Change of index reference base, unit, or classification (for example NAICS restatement). | Nearly all history rescaled |
-| `routine_reestimation` | Model-based series (TSI) re-estimated over most of the history at every release. | Very deep, every release |
-| `correction` | Agency-announced correction of published values. | Usually shallow and off-schedule |
-| `other_major` | A documented non-routine revision that fits none of the above. | Any |
-| `unclassified` | No rule applies. Only valid as a proposal, never as a final label. | Any |
-| `none_extension_only` | Not a drift event: new observations appended, nothing revised. | No revisions |
-| `none_archival_window` | Not a drift event: ALFRED's early vintages hold a rolling window, so the oldest observation drops out. | No revisions, one dropped obs |
+| `advance_to_revised` | Scheduled routine revision: an advance or preliminary estimate replaced in the next regular release(s). Includes the routine concurrent seasonal re-estimation that accompanies each release, and the BLS PPI recalculation four months after first publication | yes |
+| `annual_benchmark` | Annual or periodic revision: monthly estimates benchmarked to annual surveys or the Economic Census, usually with historical corrections and updated seasonal models | yes |
+| `seasonal_factor_recompute` | Recalculation of seasonal factors that revises several years of SA data without benchmarking (BLS CPI and PPI with the January release; M3 seasonal-model updates) | yes |
+| `sample_redesign` | A new survey sample is introduced | yes |
+| `rebase_or_definition` | Change of index reference base, units, classification system (e.g. NAICS restatement) or coverage definition (e.g. employer-only) | yes |
+| `methodology_change` | Documented change in estimation method, weights or industry coverage that revises history | yes |
+| `routine_reestimation` | Model-based series whose history is re-estimated at every release (BTS TSI) | yes |
+| `correction` | Agency-announced correction of erroneous published values | yes |
+| `unknown` | Agency sources do not establish the cause. An honest final label | yes |
+| `unclassified` | Proposal-only state: no rule applies | **no** |
+| `none_extension_only`, `none_archival_window` | Not drift events (nothing revised) | excluded |
 
-`final_secondary_cause` holds a second cause when one release carries two (for example `annual_benchmark` with `sample_redesign`).
+## `data/processed/drift_events.csv`: one row per consecutive vintage pair
 
-## `data/processed/drift_events.csv` (main release table; one row per consecutive vintage pair)
+`data/processed/event_inventory.csv` has the same columns, restricted to drift events (`is_drift_event = True`).
 
-| Column | Definition | Source / transformation |
+| Column | Type | Definition | Produced by |
+|---|---|---|---|
+| `event_id` | string | `FD-<series_id>-<vintage_next YYYYMMDD>`; unique and stable | 05 |
+| `series_id` | string | FRED/ALFRED series ID (`config/panel.csv`) | 04 |
+| `vintage_prev`, `vintage_next` | date | The two consecutive ALFRED vintages compared | 04 |
+| `vintage_month`, `vintage_year` | int | Month and year of `vintage_next` | 04 |
+| `days_between` | int | Days between the two vintages | 04 |
+| `n_obs_prev`, `n_obs_next` | int | Observations (from 1947-01) in each vintage | 04 |
+| `n_overlap` | int | Observation months present in both vintages | 04 |
+| `n_new_obs`, `n_dropped_obs` | int | Months only in `vintage_next` / only in `vintage_prev` | 04 |
+| `n_revised` | int | Shared months whose value changed (relative change > 1e-9) | 04 |
+| `share_revised` | float | `n_revised / n_overlap` | 04 |
+| `first_obs_prev` | date | First observation in `vintage_prev` | 04 |
+| `first_obs_overlap` | date | First observation shared by both vintages | 04 |
+| `earliest_revised_obs`, `latest_revised_obs` | date | Range of revised months; empty if nothing was revised | 04 |
+| `revision_depth_months` | int | Vintage month minus earliest revised month | 04 |
+| `depth_censored` | bool | Earliest revised month within 2 months of `first_obs_overlap`; depth is a lower bound | 04 |
+| `revision_span_months` | int | Months from the earliest to the latest revised month, inclusive | 04 |
+| `mean_abs_pct_revision`, `max_abs_pct_revision` | float | Mean and max of \|new − old\| / \|old\| × 100 over revised months | 04 |
+| `net_pct_revision` | float | Mean signed % revision over revised months | 04 |
+| `share_up` | float | Share of revised months revised upward | 04 |
+| `mean_abs_growth_revision_pp` | float | Mean \|Δ\| of m/m % growth over revised months, in percentage points | 04 |
+| `ks_growth_window`, `ks_growth_window_p` | float | Two-sample KS statistic and p-value comparing m/m growth before and after the revision, within the revised window; empty if the window has fewer than 5 months | 04 |
+| `rebase_like` | bool | At least 95% of shared months rescaled by a near-constant ratio | 04 |
+| `release_program` | string | MARTS, MRTS, M3, MTIS, CPI, PPI or TSI | 05 |
+| `proposed_rule`, `proposed_cause` | string | Rule that fired (`config/revision_rules.csv`) and the cause it proposes. Machine output, not a label | 05 |
+| `review_level` | string | `excluded`, `rule` (routine) or `release` (non-routine) | 05 |
+| `is_drift_event` | bool | True if at least one published value was revised | 05 |
+| `release_cluster_id` | string | `FDC-<program>-<YYYYMMDD>` for release-level events | 05 |
+| `recommended_cause`, `recommended_secondary_cause` | string | Claude's evidence-based recommendation (release level), or the rule's cause (rule level). Not a label | 08 |
+| `recommendation_confidence` | string | `strong`, `moderate`, `weak` or `none` (release level); `program_policy` (rule level) | 08 |
+| `final_cause`, `final_secondary_cause` | string | **The label owner's verified label.** Empty while unverified | 08 |
+| `label_status` | string | `excluded_not_drift`, `rule_pending_review`, `rule_verified`, `rule_rejected`, `release_pending_review`, `release_verified`, `unknown_verified` or `override_verified` | 08 |
+| `label_basis` | string | `rule:<rule_id>`, `release:<cluster_id>`, `override` or `mechanical:<rule_id>` | 08 |
+| `label_source_ids` | string | `;`-separated source IDs in `evidence/source_registry.csv` | 08 |
+| `label_source_titles`, `label_source_publishers`, `label_source_publication_dates`, `label_source_urls` | string | Source details, `‖`-separated in the same order | 08 |
+| `label_source_locator` | string | Page or section of the source where available | 08 |
+| `reviewer`, `verified_date` | string, date | Who verified the label, and when (from `labels/decisions/`) | 08 |
+
+## Other tables
+
+| File | Grain | Key columns |
 |---|---|---|
-| `pair_id` | `FD-<series_id>-<vintage_next as YYYYMMDD>` | constructed |
-| `series_id` | FRED/ALFRED series identifier | `config/panel.csv` |
-| `vintage_prev`, `vintage_next` | The two consecutive ALFRED vintage dates being compared | FRED API `series/vintagedates` |
-| `vintage_month`, `vintage_year` | Calendar month and year of `vintage_next` | derived |
-| `days_between` | Days between the two vintages | derived |
-| `n_obs_prev`, `n_obs_next` | Observations (from 1947-01) in each vintage | derived from ALFRED |
-| `n_overlap` | Observation months present in both vintages | derived |
-| `n_new_obs` | Months in `vintage_next` but not in `vintage_prev` | derived |
-| `n_dropped_obs` | Months in `vintage_prev` but not in `vintage_next` | derived |
-| `n_revised` | Overlapping months whose value changed (relative change > 1e-9) | derived |
-| `share_revised` | `n_revised / n_overlap` | derived |
-| `earliest_revised_obs`, `latest_revised_obs` | Range of revised observation months | derived |
-| `revision_depth_months` | (vintage month) − (earliest revised obs month), in months | derived |
-| `revision_span_months` | Months from the earliest to the latest revised obs, inclusive | derived |
-| `mean_abs_pct_revision`, `max_abs_pct_revision` | Mean and max of \|new − old\| / \|old\| × 100 over revised months | derived; no levels released |
-| `net_pct_revision` | Mean signed % revision over revised months | derived |
-| `share_up` | Share of revised months revised upward | derived |
-| `mean_abs_growth_revision_pp` | Mean \|Δ\| of month-over-month % growth over revised months, in percentage points | derived |
-| `ks_growth_window`, `ks_growth_window_p` | Two-sample Kolmogorov–Smirnov statistic and p-value comparing the m/m growth distributions inside the revised window, before and after. This is the distribution-shift measure. Empty when the window has fewer than 5 months | `scipy.stats.ks_2samp` |
-| `rebase_like` | True when ≥95% of shared months are rescaled by an almost constant ratio (sd of log ratio < 1e-3, mean ≠ 0) | derived |
-| `is_drift_event` | False only for `none_extension_only` and `none_archival_window` | rule engine |
-| `proposed_rule`, `proposed_cause` | Rule that fired and the cause it proposes (`config/revision_rules.csv`) | `code/05_propose_labels.py` |
-| `proposed_secondary_cause`, `doc_event_key` | Secondary cause and key of an agency-documented event matched to this vintage (`config/agency_documented_events.csv`) | `code/05` |
-| `final_cause`, `final_secondary_cause` | **The author's verified label** | `labels/` via `code/08_apply_labels.py` |
-| `label_status` | `individually_verified`, `rule_verified`, `unverified`, or `not_a_drift_event` | `code/08` |
-| `label_source_url`, `verified_date` | Agency methodology source the author relied on, and the date of verification | `labels/` |
-
-## `data/processed/anchor_vintage.csv` (agency anchor vintage; public-domain values)
-
-`series_id`, `obs_date`, `value` (as published by the agency), `anchor_source` (program, category, data type and adjustment, plus the agency's "data updated" stamp), `anchor_file` (path of the raw file), `anchor_file_sha256`, `snapshot_date`. Observations before 1947 are kept as published (CPI-U NSA and PPI start in 1913). The benchmark tables start at 1947-01.
-
-## `data/manifests/` (Layer B reconstruction; no values)
-
-- `<SERIES>.vintages.csv`: `series_id`, `vintage_date`, `n_obs`, `first_obs`, `last_obs`, `vintage_sha256`. The hash is the SHA-256 of the lines `YYYY-MM-DD,value\n`, sorted by date, built from the vintage's ALFRED values exactly as the API returned them as strings.
-- `alfred_manifest.json`: per series, the title, units, SA flag, FRED `last_updated`, FRED copyright tags, vintage count and range, real-time row count, SHA-256 of the local cache file, fetch time, and the exact API request parameters.
-
-## `labels/` (author-owned; see `labels/README.md`)
-
-- `rule_sheet.csv`: one row per rule. Machine columns come from `config/revision_rules.csv`, plus `n_pairs`, `n_series` and `label_level`. Author columns: `tosin_decision` (`accept` / `modify` / `reject`), `tosin_source_url`, `tosin_source_quote`, `tosin_verified_date`, `tosin_notes`.
-- `event_label_sheet.csv`: one row per event that needs an individual label. Machine columns give the footprint and proposal. Author columns: `final_cause`, `final_secondary_cause`, `agency_source_url`, `agency_source_quote`, `verified_by`, `verified_date`, `notes`.
-
-## Benchmark outputs
-
-- `paper/benchmark_results.json`: T1 status or scores, and T2 overall metrics for baselines B0, B1 and B2.
-- `data/processed/t2_series_metrics.csv`: per series, `n_test`, `n_train`, `mean_abs_revision_pp`, `share_sign_flip` (first-release and mature growth differ in sign), and MAE and RMSE for each baseline.
+| `data/processed/anchor_vintage.csv` | Series × observation month (agency value) | `series_id`, `obs_date`, `value`, `anchor_source`, `anchor_file`, `anchor_file_sha256`, `snapshot_date` |
+| `data/processed/vintage_pairs.csv` | Series × consecutive vintage pair (footprints only) | Footprint columns of `drift_events.csv` |
+| `data/processed/proposed_events.csv` | As `vintage_pairs` plus identity, proposal and review columns | Columns 1–35 of `drift_events.csv` |
+| `data/processed/release_clusters.csv` | Agency release | `release_cluster_id`, `release_program`, `vintage_date`, `series`, `n_events`, `event_ids`, `proposed_causes`, `proposed_rules`, `earliest_revised_obs`, `max_depth_months`, `any_depth_censored`, `max_mean_abs_pct_revision`, `any_rebase_like` |
+| `data/processed/label_status.json` | Run | Counts by label status; `n_verified`; `n_unverified`; `n_final_unknown`; `final_cause_counts` |
+| `data/processed/t2_split_counts.csv` | Series × T2 split | Observation counts |
+| `data/manifests/<SERIES>.vintages.csv` | Vintage | `series_id`, `vintage_date`, `n_obs`, `first_obs`, `last_obs`, `vintage_sha256` |
+| `data/manifests/alfred_manifest.json` | Series | Metadata, copyright tags, request parameters, cache hash |
+| `evidence/source_registry.csv` | Agency document | `source_id`, `publisher`, `title`, `doc_type`, `document_id`, `publication_date`, `url`, `retrieval`, `accessed_utc`, `sha256`, `bytes` |
+| `evidence/rule_evidence.csv` | Rule × source | `rule_id`, `source_id`, `quote`, `locator` |
+| `evidence/cluster_evidence.csv` | Release | Sources, quotes, locator, agency issue date, `automated_check`, recommendation, `confidence`, `recommendation_basis` |
+| `labels/decisions/*.csv` | Author decision | Judgment calls, rule decisions, release decisions, event overrides; each with `verified_by` and `verified_date` |
+| `paper/tables/t2_overall.csv`, `t2_by_series.csv`, `t1_results.csv` | Baseline (× series) | MAE, RMSE, intervals; macro-F1, accuracy |
