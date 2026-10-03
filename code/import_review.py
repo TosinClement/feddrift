@@ -30,8 +30,8 @@ KEEP = {
     "rule_decisions.csv": ["rule_id", "decision", "verified_by", "verified_date", "notes"],
     "release_decisions.csv": ["release_cluster_id", "decision", "final_cause", "final_secondary_cause", "verified_by",
                               "verified_date", "notes"],
-    "event_overrides.csv": ["event_id", "final_cause", "final_secondary_cause", "reason", "source_url", "verified_by",
-                            "verified_date"],
+    "event_overrides.csv": ["event_id", "final_cause", "final_secondary_cause", "reason", "source_url", "source_ids",
+                            "verified_by", "verified_date", "notes"],
 }
 JUDGMENT_OPTIONS = {"J1": {"keep_no_values", "ship_values"}, "J2": {"ship_derived", "reconstruct_only"},
                     "J3": {"withhold_full_file", "ship_full_file"}, "J4": {"review_per_release", "review_per_event"},
@@ -89,7 +89,7 @@ def main():
         if not r.verified_by or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", r.verified_date.split(" ")[0]):
             errors.append(f"override {r.event_id}: verified_by and verified_date (YYYY-MM-DD) required")
     ov["verified_date"] = ov.verified_date.str.split(" ").str[0]
-    out["event_overrides.csv"] = (ov[KEEP["event_overrides.csv"]], "event_id")
+    out["event_overrides.csv"] = (ov.reindex(columns=KEEP["event_overrides.csv"], fill_value=""), "event_id")
     if errors:
         raise SystemExit("Import refused; nothing written:\n  " + "\n  ".join(errors))
     os.makedirs(DEC, exist_ok=True)

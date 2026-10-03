@@ -1,0 +1,6 @@
+CORRECTED: January 2021 Freight Transportation Services Index (TSI) Rose 1.1% from December
+Tuesday, March 30, 2021
+Release Number: BTS 17-21 Corrected
+The numbers in this release are corrected from the release issued on March 10 in which the December index number was incorrect.
+Data revisions due to changes in source data from previous months: The December index was revised to 134.6 from 136.3 in last month’s release following a downward revision in truck tonnage. Monthly numbers for January, May, August, and November 2020 were revised down slightly. February, September, and October 2020 were revised up slightly. The revisions were released previously in the March 10 release.
+Revisions: Monthly data has changed from previous releases due to the use of concurrent seasonal analysis, which results in seasonal analysis factors changing as each month’s data are added.

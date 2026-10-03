@@ -4,22 +4,30 @@
  "n_excluded": 2186,
  "by_status": {
   "rule_verified": 3653,
-  "release_pending_review": 456
+  "release_pending_review": 442,
+  "unknown_verified": 11,
+  "release_verified": 2,
+  "override_verified": 1
  },
  "by_review_level": {
   "rule": 3653,
   "release": 456
  },
- "n_verified": 3653,
- "n_unverified": 456,
- "n_final_unknown": 0,
+ "n_verified": 3667,
+ "n_unverified": 442,
+ "n_final_unknown": 11,
  "final_cause_counts": {
-  "advance_to_revised": 3400,
-  "routine_reestimation": 253
+  "advance_to_revised": 3401,
+  "routine_reestimation": 253,
+  "unknown": 11,
+  "correction": 1,
+  "methodology_change": 1
  },
  "decision_files_present": [
   "DECISION_LOG.md",
+  "event_overrides.csv",
   "judgment_calls.csv",
+  "release_decisions.csv",
   "rule_decisions.csv"
  ]
 }

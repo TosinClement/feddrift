@@ -19,15 +19,18 @@
  "n_depth_censored_events": 215,
  "label_status": {
   "rule_verified": 3653,
-  "release_pending_review": 456
+  "release_pending_review": 442,
+  "unknown_verified": 11,
+  "release_verified": 2,
+  "override_verified": 1
  },
- "n_verified": 3653,
- "n_unverified": 456,
- "n_final_unknown": 0,
+ "n_verified": 3667,
+ "n_unverified": 442,
+ "n_final_unknown": 11,
  "events_by_recommended_cause": [
   {
    "recommended_cause": "advance_to_revised",
-   "n": 3403,
+   "n": 3404,
    "median_depth_months": 3.0,
    "median_mean_abs_pct_revision": 0.1562,
    "median_ks": 0.0833
@@ -41,10 +44,10 @@
   },
   {
    "recommended_cause": "correction",
-   "n": 6,
-   "median_depth_months": 6.5,
-   "median_mean_abs_pct_revision": 0.0362,
-   "median_ks": 0.25
+   "n": 7,
+   "median_depth_months": 8.0,
+   "median_mean_abs_pct_revision": 0.0657,
+   "median_ks": 0.1875
   },
   {
    "recommended_cause": "methodology_change",
@@ -76,19 +79,33 @@
   },
   {
    "recommended_cause": "unknown",
-   "n": 27,
+   "n": 25,
    "median_depth_months": 164.0,
-   "median_mean_abs_pct_revision": 0.1908,
-   "median_ks": 0.0367
+   "median_mean_abs_pct_revision": 0.217,
+   "median_ks": 0.0373
   }
  ],
  "events_by_final_cause": [
   {
    "final_cause": "advance_to_revised",
-   "n": 3400,
+   "n": 3401,
    "median_depth_months": 3.0,
    "median_mean_abs_pct_revision": 0.1563,
    "median_ks": 0.0833
+  },
+  {
+   "final_cause": "correction",
+   "n": 1,
+   "median_depth_months": 255.0,
+   "median_mean_abs_pct_revision": 0.1586,
+   "median_ks": 0.0317
+  },
+  {
+   "final_cause": "methodology_change",
+   "n": 1,
+   "median_depth_months": 257.0,
+   "median_mean_abs_pct_revision": 0.1908,
+   "median_ks": 0.0236
   },
   {
    "final_cause": "routine_reestimation",
@@ -96,15 +113,22 @@
    "median_depth_months": 234.0,
    "median_mean_abs_pct_revision": 0.1085,
    "median_ks": 0.019
+  },
+  {
+   "final_cause": "unknown",
+   "n": 11,
+   "median_depth_months": 238.0,
+   "median_mean_abs_pct_revision": 0.674,
+   "median_ks": 0.0268
   }
  ],
  "recommendation_confidence_by_release": {
-  "strong": 150,
+  "strong": 152,
   "moderate": 42,
-  "none": 21,
+  "none": 19,
   "weak": 18
  },
- "n_sources": 327,
+ "n_sources": 330,
  "copyright_tags": [
   "public domain: citation requested"
  ],
@@ -176,7 +200,7 @@
   "T1_cause_attribution": {
    "status": "pending_author_labels",
    "n_drift_events": 4109,
-   "n_verified": 3653,
+   "n_verified": 3667,
    "splits": {
     "train": "vintage_next < 2010-01-01",
     "validation": "2010-01-01 <= vintage_next < 2015-01-01",

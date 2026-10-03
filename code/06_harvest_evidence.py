@@ -89,16 +89,16 @@ def register_reader(url, publisher, title, doc_type, pub_date, accessed, note):
 
 
 def register_capture(url, publisher, title, doc_type, pub_date, capture_file, captured_utc, rendered_sha, rendered_bytes,
-                     doc_id=""):
+                     doc_id="", how="text of the page's <main> element, built-in browser"):
     """A page read in an ordinary browser and saved as a dated text excerpt capture (not the server's file)."""
     p = os.path.join(EVID, "captures", capture_file)
     b = open(p, "rb").read()
     sid = "SRC-" + hashlib.sha256(url.encode()).hexdigest()[:10].upper()
     REGISTRY[sid] = {"source_id": sid, "publisher": publisher, "title": title, "doc_type": doc_type,
                      "document_id": doc_id, "publication_date": pub_date, "url": url,
-                     "retrieval": (f"browser_excerpt_capture: evidence/captures/{capture_file} (text of the page's <main> "
-                                   f"element, built-in browser, {captured_utc}); sha256 is of the capture, not the server "
-                                   f"file; rendered page HTML at capture time: {rendered_bytes} bytes, "
+                     "retrieval": (f"browser_excerpt_capture: evidence/captures/{capture_file} ({how}, {captured_utc}); "
+                                   f"sha256 is of the capture, not the server file; page HTML at capture time: "
+                                   f"{rendered_bytes} bytes, "
                                    f"sha256 {rendered_sha} (not stored)"),
                      "accessed_utc": captured_utc, "sha256": hashlib.sha256(b).hexdigest(), "bytes": len(b)}
     return sid
@@ -571,6 +571,49 @@ def specials():
     out["FDC-CPI-19510302"] = ([{"source_id": sid, "quote": flat(" ".join(q50))[:600], "locator": "Key developments: 1950",
                                  "check": "1950 weight updates listed (month not stated); observed revision of 1950-01..1950-12"}],
                                "methodology_change", "", "weak")
+    # TSI releases screened out of R26 (R27_TSI_SCREENED). bts.gov refuses scripted downloads; the three release pages
+    # below were read in the built-in browser (ordinary access, 2026-10-03) and saved as dated excerpt captures.
+    def bts(slug, title, date, cap, html_sha, html_bytes, doc_id=""):
+        return register_capture("https://www.bts.gov/newsroom/" + slug, "Bureau of Transportation Statistics", title,
+                                "release", date, cap, "2026-10-03T23:12:34Z", html_sha, html_bytes, doc_id=doc_id,
+                                how="selected lines of the <main> text of the HTML served to the built-in browser "
+                                    "(same-origin request from an approved bts.gov page)")
+    def cap_lines(cap, *starts):
+        t = open(os.path.join(EVID, "captures", cap), encoding="utf-8").read().split("\n")
+        return " ".join(l for l in t if any(l.startswith(x) for x in starts))
+    a = bts("august-2020-freight-transportation-services-index-tsi-down-13-july",
+            "August 2020 Freight Transportation Services Index (TSI) Down 1.3% from July", "2020-10-15",
+            "bts_tsi_release_2020-10-15.excerpt.txt",
+            "cc6677d4fbb74a8f3216150e2a991f41d0d533da4dc7f1bfbbf0a1f35334f958", 134489)
+    out["FDC-TSI-20201015"] = ([{"source_id": a, "quote": cap_lines("bts_tsi_release_2020-10-15.excerpt.txt",
+                                                                   "The July index was revised"),
+                                 "locator": "release text, revisions paragraph (excerpt capture)",
+                                 "check": "stated July 2020 128.9 -> 132.8 vs observed TSIFRGHT 2020-07 128.9 -> 132.8 -> MATCH; "
+                                          "revision is upstream (ATA truck tonnage advanced -> final estimate)"}],
+                               "advance_to_revised", "", "strong")
+    c = bts("corrected-january-2021-freight-transportation-services-index-tsi-rose-11-december",
+            "CORRECTED: January 2021 Freight Transportation Services Index (TSI) Rose 1.1% from December", "2021-03-30",
+            "bts_tsi_release_2021-03-30_corrected.excerpt.txt",
+            "aada334e3425910530f248e289707dd6f8c45c65bdc0a1342108589694752371", 238186, doc_id="BTS 17-21 Corrected")
+    cq = cap_lines("bts_tsi_release_2021-03-30_corrected.excerpt.txt", "The numbers in this release are corrected",
+                   "Data revisions due to changes")
+    out["FDC-TSI-20210414"] = ([{"source_id": c, "quote": cq, "locator": "correction notice (excerpt capture)",
+                                 "check": "corrected December 2020 value 134.6 vs observed TSIFRGHT 2020-12 141.3 -> 134.6 "
+                                          "in this vintage -> MATCH"}], "correction", "", "strong")
+    out["FDC-TSI-20210310"] = ([{"source_id": c, "quote": cq, "locator": "correction notice (excerpt capture)",
+                                 "check": "TSIFRGHT 2020-12 136.3 -> 141.3 in this vintage is the value BTS later declared "
+                                          "incorrect; no cause of the change stated. TSITTL revisions not addressed"}],
+                               "unknown", "", "none")
+    d = bts("april-2021-freight-transportation-services-index-tsi-equaled-highest-level-start-pandemic",
+            "April 2021 Freight Transportation Services Index (TSI) Equaled Highest Level since Start of Pandemic",
+            "2021-06-09", "bts_tsi_release_2021-06-09.excerpt.txt",
+            "a13bc82d5d9c336b98302a3b8900c8b799e52b7b37b086b80060197937a5a57f", 281647, doc_id="BTS 37-21")
+    out["FDC-TSI-20210609"] = ([{"source_id": d, "quote": cap_lines("bts_tsi_release_2021-06-09.excerpt.txt",
+                                                                   "The March index was revised"),
+                                 "locator": "release text, freight revisions paragraph (excerpt capture)",
+                                 "check": "stated March 2021 130.0 -> 135.9 vs observed TSIFRGHT 2021-03 130.0 -> 135.9 -> MATCH "
+                                          "(freight only); combined-index (TSITTL) revisions not explained"}],
+                               "unknown", "", "none")
     return out
 
 

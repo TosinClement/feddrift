@@ -220,9 +220,9 @@ def main():
     add_list(w3, rel, "final_cause", final_causes)
     add_list(w3, rel, "final_secondary_cause", final_causes)
     ov = pd.DataFrame(columns=["event_id", "final_cause", "final_secondary_cause", "reason", "source_url",
-                               "verified_by", "verified_date"])
+                               "source_ids", "verified_by", "verified_date", "notes"])
     w4 = wb.create_sheet("Event overrides")
-    style_sheet(w4, pd.concat([ov, pd.DataFrame([[""] * 7] * 40, columns=ov.columns)]),
+    style_sheet(w4, pd.concat([ov, pd.DataFrame([[""] * len(ov.columns)] * 40, columns=ov.columns)]),
                 input_cols=tuple(ov.columns), widths={"reason": 50, "source_url": 50})
     inv = ev[ev.is_drift_event][["event_id", "series_id", "vintage_prev", "vintage_next", "review_level",
                                  "proposed_rule", "release_cluster_id", "proposed_cause", "n_revised",

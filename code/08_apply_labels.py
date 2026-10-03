@@ -57,7 +57,10 @@ def main():
     rels = read_dec("release_decisions.csv", ["release_cluster_id", "decision", "final_cause", "final_secondary_cause",
                                              "verified_by", "verified_date", "notes"])
     ovs = read_dec("event_overrides.csv", ["event_id", "final_cause", "final_secondary_cause", "reason", "source_url",
-                                          "verified_by", "verified_date"])
+                                          "source_ids", "verified_by", "verified_date", "notes"])
+    for c in ("source_ids", "notes"):
+        if c not in ovs.columns:
+            ovs[c] = ""
 
     for c in ["recommended_cause", "recommended_secondary_cause", "recommendation_confidence", "final_cause",
               "final_secondary_cause", "label_status", "label_basis", "label_source_ids", "label_source_titles",
@@ -122,7 +125,14 @@ def main():
         ev.loc[m, "final_secondary_cause"] = r.final_secondary_cause
         ev.loc[m, "label_status"] = "override_verified" if r.final_cause != "unknown" else "unknown_verified"
         ev.loc[m, "label_basis"] = "override"
-        ev.loc[m, "label_source_urls"] = r.source_url
+        for k in ["label_source_ids", "label_source_titles", "label_source_publishers", "label_source_publication_dates",
+                  "label_source_urls"]:
+            ev.loc[m, k] = ""
+        if r.source_ids and r.final_cause != "unknown":
+            for k, v in src_fields(r.source_ids, reg).items():
+                ev.loc[m, k] = v
+        else:
+            ev.loc[m, "label_source_urls"] = r.source_url
         ev.loc[m, "label_source_locator"] = r.reason
         ev.loc[m, "reviewer"] = r.verified_by
         ev.loc[m, "verified_date"] = r.verified_date
