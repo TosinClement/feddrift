@@ -224,6 +224,10 @@ def rule_evidence():
     sid, p = fetch("https://www2.census.gov/mtis/historical/mtis2606.pdf", "U.S. Census Bureau",
                    "Manufacturing and Trade Inventories and Sales, June 2026", "release", "", "", must=True)
     t = text_of(p)
+    REGISTRY[sid]["publication_date"] = release_date(t)          # read from the release header, not the filename
+    m_ = re.search(r"Release Number:\s*(CB\d{2}-\d+)", t)
+    if m_:
+        REGISTRY[sid]["document_id"] = m_.group(1)
     q = sentences(t, ["concurrent"], ["seasonal"], limit=1) + sentences(t, ["preliminary"], ["superseded", "revised"], limit=1)
     add("R24_ROUTINE_MTIS", sid, " ".join(q) or flat(t[:400]), "explanatory notes")
     sid, p = fetch("https://www.bls.gov/news.release/archives/ppi_09102026.pdf", "U.S. Bureau of Labor Statistics",

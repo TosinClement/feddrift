@@ -13,3 +13,4 @@ Every entry records a decision the label owner (Tosin Clement) explicitly approv
 | 7 | 2026-10-03 16:01 | Rule R21_ROUTINE_MARTS_NSA (298 events) | approve -> advance_to_revised; note recorded in rule_decisions.csv | chat |
 | 8 | 2026-10-03 16:03 | Rule R22_ROUTINE_MRTS (92 events) | approve -> advance_to_revised; note recorded; evidence limitation recorded in evidence/evidence_limitations.csv | chat |
 | 9 | 2026-10-03 16:05 | Rule R23_ROUTINE_M3 (1,504 events) | approve -> advance_to_revised; note recorded in rule_decisions.csv | chat |
+| 10 | 2026-10-03 16:10 | Rule R24_ROUTINE_MTIS (495 events) | approve -> advance_to_revised; note recorded; two limitations recorded; release-gate action: verify mtis2606.pdf header date | chat |
