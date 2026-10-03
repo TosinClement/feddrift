@@ -235,6 +235,25 @@ def rule_evidence():
     t = text_of(p)
     q = sentences(t, ["subject to revision for 4 months"], limit=1)
     add("R25_ROUTINE_PPI", sid, " ".join(q), page_of(t, q[0]) if q else "")
+    # BLS Handbook of Methods: the PPI revision procedure and its November-2021 change (added at the label
+    # owner's request, 2026-10-03; quotes verified against the live pages)
+    for page, title, needles, loc in [
+            ("presentation", "Handbook of Methods: Producer Price Indexes - Presentation",
+             ["beginning in the 1970s and continuing through october 2021", "effective with the release of data for november 2021",
+              "indexes undergo five iterative updates"], "section: Index revision"),
+            ("calculation", "Handbook of Methods: Producer Price Indexes - Calculation",
+             ["with the release of data for november 2021", "indexes undergo five iterative updates"], "section: Index revisions")]:
+        sid2, p2 = fetch(f"https://www.bls.gov/opub/hom/ppi/{page}.htm", "U.S. Bureau of Labor Statistics", title,
+                         "methodology", "", "", must=True)
+        t2 = text_of(p2)
+        lm = re.search(r"Last Modified Date:\s*(" + "|".join(MONTHS) + r") (\d{1,2}), (\d{4})", flat(t2))
+        if lm:
+            REGISTRY[sid2]["publication_date"] = (f"{lm.group(3)}-{MONTHS.index(lm.group(1)) + 1:02d}-"
+                                                  f"{int(lm.group(2)):02d} (last modified)")
+        qq = [x for n in needles for x in sentences(t2, [n], limit=1)]
+        if len(qq) != len(needles):
+            raise SystemExit(f"BLS Handbook PPI {page}: expected statements not found; page may have changed")
+        add("R25_ROUTINE_PPI", sid2, " ".join(qq), loc)
     add("R10_BLS_SA_FEB", sid, " ".join(q), page_of(t, q[0]) if q else "")
     s1 = register_reader("https://www.bts.gov/browse-statistical-products-and-data/transportation-economic-trends/revision-policy-tsi",
                          "Bureau of Transportation Statistics", "Revision Policy for the Transportation Services Index",

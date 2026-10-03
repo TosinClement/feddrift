@@ -14,3 +14,4 @@ Every entry records a decision the label owner (Tosin Clement) explicitly approv
 | 8 | 2026-10-03 16:03 | Rule R22_ROUTINE_MRTS (92 events) | approve -> advance_to_revised; note recorded; evidence limitation recorded in evidence/evidence_limitations.csv | chat |
 | 9 | 2026-10-03 16:05 | Rule R23_ROUTINE_M3 (1,504 events) | approve -> advance_to_revised; note recorded in rule_decisions.csv | chat |
 | 10 | 2026-10-03 16:10 | Rule R24_ROUTINE_MTIS (495 events) | approve -> advance_to_revised; note recorded; two limitations recorded; release-gate action: verify mtis2606.pdf header date | chat |
+| 11 | 2026-10-03 17:14 | Rule R25_ROUTINE_PPI (417 events) | approve -> advance_to_revised; note recorded; BLS Handbook PPI Presentation and Calculation pages added as evidence (SRC-F17B3D6CD3, SRC-4B1675D716) | chat |
