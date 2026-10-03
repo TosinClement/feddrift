@@ -19,14 +19,14 @@
  "n_depth_censored_events": 215,
  "label_status": {
   "rule_verified": 3653,
-  "release_pending_review": 431,
-  "unknown_verified": 20,
-  "release_verified": 4,
+  "release_pending_review": 396,
+  "unknown_verified": 31,
+  "release_verified": 28,
   "override_verified": 1
  },
- "n_verified": 3678,
- "n_unverified": 431,
- "n_final_unknown": 20,
+ "n_verified": 3713,
+ "n_unverified": 396,
+ "n_final_unknown": 31,
  "events_by_recommended_cause": [
   {
    "recommended_cause": "advance_to_revised",
@@ -95,10 +95,10 @@
   },
   {
    "final_cause": "annual_benchmark",
-   "n": 2,
-   "median_depth_months": 77.0,
-   "median_mean_abs_pct_revision": 0.4945,
-   "median_ks": 0.1076
+   "n": 23,
+   "median_depth_months": 115.0,
+   "median_mean_abs_pct_revision": 0.2794,
+   "median_ks": 0.04
   },
   {
    "final_cause": "correction",
@@ -109,10 +109,17 @@
   },
   {
    "final_cause": "methodology_change",
-   "n": 1,
-   "median_depth_months": 257.0,
-   "median_mean_abs_pct_revision": 0.1908,
-   "median_ks": 0.0236
+   "n": 2,
+   "median_depth_months": 135.5,
+   "median_mean_abs_pct_revision": 0.3549,
+   "median_ks": 0.0951
+  },
+  {
+   "final_cause": "rebase_or_definition",
+   "n": 2,
+   "median_depth_months": 113.0,
+   "median_mean_abs_pct_revision": 2.4966,
+   "median_ks": 0.1038
   },
   {
    "final_cause": "routine_reestimation",
@@ -123,10 +130,10 @@
   },
   {
    "final_cause": "unknown",
-   "n": 20,
-   "median_depth_months": 182.5,
-   "median_mean_abs_pct_revision": 0.1754,
-   "median_ks": 0.0322
+   "n": 31,
+   "median_depth_months": 78.0,
+   "median_mean_abs_pct_revision": 0.166,
+   "median_ks": 0.0545
   }
  ],
  "recommendation_confidence_by_release": {
@@ -207,7 +214,7 @@
   "T1_cause_attribution": {
    "status": "pending_author_labels",
    "n_drift_events": 4109,
-   "n_verified": 3667,
+   "n_verified": 3713,
    "splits": {
     "train": "vintage_next < 2010-01-01",
     "validation": "2010-01-01 <= vintage_next < 2015-01-01",

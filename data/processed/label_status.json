@@ -4,25 +4,26 @@
  "n_excluded": 2186,
  "by_status": {
   "rule_verified": 3653,
-  "release_pending_review": 431,
-  "unknown_verified": 20,
-  "release_verified": 4,
+  "release_pending_review": 396,
+  "unknown_verified": 31,
+  "release_verified": 28,
   "override_verified": 1
  },
  "by_review_level": {
   "rule": 3653,
   "release": 456
  },
- "n_verified": 3678,
- "n_unverified": 431,
- "n_final_unknown": 20,
+ "n_verified": 3713,
+ "n_unverified": 396,
+ "n_final_unknown": 31,
  "final_cause_counts": {
   "advance_to_revised": 3401,
   "routine_reestimation": 253,
-  "unknown": 20,
-  "annual_benchmark": 2,
-  "correction": 1,
-  "methodology_change": 1
+  "unknown": 31,
+  "annual_benchmark": 23,
+  "rebase_or_definition": 2,
+  "methodology_change": 2,
+  "correction": 1
  },
  "decision_files_present": [
   "DECISION_LOG.md",
