@@ -1,0 +1,214 @@
+{
+ "provenance_files": 17,
+ "provenance_mismatch": 0,
+ "vintages_total": 6312,
+ "vintages_hash_mismatch": 0,
+ "anchor_agreement": {
+  "RSAFS": {
+   "alfred_vintage": "2026-09-28",
+   "common": 416,
+   "match": 416,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "RSXFS": {
+   "alfred_vintage": "2026-09-28",
+   "common": 416,
+   "match": 416,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "RSAFSNA": {
+   "alfred_vintage": "2026-09-28",
+   "common": 416,
+   "match": 416,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "MRTSSM44X72USS": {
+   "alfred_vintage": "2026-09-16",
+   "common": 415,
+   "match": 276,
+   "match_rate": 0.66506,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": [
+    [
+     "2015-01-01",
+     428208.0,
+     428186.0
+    ],
+    [
+     "2015-02-01",
+     427119.0,
+     427105.0
+    ],
+    [
+     "2015-03-01",
+     433647.0,
+     433620.0
+    ],
+    [
+     "2015-04-01",
+     434470.0,
+     434514.0
+    ],
+    [
+     "2015-05-01",
+     437865.0,
+     437866.0
+    ]
+   ]
+  },
+  "DGORDER": {
+   "alfred_vintage": "2026-10-02",
+   "common": 415,
+   "match": 415,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "AMTMNO": {
+   "alfred_vintage": "2026-10-02",
+   "common": 415,
+   "match": 415,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "NEWORDER": {
+   "alfred_vintage": "2026-10-02",
+   "common": 415,
+   "match": 415,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "BUSINV": {
+   "alfred_vintage": "2026-09-16",
+   "common": 415,
+   "match": 415,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "ISRATIO": {
+   "alfred_vintage": "2026-09-16",
+   "common": 415,
+   "match": 415,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "TOTBUSSMSA": {
+   "alfred_vintage": "2026-09-16",
+   "common": 415,
+   "match": 415,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "CPIAUCSL": {
+   "alfred_vintage": "2026-09-11",
+   "common": 955,
+   "match": 955,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "CPILFESL": {
+   "alfred_vintage": "2026-09-11",
+   "common": 835,
+   "match": 835,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "CPIAUCNS": {
+   "alfred_vintage": "2026-09-11",
+   "common": 955,
+   "match": 955,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "PPIFIS": {
+   "alfred_vintage": "2026-09-10",
+   "common": 202,
+   "match": 202,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "PPIACO": {
+   "alfred_vintage": "2026-09-10",
+   "common": 956,
+   "match": 956,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "TSIFRGHT": {
+   "alfred_vintage": "2026-10-01",
+   "common": 319,
+   "match": 319,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  },
+  "TSITTL": {
+   "alfred_vintage": "2026-10-01",
+   "common": 319,
+   "match": 319,
+   "match_rate": 1.0,
+   "only_in_agency": 0,
+   "only_in_alfred": 0,
+   "examples_mismatch": []
+  }
+ },
+ "share_pairs_revised": {
+  "AMTMNO": 1.0,
+  "BUSINV": 0.9833,
+  "CPIAUCNS": 0.0097,
+  "CPIAUCSL": 0.0868,
+  "CPILFESL": 0.0853,
+  "DGORDER": 0.9985,
+  "ISRATIO": 0.4479,
+  "MRTSSM44X72USS": 0.9286,
+  "NEWORDER": 0.9972,
+  "PPIACO": 0.806,
+  "PPIFIS": 0.859,
+  "RSAFS": 1.0,
+  "RSAFSNA": 1.0,
+  "RSXFS": 1.0,
+  "TOTBUSSMSA": 0.9623,
+  "TSIFRGHT": 1.0,
+  "TSITTL": 1.0
+ },
+ "integrity": {
+  "pair_id unique": true,
+  "depth >= 0 where revised": true,
+  "share_revised in [0,1]": true,
+  "every pair has a rule": true,
+  "vintage_next > vintage_prev": true,
+  "n_revised <= n_overlap": true
+ }
+}

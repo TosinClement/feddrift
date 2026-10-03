@@ -1,0 +1,39 @@
+{
+ "T1_cause_attribution": {
+  "status": "pending_author_labels",
+  "n_labeled": 0
+ },
+ "T2_realtime_revision_correction": {
+  "n_obs_total": 4670,
+  "n_train": 3148,
+  "n_test": 1352,
+  "n_series_test": 17,
+  "series_without_train": [
+   "MRTSSM44X72USS",
+   "TSIFRGHT",
+   "TSITTL"
+  ],
+  "overall": {
+   "B0": {
+    "MAE": 0.4864,
+    "RMSE": 0.8687
+   },
+   "B1": {
+    "MAE": 0.4886,
+    "RMSE": 0.8699
+   },
+   "B2": {
+    "MAE": 0.4934,
+    "RMSE": 0.8759
+   }
+  },
+  "maturity_months": 36,
+  "split": {
+   "train_end": "2015-12-01",
+   "test": [
+    "2016-01-01",
+    "2022-09-01"
+   ]
+  }
+ }
+}

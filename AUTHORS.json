@@ -1,0 +1,15 @@
+{
+  "authors": [
+    {
+      "name": "Tosin Clement",
+      "family": "Clement",
+      "given": "Tosin",
+      "orcid": "0009-0001-2055-5113",
+      "email": "clementtosin92@gmail.com",
+      "affiliation": "Independent Researcher",
+      "roles": ["Conceptualization", "Methodology", "Validation", "Data curation", "Writing - original draft", "Writing - review and editing"],
+      "corresponding": true
+    }
+  ],
+  "collaborators": []
+}

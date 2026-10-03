@@ -1,0 +1,12 @@
+# ALFRED cache: never redistributed (docs/LICENSING_PROTOCOL.md)
+data/raw/alfred_cache/
+# Full BTS MTS file contains third-party columns; ships as hash + URL only
+data/raw/agency/*/bts/crem-w557.csv
+# secrets
+.env
+*.key
+.fred_key
+__pycache__/
+dist/
+*.orphaned.csv
+_archive/

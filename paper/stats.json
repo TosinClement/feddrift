@@ -1,0 +1,148 @@
+{
+ "version": "0.1.0",
+ "snapshot_date": "2026-10-03",
+ "n_series": 17,
+ "n_vintages": 6312,
+ "n_vintage_pairs": 6295,
+ "n_drift_events": 4109,
+ "n_not_events": 2186,
+ "first_vintage": "1949-03-24",
+ "last_vintage": "2026-10-02",
+ "obs_window": [
+  "1947-01",
+  "2026-08"
+ ],
+ "copyright_tags": [
+  "public domain: citation requested"
+ ],
+ "events_by_proposed_cause": [
+  {
+   "cause": "advance_to_revised",
+   "n": 3400,
+   "median_depth_months": 3.0,
+   "median_mean_abs_pct_revision": 0.1563,
+   "median_ks": 0.0833
+  },
+  {
+   "cause": "annual_benchmark",
+   "n": 309,
+   "median_depth_months": 159.0,
+   "median_mean_abs_pct_revision": 0.2992,
+   "median_ks": 0.0349
+  },
+  {
+   "cause": "rebase_or_definition",
+   "n": 4,
+   "median_depth_months": 235.0,
+   "median_mean_abs_pct_revision": 42.5609,
+   "median_ks": 0.1096
+  },
+  {
+   "cause": "routine_reestimation",
+   "n": 267,
+   "median_depth_months": 237.0,
+   "median_mean_abs_pct_revision": 0.1106,
+   "median_ks": 0.0193
+  },
+  {
+   "cause": "seasonal_factor_recompute",
+   "n": 89,
+   "median_depth_months": 60.0,
+   "median_mean_abs_pct_revision": 0.0573,
+   "median_ks": 0.0833
+  },
+  {
+   "cause": "unclassified",
+   "n": 40,
+   "median_depth_months": 58.5,
+   "median_mean_abs_pct_revision": 0.1392,
+   "median_ks": 0.0566
+  }
+ ],
+ "label_status": {
+  "unverified": 4109
+ },
+ "n_individual_labels_needed": 445,
+ "n_unclassified": 40,
+ "anchor_full_match_series": [
+  "AMTMNO",
+  "BUSINV",
+  "CPIAUCNS",
+  "CPIAUCSL",
+  "CPILFESL",
+  "DGORDER",
+  "ISRATIO",
+  "NEWORDER",
+  "PPIACO",
+  "PPIFIS",
+  "RSAFS",
+  "RSAFSNA",
+  "RSXFS",
+  "TOTBUSSMSA",
+  "TSIFRGHT",
+  "TSITTL"
+ ],
+ "anchor_partial_match": {
+  "MRTSSM44X72USS": 0.66506
+ },
+ "vintages_hash_mismatch": 0,
+ "share_pairs_revised": {
+  "AMTMNO": 1.0,
+  "BUSINV": 0.9833,
+  "CPIAUCNS": 0.0097,
+  "CPIAUCSL": 0.0868,
+  "CPILFESL": 0.0853,
+  "DGORDER": 0.9985,
+  "ISRATIO": 0.4479,
+  "MRTSSM44X72USS": 0.9286,
+  "NEWORDER": 0.9972,
+  "PPIACO": 0.806,
+  "PPIFIS": 0.859,
+  "RSAFS": 1.0,
+  "RSAFSNA": 1.0,
+  "RSXFS": 1.0,
+  "TOTBUSSMSA": 0.9623,
+  "TSIFRGHT": 1.0,
+  "TSITTL": 1.0
+ },
+ "cpiaucns_revising_vintages": 9,
+ "benchmark": {
+  "T1_cause_attribution": {
+   "status": "pending_author_labels",
+   "n_labeled": 0
+  },
+  "T2_realtime_revision_correction": {
+   "n_obs_total": 4670,
+   "n_train": 3148,
+   "n_test": 1352,
+   "n_series_test": 17,
+   "series_without_train": [
+    "MRTSSM44X72USS",
+    "TSIFRGHT",
+    "TSITTL"
+   ],
+   "overall": {
+    "B0": {
+     "MAE": 0.4864,
+     "RMSE": 0.8687
+    },
+    "B1": {
+     "MAE": 0.4886,
+     "RMSE": 0.8699
+    },
+    "B2": {
+     "MAE": 0.4934,
+     "RMSE": 0.8759
+    }
+   },
+   "maturity_months": 36,
+   "split": {
+    "train_end": "2015-12-01",
+    "test": [
+     "2016-01-01",
+     "2022-09-01"
+    ]
+   }
+  }
+ }
+}

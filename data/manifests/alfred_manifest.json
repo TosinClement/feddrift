@@ -1,0 +1,412 @@
+{
+ "series": {
+  "AMTMNO": {
+   "cache_sha256": "de3de70dd701f6032a9fcc7c2a215e5b1a2d62680474d913965c0ef3d2610807",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:40:24Z",
+   "first_vintage": "2011-06-24",
+   "fred_last_updated": "2026-10-02 09:06:32-05",
+   "frequency": "M",
+   "last_vintage": "2026-10-02",
+   "n_realtime_rows": 3279,
+   "n_vintages": 190,
+   "observation_start": "1992-02-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Manufacturers' New Orders: Total Manufacturing",
+   "units": "Millions of Dollars"
+  },
+  "BUSINV": {
+   "cache_sha256": "43adc6571fae9825e86dd77f38ffb8e16080809a9c279d7a9c01cfc051d60a4c",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:40:40Z",
+   "first_vintage": "1996-11-15",
+   "fred_last_updated": "2026-09-16 09:02:33-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-16",
+   "n_realtime_rows": 12844,
+   "n_vintages": 361,
+   "observation_start": "1992-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Total Business Inventories",
+   "units": "Millions of Dollars"
+  },
+  "CPIAUCNS": {
+   "cache_sha256": "dc44f4e18be55415e4b1505a35bfea9be94aa0ae99103e45b42e6691b205b204",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:41:15Z",
+   "first_vintage": "1949-03-24",
+   "fred_last_updated": "2026-09-11 08:37:49-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-11",
+   "n_realtime_rows": 2021,
+   "n_vintages": 931,
+   "observation_start": "1913-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "NSA",
+   "title": "Consumer Price Index for All Urban Consumers: All Items in U.S. City Average",
+   "units": "Index 1982-1984=100"
+  },
+  "CPIAUCSL": {
+   "cache_sha256": "f68178a94f330f2a3053442e349a468364e519efe3a355a64455062ff4afc62c",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:41:03Z",
+   "first_vintage": "1972-07-21",
+   "fred_last_updated": "2026-09-11 08:37:49-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-11",
+   "n_realtime_rows": 3362,
+   "n_vintages": 669,
+   "observation_start": "1947-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Consumer Price Index for All Urban Consumers: All Items in U.S. City Average",
+   "units": "Index 1982-1984=100"
+  },
+  "CPILFESL": {
+   "cache_sha256": "b566fab1f406ac01d3ade9a9a5a3b1946861b06e5513f58272f10f1724da07fe",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:41:09Z",
+   "first_vintage": "1996-12-12",
+   "fred_last_updated": "2026-09-11 08:37:53-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-11",
+   "n_realtime_rows": 2260,
+   "n_vintages": 376,
+   "observation_start": "1957-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Consumer Price Index for All Urban Consumers: All Items Less Food and Energy in U.S. City Average",
+   "units": "Index 1982-1984=100"
+  },
+  "DGORDER": {
+   "cache_sha256": "5c991851330a02348c3378558f3fc6e566a6d72de1c571501e2f3ae412fccb74",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:40:18Z",
+   "first_vintage": "1999-08-04",
+   "fred_last_updated": "2026-10-02 09:06:32-05",
+   "frequency": "M",
+   "last_vintage": "2026-10-02",
+   "n_realtime_rows": 7144,
+   "n_vintages": 671,
+   "observation_start": "1992-02-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Manufacturers' New Orders: Durable Goods",
+   "units": "Millions of Dollars"
+  },
+  "ISRATIO": {
+   "cache_sha256": "0f2cf5cf3865c3f3ea7bb7bf4e8d09881e946f6fbcd54c58058919f09a6c6cc0",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:40:48Z",
+   "first_vintage": "1997-03-14",
+   "fred_last_updated": "2026-09-16 09:02:31-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-16",
+   "n_realtime_rows": 3560,
+   "n_vintages": 356,
+   "observation_start": "1992-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Total Business: Inventories to Sales Ratio",
+   "units": "Ratio"
+  },
+  "MRTSSM44X72USS": {
+   "cache_sha256": "c6f2792f59177531c6b5e93e79f593a494fb65c279f76003c5414eb383755b84",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:40:03Z",
+   "first_vintage": "2017-11-15",
+   "fred_last_updated": "2026-09-16 09:08:38-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-16",
+   "n_realtime_rows": 2234,
+   "n_vintages": 113,
+   "observation_start": "1992-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Retail Sales: Retail Trade and Food Services",
+   "units": "Millions of Dollars"
+  },
+  "NEWORDER": {
+   "cache_sha256": "854f768188996cad693e8659730b9a0384c17128c3026e397d851ee9d97e10f4",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:40:33Z",
+   "first_vintage": "1997-03-06",
+   "fred_last_updated": "2026-10-02 09:06:38-05",
+   "frequency": "M",
+   "last_vintage": "2026-10-02",
+   "n_realtime_rows": 7027,
+   "n_vintages": 718,
+   "observation_start": "1992-02-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Manufacturers' New Orders: Nondefense Capital Goods Excluding Aircraft",
+   "units": "Millions of Dollars"
+  },
+  "PPIACO": {
+   "cache_sha256": "6dc3ecf3ba98f95307d4cd2ce2e4d3b3285f8258b9e2684c9f75623782495b1b",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:41:26Z",
+   "first_vintage": "1996-12-11",
+   "fred_last_updated": "2026-09-10 11:54:01-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-10",
+   "n_realtime_rows": 1422,
+   "n_vintages": 367,
+   "observation_start": "1913-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "NSA",
+   "title": "Producer Price Index by Commodity: All Commodities",
+   "units": "Index 1982=100"
+  },
+  "PPIFIS": {
+   "cache_sha256": "082068c370ba7dbbb6dcb378b11fb3260d83b92160ef9c23107d281ea524ec97",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:41:20Z",
+   "first_vintage": "2014-02-19",
+   "fred_last_updated": "2026-09-10 11:53:37-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-10",
+   "n_realtime_rows": 802,
+   "n_vintages": 157,
+   "observation_start": "2009-11-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Producer Price Index by Commodity: Final Demand",
+   "units": "Index Nov 2009=100"
+  },
+  "RSAFS": {
+   "cache_sha256": "74a7d0fcd2cd02a7c3cb6157652ac247e92443498c948b9379e89786176392de",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:39:36Z",
+   "first_vintage": "2001-06-13",
+   "fred_last_updated": "2026-09-29 10:22:31-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-28",
+   "n_realtime_rows": 5561,
+   "n_vintages": 325,
+   "observation_start": "1992-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Advance Retail Sales: Retail Trade and Food Services",
+   "units": "Millions of Dollars"
+  },
+  "RSAFSNA": {
+   "cache_sha256": "69f32e5a28235104a2d53ab128ad4ca96e0cd72ed2ac97df6a363e8d34c10694",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:39:53Z",
+   "first_vintage": "2001-06-13",
+   "fred_last_updated": "2026-09-29 10:22:32-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-28",
+   "n_realtime_rows": 3977,
+   "n_vintages": 324,
+   "observation_start": "1992-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "NSA",
+   "title": "Advance Retail Sales: Retail Trade and Food Services",
+   "units": "Millions of Dollars"
+  },
+  "RSXFS": {
+   "cache_sha256": "d125fea1bd907ac31e388f928b0fca4c077ef566e05d2100aa007cb9331c5bf8",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:39:44Z",
+   "first_vintage": "2001-06-13",
+   "fred_last_updated": "2026-09-29 10:22:39-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-28",
+   "n_realtime_rows": 5506,
+   "n_vintages": 325,
+   "observation_start": "1992-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Advance Retail Sales: Retail Trade",
+   "units": "Millions of Dollars"
+  },
+  "TOTBUSSMSA": {
+   "cache_sha256": "f11fedff62dde4c93b7e54d885dd02fe5e8027ffea69f027eac67dce220bc15a",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:40:56Z",
+   "first_vintage": "2013-06-13",
+   "fred_last_updated": "2026-09-16 09:02:39-05",
+   "frequency": "M",
+   "last_vintage": "2026-09-16",
+   "n_realtime_rows": 6296,
+   "n_vintages": 160,
+   "observation_start": "1992-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Total Business Sales",
+   "units": "Millions of Dollars"
+  },
+  "TSIFRGHT": {
+   "cache_sha256": "cb63093fa7f14d0a5c182f9173d6db44b0ae81cb021c13193bad2e7b404e9069",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:41:34Z",
+   "first_vintage": "2014-10-08",
+   "fred_last_updated": "2026-10-01 09:01:41-05",
+   "frequency": "M",
+   "last_vintage": "2026-10-01",
+   "n_realtime_rows": 7821,
+   "n_vintages": 135,
+   "observation_start": "2000-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Freight Transportation Services Index",
+   "units": "Index 2000=100"
+  },
+  "TSITTL": {
+   "cache_sha256": "e1e9636e50350e94f3cf988db31d12e06c54e78504408d5445246ae4420ddeef",
+   "copyright_tags": [
+    "public domain: citation requested"
+   ],
+   "fetched_utc": "2026-10-03T17:41:41Z",
+   "first_vintage": "2014-10-08",
+   "fred_last_updated": "2026-10-01 09:01:48-05",
+   "frequency": "M",
+   "last_vintage": "2026-10-01",
+   "n_realtime_rows": 8446,
+   "n_vintages": 134,
+   "observation_start": "2000-01-01",
+   "request": {
+    "endpoint": "fred/series/observations",
+    "observation_start": "1947-01-01",
+    "output_type": 1,
+    "realtime_end": "9999-12-31",
+    "realtime_start": "1776-07-04"
+   },
+   "seasonal_adjustment": "SA",
+   "title": "Combined Transportation Services Index",
+   "units": "Index 2000=100"
+  }
+ }
+}
