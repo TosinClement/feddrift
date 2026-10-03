@@ -15,6 +15,9 @@ The manifests contain no observation values. With them and this script, anyone h
 rebuild the identical vintage history and confirm it byte-for-byte against the published hashes
 (see code/verify_reconstruction.py and docs/LICENSING_PROTOCOL.md).
 
+The query is pinned to realtime_end = config/snapshot.json:alfred_realtime_end, so a rebuild made on any later
+date reproduces the published history (as long as ALFRED does not alter its archive).
+
 Usage:  FRED_API_KEY=... python code/03_fetch_alfred.py [--series RSAFS CPIAUCSL ...]
 """
 
@@ -26,12 +29,15 @@ import os
 
 import pandas as pd
 
-from fd_common import ALFRED_CACHE, MANIFESTS, http_get, load_panel, log_provenance
+from fd_common import ALFRED_CACHE, MANIFESTS, http_get, load_panel, load_snapshot, log_provenance
 
 API = "https://api.stlouisfed.org/fred/"
-EARLIEST, LATEST = "1776-07-04", "9999-12-31"
-OBS_START = "1947-01-01"          # FedDrift observation window starts January 1947
+EARLIEST = "1776-07-04"           # FRED's documented earliest real-time date
+SNAP = load_snapshot()
+LATEST = SNAP["alfred_realtime_end"]   # pinned: vintages after the snapshot never enter a rebuild
+OBS_START = SNAP["observation_start"]  # FedDrift observation window starts January 1947
 PAGE = 100000
+FETCH_LOG = os.path.join(ALFRED_CACHE, "FETCH_LOG.txt")   # local only; the manifest is the public record
 
 
 def fred(endpoint, key, **params):
@@ -75,7 +81,7 @@ def main():
         cc_tags = [t["name"] for t in tags if t.get("group_id") == "cc"]
         spath = os.path.join(ALFRED_CACHE, f"{sid}.series.json")
         json.dump({"series": meta, "tags": tags}, open(spath, "w"), indent=1)
-        log_provenance(spath, r.url, f"FRED series metadata + tags for {sid}", redact=key)
+        log_provenance(spath, r.url, f"FRED series metadata + tags for {sid}", redact=key, log=FETCH_LOG)
 
         # 2. vintage dates
         vd = []
@@ -103,7 +109,7 @@ def main():
         opath = os.path.join(ALFRED_CACHE, f"{sid}.observations.json")
         json.dump({"series_id": sid, "vintage_dates": vd, "observations": obs}, open(opath, "w"))
         log_provenance(opath, first_url, f"ALFRED real-time observations {sid}: {len(obs)} rows, "
-                       f"{len(vd)} vintages (cache only; not redistributed)", redact=key)
+                       f"{len(vd)} vintages (cache only; not redistributed)", redact=key, log=FETCH_LOG)
 
         # 4. per-vintage manifest: number of observations and content hash of each vintage
         df = pd.DataFrame(obs)

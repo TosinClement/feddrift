@@ -1,0 +1,7 @@
+{
+  "snapshot_id": "2026-10-03",
+  "agency_snapshot_dir": "data/raw/agency/2026-10-03",
+  "alfred_realtime_end": "2026-10-03",
+  "observation_start": "1947-01-01",
+  "note": "Every published FedDrift number is computed from this snapshot. ALFRED is queried with realtime_end = alfred_realtime_end, so later vintages never enter a rebuild; the agency layer is the committed snapshot directory."
+}

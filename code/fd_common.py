@@ -22,6 +22,13 @@ PROVENANCE_LOG = os.path.join(RAW, "PROVENANCE.txt")
 USER_AGENT = "FedDrift/0.1 research pipeline (contact: clementtosin92@gmail.com)"
 
 
+def load_snapshot():
+    """The pinned snapshot every published number is computed from (config/snapshot.json)."""
+    import json
+    with open(os.path.join(CONFIG, "snapshot.json"), encoding="utf-8") as f:
+        return json.load(f)
+
+
 def load_panel():
     with open(os.path.join(CONFIG, "panel.csv"), newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
@@ -39,7 +46,7 @@ def sha256_bytes(b):
     return hashlib.sha256(b).hexdigest()
 
 
-def log_provenance(path, url, note="", redact=None):
+def log_provenance(path, url, note="", redact=None, log=None):
     """Append one fetch record. `redact` is a secret string to strip from the URL (API keys)."""
     if redact:
         url = url.replace(redact, "<FRED_API_KEY>")
@@ -51,8 +58,9 @@ def log_provenance(path, url, note="", redact=None):
         url,
         note,
     ]).rstrip(" |")
-    os.makedirs(os.path.dirname(PROVENANCE_LOG), exist_ok=True)
-    with open(PROVENANCE_LOG, "a", encoding="utf-8") as f:
+    log = log or PROVENANCE_LOG
+    os.makedirs(os.path.dirname(log), exist_ok=True)
+    with open(log, "a", encoding="utf-8") as f:
         f.write(line + "\n")
     return line
 

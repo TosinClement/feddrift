@@ -1,11 +1,11 @@
 {
  "series": {
   "AMTMNO": {
-   "cache_sha256": "de3de70dd701f6032a9fcc7c2a215e5b1a2d62680474d913965c0ef3d2610807",
+   "cache_sha256": "f77fd3b2198dafb8bb5a6cb014c56935fb34e1a1b1217300446cccc37f0ad51f",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:40:24Z",
+   "fetched_utc": "2026-10-03T18:07:28Z",
    "first_vintage": "2011-06-24",
    "fred_last_updated": "2026-10-02 09:06:32-05",
    "frequency": "M",
@@ -17,7 +17,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -25,11 +25,11 @@
    "units": "Millions of Dollars"
   },
   "BUSINV": {
-   "cache_sha256": "43adc6571fae9825e86dd77f38ffb8e16080809a9c279d7a9c01cfc051d60a4c",
+   "cache_sha256": "484ae492e3da99c10835093915df4b005c0b726b9b8efb118c3e2f80d4002b8b",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:40:40Z",
+   "fetched_utc": "2026-10-03T18:07:41Z",
    "first_vintage": "1996-11-15",
    "fred_last_updated": "2026-09-16 09:02:33-05",
    "frequency": "M",
@@ -41,7 +41,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -49,11 +49,11 @@
    "units": "Millions of Dollars"
   },
   "CPIAUCNS": {
-   "cache_sha256": "dc44f4e18be55415e4b1505a35bfea9be94aa0ae99103e45b42e6691b205b204",
+   "cache_sha256": "5460be45fe15e35b76999f72ec39b08b7027c58f2c86e42c58d87c86eaeb354a",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:41:15Z",
+   "fetched_utc": "2026-10-03T18:08:12Z",
    "first_vintage": "1949-03-24",
    "fred_last_updated": "2026-09-11 08:37:49-05",
    "frequency": "M",
@@ -65,7 +65,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "NSA",
@@ -73,11 +73,11 @@
    "units": "Index 1982-1984=100"
   },
   "CPIAUCSL": {
-   "cache_sha256": "f68178a94f330f2a3053442e349a468364e519efe3a355a64455062ff4afc62c",
+   "cache_sha256": "8a3908bc2454b3a5827ee1b305e5ead78bf155bda1cbe1b982915c5f5fddca5d",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:41:03Z",
+   "fetched_utc": "2026-10-03T18:07:59Z",
    "first_vintage": "1972-07-21",
    "fred_last_updated": "2026-09-11 08:37:49-05",
    "frequency": "M",
@@ -89,7 +89,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -97,11 +97,11 @@
    "units": "Index 1982-1984=100"
   },
   "CPILFESL": {
-   "cache_sha256": "b566fab1f406ac01d3ade9a9a5a3b1946861b06e5513f58272f10f1724da07fe",
+   "cache_sha256": "3fd414ea529226dd1807725b78ee060f64361f407385533e1c0c7fbc7571407a",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:41:09Z",
+   "fetched_utc": "2026-10-03T18:08:06Z",
    "first_vintage": "1996-12-12",
    "fred_last_updated": "2026-09-11 08:37:53-05",
    "frequency": "M",
@@ -113,7 +113,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -121,11 +121,11 @@
    "units": "Index 1982-1984=100"
   },
   "DGORDER": {
-   "cache_sha256": "5c991851330a02348c3378558f3fc6e566a6d72de1c571501e2f3ae412fccb74",
+   "cache_sha256": "f311f6d352677c2d693208cff5f1b6d2cca9b3469500f87db7f7503d915bf17b",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:40:18Z",
+   "fetched_utc": "2026-10-03T18:07:22Z",
    "first_vintage": "1999-08-04",
    "fred_last_updated": "2026-10-02 09:06:32-05",
    "frequency": "M",
@@ -137,7 +137,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -145,11 +145,11 @@
    "units": "Millions of Dollars"
   },
   "ISRATIO": {
-   "cache_sha256": "0f2cf5cf3865c3f3ea7bb7bf4e8d09881e946f6fbcd54c58058919f09a6c6cc0",
+   "cache_sha256": "2c51911d98d56f2dc148b4f82af2c0ccb091cc313dce6b23f74037869b7976b8",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:40:48Z",
+   "fetched_utc": "2026-10-03T18:07:46Z",
    "first_vintage": "1997-03-14",
    "fred_last_updated": "2026-09-16 09:02:31-05",
    "frequency": "M",
@@ -161,7 +161,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -169,11 +169,11 @@
    "units": "Ratio"
   },
   "MRTSSM44X72USS": {
-   "cache_sha256": "c6f2792f59177531c6b5e93e79f593a494fb65c279f76003c5414eb383755b84",
+   "cache_sha256": "891577cd91e27378b01bc441155237ae7f047809d3879fca5cbc118037d6d66d",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:40:03Z",
+   "fetched_utc": "2026-10-03T18:07:15Z",
    "first_vintage": "2017-11-15",
    "fred_last_updated": "2026-09-16 09:08:38-05",
    "frequency": "M",
@@ -185,7 +185,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -193,11 +193,11 @@
    "units": "Millions of Dollars"
   },
   "NEWORDER": {
-   "cache_sha256": "854f768188996cad693e8659730b9a0384c17128c3026e397d851ee9d97e10f4",
+   "cache_sha256": "afc5b835e63556491087a1fef0f96ccb454239eaede18e2fe2fa19cba07678cc",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:40:33Z",
+   "fetched_utc": "2026-10-03T18:07:34Z",
    "first_vintage": "1997-03-06",
    "fred_last_updated": "2026-10-02 09:06:38-05",
    "frequency": "M",
@@ -209,7 +209,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -217,11 +217,11 @@
    "units": "Millions of Dollars"
   },
   "PPIACO": {
-   "cache_sha256": "6dc3ecf3ba98f95307d4cd2ce2e4d3b3285f8258b9e2684c9f75623782495b1b",
+   "cache_sha256": "9d880c4fbf4a9b8379fba568d620615103a4737d989808006288d152731c1c70",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:41:26Z",
+   "fetched_utc": "2026-10-03T18:08:24Z",
    "first_vintage": "1996-12-11",
    "fred_last_updated": "2026-09-10 11:54:01-05",
    "frequency": "M",
@@ -233,7 +233,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "NSA",
@@ -241,11 +241,11 @@
    "units": "Index 1982=100"
   },
   "PPIFIS": {
-   "cache_sha256": "082068c370ba7dbbb6dcb378b11fb3260d83b92160ef9c23107d281ea524ec97",
+   "cache_sha256": "55760a1ae46a311e81d439c43d18620513442ad0d45a42044fcca12fd2a903b3",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:41:20Z",
+   "fetched_utc": "2026-10-03T18:08:17Z",
    "first_vintage": "2014-02-19",
    "fred_last_updated": "2026-09-10 11:53:37-05",
    "frequency": "M",
@@ -257,7 +257,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -265,11 +265,11 @@
    "units": "Index Nov 2009=100"
   },
   "RSAFS": {
-   "cache_sha256": "74a7d0fcd2cd02a7c3cb6157652ac247e92443498c948b9379e89786176392de",
+   "cache_sha256": "c217f2988ad57f940661e429b228dce38e41b43f8d346fbe23612ce2cb04ed1f",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:39:36Z",
+   "fetched_utc": "2026-10-03T18:06:46Z",
    "first_vintage": "2001-06-13",
    "fred_last_updated": "2026-09-29 10:22:31-05",
    "frequency": "M",
@@ -281,7 +281,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -289,11 +289,11 @@
    "units": "Millions of Dollars"
   },
   "RSAFSNA": {
-   "cache_sha256": "69f32e5a28235104a2d53ab128ad4ca96e0cd72ed2ac97df6a363e8d34c10694",
+   "cache_sha256": "a3b25b91ebb05707faba7d8beea7c8748b902c1f7ee51c2177d161e31a37a0b3",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:39:53Z",
+   "fetched_utc": "2026-10-03T18:07:07Z",
    "first_vintage": "2001-06-13",
    "fred_last_updated": "2026-09-29 10:22:32-05",
    "frequency": "M",
@@ -305,7 +305,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "NSA",
@@ -313,11 +313,11 @@
    "units": "Millions of Dollars"
   },
   "RSXFS": {
-   "cache_sha256": "d125fea1bd907ac31e388f928b0fca4c077ef566e05d2100aa007cb9331c5bf8",
+   "cache_sha256": "90e2fc3e64e690ece7f058ad7669cdf9e9346b16fce47663f219d84991fe505d",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:39:44Z",
+   "fetched_utc": "2026-10-03T18:06:52Z",
    "first_vintage": "2001-06-13",
    "fred_last_updated": "2026-09-29 10:22:39-05",
    "frequency": "M",
@@ -329,7 +329,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -337,11 +337,11 @@
    "units": "Millions of Dollars"
   },
   "TOTBUSSMSA": {
-   "cache_sha256": "f11fedff62dde4c93b7e54d885dd02fe5e8027ffea69f027eac67dce220bc15a",
+   "cache_sha256": "162cdcbe1b0237ae4d1785db6589c96b888063c89f8a485d1bdb9b7bb3724668",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:40:56Z",
+   "fetched_utc": "2026-10-03T18:07:52Z",
    "first_vintage": "2013-06-13",
    "fred_last_updated": "2026-09-16 09:02:39-05",
    "frequency": "M",
@@ -353,7 +353,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -361,11 +361,11 @@
    "units": "Millions of Dollars"
   },
   "TSIFRGHT": {
-   "cache_sha256": "cb63093fa7f14d0a5c182f9173d6db44b0ae81cb021c13193bad2e7b404e9069",
+   "cache_sha256": "e044a01f17405126f1f7f001df2edb7484b0b7396e3be2c643fb040916effbbc",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:41:34Z",
+   "fetched_utc": "2026-10-03T18:08:30Z",
    "first_vintage": "2014-10-08",
    "fred_last_updated": "2026-10-01 09:01:41-05",
    "frequency": "M",
@@ -377,7 +377,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",
@@ -385,11 +385,11 @@
    "units": "Index 2000=100"
   },
   "TSITTL": {
-   "cache_sha256": "e1e9636e50350e94f3cf988db31d12e06c54e78504408d5445246ae4420ddeef",
+   "cache_sha256": "47a82f14a2c6561175123c621c9ef0a9277f4d897a3928acf729f1a0c06126a6",
    "copyright_tags": [
     "public domain: citation requested"
    ],
-   "fetched_utc": "2026-10-03T17:41:41Z",
+   "fetched_utc": "2026-10-03T18:08:35Z",
    "first_vintage": "2014-10-08",
    "fred_last_updated": "2026-10-01 09:01:48-05",
    "frequency": "M",
@@ -401,7 +401,7 @@
     "endpoint": "fred/series/observations",
     "observation_start": "1947-01-01",
     "output_type": 1,
-    "realtime_end": "9999-12-31",
+    "realtime_end": "2026-10-03",
     "realtime_start": "1776-07-04"
    },
    "seasonal_adjustment": "SA",

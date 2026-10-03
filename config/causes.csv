@@ -1,0 +1,13 @@
+cause,definition,allowed_as_final
+advance_to_revised,"Scheduled routine revision: an advance or preliminary estimate replaced by a revised one in the next regular release(s), including the routine concurrent re-estimation of seasonal factors that accompanies each release, and the BLS PPI recalculation about four months after first publication.",yes
+annual_benchmark,"Annual (or periodic) revision benchmarking monthly estimates to annual surveys or the Economic Census, usually with historical corrections and updated seasonal adjustment models.",yes
+seasonal_factor_recompute,"Annual recalculation of seasonal factors that revises several years of seasonally adjusted data without benchmarking (BLS CPI and PPI: with the January release).",yes
+sample_redesign,"Introduction of a new survey sample. May be linked so that no level shift is visible.",yes
+rebase_or_definition,"Change of index reference base, units, classification system (e.g. NAICS restatement) or population/coverage definition (e.g. employer-only).",yes
+methodology_change,"Documented change in estimation methodology or weights that revises history (e.g. CPI expenditure-weight update with revision of seasonally adjusted indexes).",yes
+routine_reestimation,"Model-based series whose full history is re-estimated at each release (e.g. BTS Transportation Services Index).",yes
+correction,"Agency-announced correction of erroneous published values.",yes
+unknown,"Revision observed in the real-time record whose cause could not be established from agency sources. An honest final label.",yes
+unclassified,"Proposal-only state: no rule applies. Never allowed as a final label.",no
+none_extension_only,"Not a drift event: new observations appended, no published value changed.",excluded
+none_archival_window,"Not a drift event: ALFRED vintage holds a rolling window; the oldest observation drops out, nothing revised.",excluded

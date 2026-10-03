@@ -7,7 +7,9 @@ observation dates they share and records:
   between the vintage month and the earliest revised observation), revision magnitudes in percent of level,
   revision magnitude on month-over-month growth rates, a two-sample KS statistic between the growth-rate
   distributions of the revised window before and after (the distribution-shift measure), net direction,
-  and a rebasing indicator (constant ratio across the whole history).
+  a rebasing indicator (constant ratio across the whole history), and depth_censored (the revision reaches,
+  within two months, the first observation both vintages share, so the measured depth is only a lower bound: early ALFRED
+  vintages of some series hold a short rolling window, e.g. CPI-U SA vintages of 1972-1993 hold 19 months).
 
 No observation values are written: the output is derived statistics only (docs/LICENSING_PROTOCOL.md).
 
@@ -16,6 +18,7 @@ Output: data/processed/vintage_pairs.csv
 
 import json
 import os
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -24,6 +27,7 @@ from scipy.stats import ks_2samp
 from fd_common import ALFRED_CACHE, PROCESSED, load_panel
 
 REL_TOL = 1e-9
+CENSOR_SLACK_MONTHS = 2
 
 
 def months(d):
@@ -62,6 +66,8 @@ def pair_stats(sid, vp, vn, a, b):
         "n_obs_prev": len(a), "n_obs_next": len(b), "n_overlap": len(common),
         "n_new_obs": len(new), "n_dropped_obs": len(dropped), "n_revised": len(revised),
         "share_revised": round(len(revised) / len(common), 6) if len(common) else np.nan,
+        "first_obs_prev": a.index.min() if len(a) else "",
+        "first_obs_overlap": common.min() if len(common) else "",
     }
     if len(revised):
         pct = (diff.loc[revised] / av.loc[revised].abs()) * 100.0
@@ -74,6 +80,11 @@ def pair_stats(sid, vp, vn, a, b):
         row.update({
             "earliest_revised_obs": e, "latest_revised_obs": l,
             "revision_depth_months": months(vn) - months(e),
+            # True when the revision reaches (within two months) the first observation both vintages share:
+            # the true depth may be larger, because the vintage (or the series) holds no earlier data, so the
+            # measured depth is a lower bound. The two-month allowance covers early months whose rounded
+            # published value happened not to change.
+            "depth_censored": bool(months(e) - months(common.min()) <= CENSOR_SLACK_MONTHS),
             "revision_span_months": months(l) - months(e) + 1,
             "mean_abs_pct_revision": round(float(pct.abs().mean()), 6),
             "max_abs_pct_revision": round(float(pct.abs().max()), 6),
@@ -89,6 +100,7 @@ def pair_stats(sid, vp, vn, a, b):
 
 
 def main():
+    warnings.filterwarnings("ignore", message="ks_2samp: Exact calculation unsuccessful")
     rows = []
     for p in load_panel():
         sid = p["series_id"]

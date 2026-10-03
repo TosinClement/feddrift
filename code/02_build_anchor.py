@@ -5,7 +5,7 @@ Output: data/processed/anchor_vintage.csv
   series_id, obs_date (YYYY-MM-01), value, anchor_source, anchor_file, anchor_file_sha256, snapshot_date
 
 Fails loudly if any panel series cannot be located in its agency file.
-Usage:  python code/02_build_anchor.py [--date YYYY-MM-DD]   (defaults to the newest snapshot)
+Usage:  python code/02_build_anchor.py [--date YYYY-MM-DD]   (defaults to the pinned snapshot in config/snapshot.json)
 """
 
 import argparse
@@ -15,7 +15,7 @@ import zipfile
 
 import pandas as pd
 
-from fd_common import AGENCY_RAW, PROCESSED, ROOT, load_panel, sha256_file
+from fd_common import AGENCY_RAW, PROCESSED, ROOT, load_panel, load_snapshot, sha256_file
 
 MONTHS = {m: i for i, m in enumerate(
     ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 1)}
@@ -73,7 +73,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", default=None)
     a = ap.parse_args()
-    snap = a.date or sorted(os.listdir(AGENCY_RAW))[-1]
+    snap = a.date or os.path.basename(load_snapshot()["agency_snapshot_dir"])   # pinned snapshot
     base = os.path.join(AGENCY_RAW, snap)
     panel = load_panel()
     rows = []

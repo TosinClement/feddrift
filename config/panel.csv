@@ -1,18 +1,18 @@
-series_id,agency,program,description,seasonal_adjustment,units,anchor_source,anchor_program,anchor_category,anchor_datatype,anchor_is_adj,anchor_bls_series,anchor_bts_field,role
-RSAFS,Census,MARTS,Advance retail sales: retail trade and food services,SA,Millions of dollars,census_eits,MARTS,44X72,SM,1,,,core
-RSXFS,Census,MARTS,Advance retail sales: retail trade,SA,Millions of dollars,census_eits,MARTS,44000,SM,1,,,core
-RSAFSNA,Census,MARTS,Advance retail sales: retail trade and food services,NSA,Millions of dollars,census_eits,MARTS,44X72,SM,0,,,core
-MRTSSM44X72USS,Census,MRTS,Retail sales: retail trade and food services (Monthly Retail Trade Survey),SA,Millions of dollars,census_eits,MRTS,44X72,SM,1,,,core
-DGORDER,Census,M3,Manufacturers' new orders: durable goods,SA,Millions of dollars,census_eits,M3,MDM,NO,1,,,core
-AMTMNO,Census,M3,Manufacturers' new orders: total manufacturing,SA,Millions of dollars,census_eits,M3,MTM,NO,1,,,core
-NEWORDER,Census,M3,Manufacturers' new orders: nondefense capital goods excluding aircraft,SA,Millions of dollars,census_eits,M3,NXA,NO,1,,,core
-BUSINV,Census,MTIS,Total business inventories,SA,Millions of dollars,census_eits,MTIS,TOTBUS,IM,1,,,core
-ISRATIO,Census,MTIS,Total business: inventories to sales ratio,SA,Ratio,census_eits,MTIS,TOTBUS,IR,1,,,core
-TOTBUSSMSA,Census,MTIS,Total business sales,SA,Millions of dollars,census_eits,MTIS,TOTBUS,SM,1,,,core
-CPIAUCSL,BLS,CPI,CPI-U: all items in U.S. city average,SA,Index 1982-1984=100,bls_flat,cu,,,,CUSR0000SA0,,core
-CPILFESL,BLS,CPI,CPI-U: all items less food and energy in U.S. city average,SA,Index 1982-1984=100,bls_flat,cu,,,,CUSR0000SA0L1E,,core
-CPIAUCNS,BLS,CPI,CPI-U: all items in U.S. city average,NSA,Index 1982-1984=100,bls_flat,cu,,,,CUUR0000SA0,,negative_control
-PPIFIS,BLS,PPI,PPI by commodity: final demand,SA,Index Nov 2009=100,bls_flat,wp,,,,WPSFD4,,core
-PPIACO,BLS,PPI,PPI by commodity: all commodities,NSA,Index 1982=100,bls_flat,wp,,,,WPU00000000,,core
-TSIFRGHT,BTS,TSI,Freight Transportation Services Index,SA,Index 2000=100,bts_socrata,crem-w557,,,,,transportation_services_index_freight,core
-TSITTL,BTS,TSI,Transportation Services Index (combined),SA,Index 2000=100,bts_socrata,crem-w557,,,,,transportation_services_index_combined,core
+series_id,agency,program,description,seasonal_adjustment,units,anchor_source,anchor_program,anchor_category,anchor_datatype,anchor_is_adj,anchor_bls_series,anchor_bts_field,role,release_program
+RSAFS,Census,MARTS,Advance retail sales: retail trade and food services,SA,Millions of dollars,census_eits,MARTS,44X72,SM,1,,,core,MARTS
+RSXFS,Census,MARTS,Advance retail sales: retail trade,SA,Millions of dollars,census_eits,MARTS,44000,SM,1,,,core,MARTS
+RSAFSNA,Census,MARTS,Advance retail sales: retail trade and food services,NSA,Millions of dollars,census_eits,MARTS,44X72,SM,0,,,core,MARTS
+MRTSSM44X72USS,Census,MRTS,Retail sales: retail trade and food services (Monthly Retail Trade Survey),SA,Millions of dollars,census_eits,MRTS,44X72,SM,1,,,core,MRTS
+DGORDER,Census,M3,Manufacturers' new orders: durable goods,SA,Millions of dollars,census_eits,M3,MDM,NO,1,,,core,M3
+AMTMNO,Census,M3,Manufacturers' new orders: total manufacturing,SA,Millions of dollars,census_eits,M3,MTM,NO,1,,,core,M3
+NEWORDER,Census,M3,Manufacturers' new orders: nondefense capital goods excluding aircraft,SA,Millions of dollars,census_eits,M3,NXA,NO,1,,,core,M3
+BUSINV,Census,MTIS,Total business inventories,SA,Millions of dollars,census_eits,MTIS,TOTBUS,IM,1,,,core,MTIS
+ISRATIO,Census,MTIS,Total business: inventories to sales ratio,SA,Ratio,census_eits,MTIS,TOTBUS,IR,1,,,core,MTIS
+TOTBUSSMSA,Census,MTIS,Total business sales,SA,Millions of dollars,census_eits,MTIS,TOTBUS,SM,1,,,core,MTIS
+CPIAUCSL,BLS,CPI,CPI-U: all items in U.S. city average,SA,Index 1982-1984=100,bls_flat,cu,,,,CUSR0000SA0,,core,CPI
+CPILFESL,BLS,CPI,CPI-U: all items less food and energy in U.S. city average,SA,Index 1982-1984=100,bls_flat,cu,,,,CUSR0000SA0L1E,,core,CPI
+CPIAUCNS,BLS,CPI,CPI-U: all items in U.S. city average,NSA,Index 1982-1984=100,bls_flat,cu,,,,CUUR0000SA0,,negative_control,CPI
+PPIFIS,BLS,PPI,PPI by commodity: final demand,SA,Index Nov 2009=100,bls_flat,wp,,,,WPSFD4,,core,PPI
+PPIACO,BLS,PPI,PPI by commodity: all commodities,NSA,Index 1982=100,bls_flat,wp,,,,WPU00000000,,core,PPI
+TSIFRGHT,BTS,TSI,Freight Transportation Services Index,SA,Index 2000=100,bts_socrata,crem-w557,,,,,transportation_services_index_freight,core,TSI
+TSITTL,BTS,TSI,Transportation Services Index (combined),SA,Index 2000=100,bts_socrata,crem-w557,,,,,transportation_services_index_combined,core,TSI

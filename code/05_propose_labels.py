@@ -1,156 +1,106 @@
 #!/usr/bin/env python3
-"""05 - Propose a cause for every vintage pair with the rule engine, and write the author's label sheets.
+"""05 - Assign stable event IDs, propose a cause for every vintage pair, and group events into releases.
 
-The rule engine only PROPOSES. Final labels are the author's: see labels/README.md.
+The rule engine only PROPOSES causes. Final labels are decided by the label owner (labels/README.md) and
+applied by code/08_apply_labels.py. This script never reads or writes author decisions.
 
-Inputs : data/processed/vintage_pairs.csv, config/revision_rules.csv, config/agency_documented_events.csv
-Outputs: data/processed/proposed_events.csv     every vintage pair + proposed cause + rule id
-         labels/rule_sheet.csv                  one row per rule, for rule-level verification
-         labels/event_label_sheet.csv           one row per event that needs an individual label
+Inputs : data/processed/vintage_pairs.csv, config/revision_rules.csv, config/panel.csv
+Outputs: data/processed/proposed_events.csv   every vintage pair: event_id, proposal, review level, cluster
+         data/processed/release_clusters.csv  one row per (release program, vintage date) needing release review
 
-Re-running never overwrites anything the author has typed into the label sheets: author columns are
-carried over by key (rule_id / pair_id); only the machine columns are refreshed.
+Event IDs are deterministic and stable: FD-<series_id>-<vintage_next as YYYYMMDD>. A series has at most one
+ALFRED vintage per date, so the ID is unique and does not depend on run order.
+
+Review levels
+  excluded : not a drift event (nothing revised)
+  rule     : routine event; covered by a rule-level decision of the label owner
+  release  : non-routine; reviewed per agency release (cluster = same program, same vintage date)
 """
 
 import os
 
 import pandas as pd
 
-from fd_common import CONFIG, PROCESSED, ROOT, load_panel
-
-LABELS = os.path.join(ROOT, "labels")
-CAUSES = ["advance_to_revised", "annual_benchmark", "seasonal_factor_recompute", "sample_redesign",
-          "rebase_or_definition", "routine_reestimation", "correction", "other_major", "unclassified"]
-RULE_AUTHOR_COLS = ["tosin_decision", "tosin_source_url", "tosin_source_quote", "tosin_verified_date", "tosin_notes"]
-EVENT_AUTHOR_COLS = ["final_cause", "final_secondary_cause", "agency_source_url", "agency_source_quote",
-                     "verified_by", "verified_date", "notes"]
-INDIVIDUAL_RULES = {"R02_REBASE", "R10_CPI_SA_5Y", "R11_CPI_SA_PRE1995", "R12_PPI_SA_5Y",
-                    "R30_CENSUS_ANNUAL", "R90_UNCLASSIFIED"}
+from fd_common import CONFIG, PROCESSED, load_panel
 
 
-def series_list(cell):
+def series_set(cell):
     return None if cell == "ALL" else set(cell.split(";"))
 
 
-def routine_window(rules, sid):
-    """The routine depth limit for a series = the max depth in its R2x routine rule condition."""
-    for _, r in rules.iterrows():
-        if r.rule_id.startswith("R2") and sid in (series_list(r.series) or set()) and "<=" in r.condition:
-            return int(r.condition.split("<=")[1].strip())
-    return 0
-
-
-def propose(row, rules, windows):
-    sid, d, m, y = row.series_id, row.revision_depth_months, row.vintage_month, row.vintage_year
-    for _, r in rules.sort_values("priority").iterrows():
-        applies = series_list(r.series)
-        if applies is not None and sid not in applies:
+def propose(row, rules):
+    d, m = row.revision_depth_months, row.vintage_month
+    for r in rules.itertuples():
+        applies = series_set(r.series)
+        if applies is not None and row.series_id not in applies:
             continue
         rid = r.rule_id
-        if rid == "R00_EXTENSION" and row.n_revised == 0 and row.n_dropped_obs == 0:
-            return rid
-        if rid == "R01_ARCHIVE_WINDOW" and row.n_revised == 0 and row.n_dropped_obs > 0 \
-                and row.n_obs_next == row.n_obs_prev:
-            return rid
+        if rid == "R00_EXTENSION":
+            if row.n_revised == 0 and row.n_dropped_obs == 0:
+                return rid
+            continue
+        if rid == "R01_ARCHIVE_WINDOW":
+            if row.n_revised == 0 and row.n_dropped_obs > 0 and row.n_obs_next == row.n_obs_prev:
+                return rid
+            continue
         if row.n_revised == 0:
             continue
         if rid == "R02_REBASE" and bool(row.rebase_like):
             return rid
-        if rid == "R10_CPI_SA_5Y" and m == 2 and y >= 1995 and 50 <= d <= 62:
+        if rid == "R10_BLS_SA_FEB" and m == 2 and ((50 <= d <= 62) or bool(row.depth_censored)):
             return rid
-        if rid == "R11_CPI_SA_PRE1995" and m == 2 and y < 1995 and 14 <= d <= 21:
-            return rid
-        if rid == "R12_PPI_SA_5Y" and m == 2 and 50 <= d <= 62:
-            return rid
-        if rid.startswith("R2") and rid != "R26_ROUTINE_TSI" and d <= windows[sid]:
+        if rid.startswith("R2") and rid != "R26_ROUTINE_TSI" and d <= float(r.routine_window_months):
             return rid
         if rid == "R26_ROUTINE_TSI":
             return rid
-        if rid == "R30_CENSUS_ANNUAL" and d > windows[sid] and 3 <= m <= 7:
+        if rid == "R30_CENSUS_ANNUAL" and 3 <= m <= 7:
             return rid
         if rid == "R90_UNCLASSIFIED":
             return rid
+    # pairs with dropped observations that are not a clean rolling window and revise nothing
     return "R90_UNCLASSIFIED"
-
-
-def merge_author(new, path, key, author_cols):
-    """Keep whatever the author already typed; refresh everything else."""
-    if os.path.exists(path):
-        old = pd.read_csv(path, dtype=str, keep_default_na=False)
-        keep = old[[key] + [c for c in author_cols if c in old.columns]]
-        new = new.drop(columns=[c for c in author_cols if c in new.columns]).merge(keep, on=key, how="left")
-        lost = set(old[key]) - set(new[key])
-        if lost:
-            orphan = old[old[key].isin(lost)]
-            orphan.to_csv(path.replace(".csv", ".orphaned.csv"), index=False)
-            print(f"WARNING: {len(lost)} previously labeled rows no longer exist; saved to *.orphaned.csv")
-    for c in author_cols:
-        if c not in new.columns:
-            new[c] = ""
-    return new.fillna("")
 
 
 def main():
     pairs = pd.read_csv(os.path.join(PROCESSED, "vintage_pairs.csv"))
     rules = pd.read_csv(os.path.join(CONFIG, "revision_rules.csv"), dtype=str).fillna("")
     rules["priority"] = rules.priority.astype(int)
-    docs = pd.read_csv(os.path.join(CONFIG, "agency_documented_events.csv"), dtype=str).fillna("")
+    rules = rules.sort_values("priority")
     panel = {p["series_id"]: p for p in load_panel()}
-    windows = {sid: routine_window(rules, sid) for sid in panel}
 
-    pairs["proposed_rule"] = pairs.apply(lambda r: propose(r, rules, windows), axis=1)
-    cause = dict(zip(rules.rule_id, rules.cause))
-    pairs["proposed_cause"] = pairs.proposed_rule.map(cause)
-    pairs["is_drift_event"] = ~pairs.proposed_rule.isin(["R00_EXTENSION", "R01_ARCHIVE_WINDOW"])
-    pairs["routine_window_months"] = pairs.series_id.map(windows)
-
-    # attach agency-documented events: first non-routine revising vintage
-    # on/after the release date within 14 days (else the first revising one)
-    pairs["doc_event_key"], pairs["proposed_secondary_cause"] = "", ""
-    for _, e in docs.iterrows():
-        progs = set(e.programs.split(";"))
-        rel = pd.Timestamp(e.release_date)
-        for sid, p in panel.items():
-            if p["program"] not in progs:
-                continue
-            c = pairs[(pairs.series_id == sid) & (pairs.n_revised > 0)
-                      & (pd.to_datetime(pairs.vintage_next) >= rel)
-                      & (pd.to_datetime(pairs.vintage_next) <= rel + pd.Timedelta(days=14))]
-            if len(c):
-                deep = c[~c.proposed_rule.str.startswith("R2")]   # prefer a non-routine vintage if one exists
-                i = (deep if len(deep) else c).index[0]
-                pairs.loc[i, "doc_event_key"] = ";".join(filter(None, [pairs.loc[i, "doc_event_key"], e.event_key]))
-                if e.secondary_cause:
-                    pairs.loc[i, "proposed_secondary_cause"] = ";".join(
-                        filter(None, [pairs.loc[i, "proposed_secondary_cause"], e.secondary_cause]))
-
+    pairs.insert(0, "event_id", "FD-" + pairs.series_id + "-" + pairs.vintage_next.str.replace("-", ""))
+    if "pair_id" in pairs.columns:
+        pairs = pairs.drop(columns="pair_id")
+    assert pairs.event_id.is_unique, "event_id must be unique"
+    pairs["release_program"] = pairs.series_id.map(lambda s: panel[s]["release_program"])
+    pairs["proposed_rule"] = pairs.apply(lambda r: propose(r, rules), axis=1)
+    rmap = rules.set_index("rule_id")
+    pairs["proposed_cause"] = pairs.proposed_rule.map(rmap.proposed_cause)
+    pairs["review_level"] = pairs.proposed_rule.map(rmap.review_level)
+    pairs["is_drift_event"] = pairs.review_level != "excluded"
+    pairs["release_cluster_id"] = ""
+    rel = pairs.review_level == "release"
+    pairs.loc[rel, "release_cluster_id"] = ("FDC-" + pairs.loc[rel, "release_program"] + "-"
+                                            + pairs.loc[rel, "vintage_next"].str.replace("-", ""))
     pairs.to_csv(os.path.join(PROCESSED, "proposed_events.csv"), index=False)
 
-    # rule sheet
-    os.makedirs(LABELS, exist_ok=True)
-    cov = pairs.groupby("proposed_rule").agg(n_pairs=("pair_id", "size"),
-                                             n_series=("series_id", "nunique")).reset_index()
-    rs = rules.merge(cov, left_on="rule_id", right_on="proposed_rule", how="left").drop(columns="proposed_rule")
-    rs["n_pairs"] = rs.n_pairs.fillna(0).astype(int)
-    rs["n_series"] = rs.n_series.fillna(0).astype(int)
-    rs["label_level"] = rs.rule_id.map(lambda r: "individual" if r in INDIVIDUAL_RULES else "rule")
-    rs = merge_author(rs, os.path.join(LABELS, "rule_sheet.csv"), "rule_id", RULE_AUTHOR_COLS)
-    rs.to_csv(os.path.join(LABELS, "rule_sheet.csv"), index=False)
+    c = pairs[rel].groupby("release_cluster_id").agg(
+        release_program=("release_program", "first"), vintage_date=("vintage_next", "first"),
+        series=("series_id", lambda s: ";".join(sorted(s))), n_events=("event_id", "size"),
+        event_ids=("event_id", lambda s: ";".join(sorted(s))),
+        proposed_causes=("proposed_cause", lambda s: ";".join(sorted(set(s)))),
+        proposed_rules=("proposed_rule", lambda s: ";".join(sorted(set(s)))),
+        earliest_revised_obs=("earliest_revised_obs", "min"),
+        max_depth_months=("revision_depth_months", "max"),
+        any_depth_censored=("depth_censored", "max"),
+        max_mean_abs_pct_revision=("mean_abs_pct_revision", "max"),
+        any_rebase_like=("rebase_like", "max")).reset_index()
+    c.to_csv(os.path.join(PROCESSED, "release_clusters.csv"), index=False)
 
-    # individual event sheet: every event under an individual-label rule, plus every doc-matched event
-    ind = pairs[pairs.proposed_rule.isin(INDIVIDUAL_RULES) | (pairs.doc_event_key != "")].copy()
-    cols = ["pair_id", "series_id", "vintage_prev", "vintage_next", "n_revised", "earliest_revised_obs",
-            "latest_revised_obs", "revision_depth_months", "mean_abs_pct_revision", "max_abs_pct_revision",
-            "net_pct_revision", "ks_growth_window", "rebase_like", "proposed_rule", "proposed_cause",
-            "proposed_secondary_cause", "doc_event_key"]
-    ind = merge_author(ind[cols], os.path.join(LABELS, "event_label_sheet.csv"), "pair_id", EVENT_AUTHOR_COLS)
-    ind.to_csv(os.path.join(LABELS, "event_label_sheet.csv"), index=False)
-
-    print(pairs.groupby(["proposed_rule"]).size().to_string())
-    print(f"drift events: {int(pairs.is_drift_event.sum())} of {len(pairs)} pairs; "
-          f"individual labels needed: {len(ind)}; rule-level decisions needed: {(rs.label_level == 'rule').sum()}")
-    print("doc-matched:", pairs[pairs.doc_event_key != ""][["series_id", "vintage_next", "doc_event_key",
-                                                              "proposed_cause"]].to_string())
+    print(pairs.groupby(["review_level", "proposed_rule"]).size().to_string())
+    print(f"pairs {len(pairs)} | drift events {int(pairs.is_drift_event.sum())} | rule-level "
+          f"{int((pairs.review_level == 'rule').sum())} | release-level events {int(rel.sum())} "
+          f"in {len(c)} releases")
 
 
 if __name__ == "__main__":
