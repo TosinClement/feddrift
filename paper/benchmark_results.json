@@ -1,39 +1,83 @@
 {
  "T1_cause_attribution": {
   "status": "pending_author_labels",
-  "n_labeled": 0
+  "n_drift_events": 4109,
+  "n_verified": 0,
+  "splits": {
+   "train": "vintage_next < 2010-01-01",
+   "validation": "2010-01-01 <= vintage_next < 2015-01-01",
+   "test": "vintage_next >= 2015-01-01"
+  }
  },
  "T2_realtime_revision_correction": {
+  "status": "scored",
+  "seed": 20261003,
+  "maturity_months": 36,
+  "first_release_max_lag_months": 3,
+  "splits": {
+   "train": "mature vintage < 2009-01-01",
+   "validation": "first vintage >= 2009-01-01 and mature vintage < 2016-01-01",
+   "test": "2016-01-01 <= first vintage <= 2022-09-30"
+  },
+  "n": {
+   "train": 1655,
+   "validation": 541,
+   "test": 1349,
+   "excluded_gap": 1125
+  },
   "n_obs_total": 4670,
-  "n_train": 3148,
-  "n_test": 1352,
   "n_series_test": 17,
-  "series_without_train": [
+  "series_without_fit": [
+   "AMTMNO",
    "MRTSSM44X72USS",
+   "PPIFIS",
+   "TOTBUSSMSA",
    "TSIFRGHT",
    "TSITTL"
   ],
-  "overall": {
-   "B0": {
-    "MAE": 0.4864,
-    "RMSE": 0.8687
-   },
-   "B1": {
-    "MAE": 0.4886,
-    "RMSE": 0.8699
-   },
-   "B2": {
-    "MAE": 0.4934,
-    "RMSE": 0.8759
-   }
+  "leakage_checks": {
+   "train_mature_max": "2008-12-24",
+   "validation_first_min": "2009-01-14",
+   "validation_mature_max": "2015-12-23",
+   "test_first_min": "2016-01-06"
   },
-  "maturity_months": 36,
-  "split": {
-   "train_end": "2015-12-01",
-   "test": [
-    "2016-01-01",
-    "2022-09-01"
-   ]
-  }
+  "overall": [
+   {
+    "baseline": "B0",
+    "n_test": 1349,
+    "MAE_pp": 0.4899,
+    "RMSE_pp": 0.8745,
+    "MAE_minus_B0": 0.0,
+    "MAE_minus_B0_ci95_low": 0.0,
+    "MAE_minus_B0_ci95_high": 0.0
+   },
+   {
+    "baseline": "B1",
+    "n_test": 1349,
+    "MAE_pp": 0.4897,
+    "RMSE_pp": 0.8726,
+    "MAE_minus_B0": -0.0002,
+    "MAE_minus_B0_ci95_low": -0.0019,
+    "MAE_minus_B0_ci95_high": 0.0016
+   },
+   {
+    "baseline": "B2",
+    "n_test": 1349,
+    "MAE_pp": 0.4953,
+    "RMSE_pp": 0.8871,
+    "MAE_minus_B0": 0.0054,
+    "MAE_minus_B0_ci95_low": -0.0041,
+    "MAE_minus_B0_ci95_high": 0.0154
+   },
+   {
+    "baseline": "B3",
+    "n_test": 1349,
+    "MAE_pp": 0.4916,
+    "RMSE_pp": 0.8836,
+    "MAE_minus_B0": 0.0017,
+    "MAE_minus_B0_ci95_low": -0.0045,
+    "MAE_minus_B0_ci95_high": 0.0084
+   }
+  ]
  }
 }
