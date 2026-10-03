@@ -1,0 +1,18 @@
+{
+ "n_pairs": 6295,
+ "n_drift_events": 4109,
+ "n_excluded": 2186,
+ "by_status": {
+  "rule_pending_review": 3667,
+  "release_pending_review": 442
+ },
+ "by_review_level": {
+  "rule": 3667,
+  "release": 442
+ },
+ "n_verified": 0,
+ "n_unverified": 4109,
+ "n_final_unknown": 0,
+ "final_cause_counts": {},
+ "decision_files_present": []
+}

@@ -1,39 +1,34 @@
 # Labeling FedDrift: instructions for the label owner
 
-**Label owner:** Tosin Clement. Every final label in FedDrift is a ruling by the label owner, checked against the agency's published methodology or release notes. The rule engine (`code/05_propose_labels.py`) only proposes labels. The release gate refuses to pass while any drift event in `data/processed/drift_events.csv` has `label_status = unverified`.
+**Label owner:** Tosin Clement. A label is verified only when the label owner has recorded a decision, with her name and date, in `labels/decisions/`. The machine proposal (`proposed_cause`) and Claude's evidence-based recommendation (`recommended_cause`, with a confidence grade) are inputs to that decision. They are never labels.
 
-## Step 1: rule-level decisions (`rule_sheet.csv`, rows with `label_level = rule`)
+## What you review
 
-These rules cover the routine events: thousands of monthly releases that follow a documented schedule. For each rule:
+| Level | Covers | Where | One decision applies to |
+|---|---|---|---|
+| Judgment calls | Project-level choices: licensing (J1–J3), review granularity (J4), evidence bar (J5) | *Judgment calls* sheet | The project |
+| Rule | Routine events (advance → revised, PPI 4-month recalculation, TSI re-estimation) | *Rules* sheet | Every event the rule covers |
+| Release | Non-routine events: annual benchmarks, seasonal recomputes, rebases, corrections, unclassified | *Releases* sheet | Every event in that agency release (same program, same date) |
+| Override | Any single event you want to label differently from its rule or release | *Event overrides* sheet | That event |
 
-1. Read `condition` and `rationale`. If `candidate_source_url` is filled, open it. Claude found these sources and has not verified them.
-2. Find the agency statement that establishes the rule. Methodology page, technical notes, or release text all count.
-3. Fill in `tosin_decision` (`accept`, `modify` or `reject`), `tosin_source_url`, `tosin_source_quote` (the exact sentence), and `tosin_verified_date` (YYYY-MM-DD).
-4. If you choose `modify`, change the rule in `config/revision_rules.csv` (and in `code/05` if the condition logic changes), then re-run steps 05–09. Your typed columns are preserved on re-run.
+The *Events* sheet lists every drift event together with the rule or release that governs it. The *Sources* sheet lists every agency document cited, with URL, publication date and SHA-256.
 
-Accepting a rule labels every event that rule covers. Spot-check a few by hand before accepting: `n_pairs` tells you how many events depend on your decision.
+## How to decide
 
-## Step 2: individual events (`event_label_sheet.csv`)
+- **Rules:** read the condition, the agency quotes and the event counts, then spot-check a few events. Choose `approve` or `reject`. If you reject a rule, its events are not labeled and the release gate stays closed until they are relabeled.
+- **Releases:**
+  - `approve` uses `recommended_cause` (and `recommended_secondary_cause`).
+  - `set` uses the `final_cause` you enter.
+  - `unknown` records that the evidence does not establish a cause.
 
-This sheet covers every annual benchmark, seasonal-factor recompute, rebase, agency-documented event, and every unclassified event. For each row:
+  Check the quote, the source and the *automated_check* column. "MATCH" means the month the agency says the revision starts equals the earliest revised observation in the data.
+- Fill `verified_by` (your name) and `verified_date` (YYYY-MM-DD) on every row you decide. A row without them is ignored.
 
-1. Find the agency release or notice for `vintage_next`. Use the agency's historical releases, the FRED/ALFRED series notes, or the agency's revision announcements.
-2. Fill in `final_cause` with one value from the taxonomy in `docs/CODEBOOK.md`. `unclassified` is not allowed as a final label. If no source can be found, use `other_major` and say so in `notes`.
-3. Fill in `agency_source_url`, `agency_source_quote`, `verified_by` (your name) and `verified_date`.
-4. Fill in `final_secondary_cause` if one release carries two causes, for example a benchmark together with a new sample.
-
-Rows are not applied until `final_cause`, `verified_by` and `verified_date` are all filled.
-
-## Step 3: apply and rebuild
+## Then
 
 ```
-python code/08_apply_labels.py      # applies your labels; prints label-status counts
-python code/07_benchmark.py         # T1 scores appear once labels exist
-python code/09_figures_stats.py     # figures and stats.json reflect final labels
+python code/import_review.py labels/review/FedDrift_label_review.xlsx
+bash run_all.sh --from 08
 ```
 
-## Ground rules
-
-- Never copy a proposed label without checking it against a source. The proposals encode patterns in the data, and a pattern is not a cause.
-- If the agency's documented date and the ALFRED vintage date disagree, record both in `notes` (example: M3 benchmark 2025-05-16 vs. ALFRED vintage 2025-05-27).
-- Keep a copy of every source page you rely on (PDF or web archive). Agency pages move.
+The import validates every row and writes nothing if any row is invalid. Rows you leave blank keep any decision already recorded. Regenerating the review workbook (`code/07_build_review.py`) never touches `labels/decisions/`.
