@@ -617,6 +617,33 @@ def specials():
     return out
 
 
+# MTIS releases whose revision notice the keyword screen in recommend() does not catch (found on manual review,
+# 2026-10-03). Both files are registered by cluster_mtis(); the 1999 text file is fixed-width and the server copy
+# truncates lines at 140 characters, so the notice is quoted as it appears in the file.
+MTIS_MANUAL = {
+    "FDC-MTIS-19990813": ("https://www2.census.gov/mtis/historical/mtis9906.txt", "Notice of Revised Estimates",
+                          "notice states retail and wholesale estimates were revised using 1997 Census of Retail Trade and "
+                          "1997 Census of Wholesale Trade results; no revision start month stated (no numeric check); source "
+                          "lines truncated at 140 characters in the server file", "annual_benchmark", "moderate"),
+    "FDC-MTIS-20050915": ("https://www2.census.gov/mtis/historical/mtis0507.pdf", "Notice of Revison",
+                          "notice states revised manufacturing shipments and inventories were released on August 19, 2005 "
+                          "(see release FDC-M3-20050819); the type of revision is not stated in this source", "unknown",
+                          "moderate"),
+}
+
+
+def mtis_manual(cid):
+    url, needle, check, cause, conf = MTIS_MANUAL[cid]
+    sid = "SRC-" + hashlib.sha256(url.encode()).hexdigest()[:10].upper()
+    path = cache_path(url)
+    t = open(path + ".txt", encoding="utf-8", errors="replace").read() if os.path.exists(path + ".txt") else text_of(path)
+    lines = t.split("\n")
+    i = next((k for k, l in enumerate(lines) if needle in l), None)
+    q = " ".join(l.strip() for l in lines[i:i + 2]) if i is not None else ""
+    return {"source_id": sid, "quote": q, "locator": "release header, notice paragraph", "check": check}, \
+        (cause, "", conf, "manual reading of the release notice (keyword screen missed it)")
+
+
 def recommend(c, ev, rows, note):
     """Claude's recommendation. Confidence: strong = release-specific agency source + footprint match;
     moderate = release-specific source without a numeric check, or program-level source + consistent footprint;
@@ -705,6 +732,9 @@ def main():
             rows, note = cluster_bls_feb(c, ev, c.release_program.lower())
         if rec is None:
             rec = recommend(c, ev, rows, note)
+        if c.release_cluster_id in MTIS_MANUAL:
+            row, rec = mtis_manual(c.release_cluster_id)
+            rows = [row] + [r for r in rows if r.get("source_id") != row["source_id"]]
         cause, sec, conf, basis = rec
         out.append({"release_cluster_id": c.release_cluster_id, "release_program": c.release_program,
                     "vintage_date": c.vintage_date, "series": c.series, "n_events": c.n_events,

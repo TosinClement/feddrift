@@ -37,10 +37,10 @@
   },
   {
    "recommended_cause": "annual_benchmark",
-   "n": 305,
+   "n": 307,
    "median_depth_months": 159.0,
    "median_mean_abs_pct_revision": 0.3199,
-   "median_ks": 0.0351
+   "median_ks": 0.0353
   },
   {
    "recommended_cause": "correction",
@@ -79,10 +79,10 @@
   },
   {
    "recommended_cause": "unknown",
-   "n": 25,
+   "n": 23,
    "median_depth_months": 164.0,
-   "median_mean_abs_pct_revision": 0.217,
-   "median_ks": 0.0373
+   "median_mean_abs_pct_revision": 0.1908,
+   "median_ks": 0.0367
   }
  ],
  "events_by_final_cause": [
@@ -124,9 +124,9 @@
  ],
  "recommendation_confidence_by_release": {
   "strong": 152,
-  "moderate": 42,
-  "none": 19,
-  "weak": 18
+  "moderate": 44,
+  "weak": 18,
+  "none": 17
  },
  "n_sources": 330,
  "copyright_tags": [
