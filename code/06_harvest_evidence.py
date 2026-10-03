@@ -322,7 +322,13 @@ def retail_benchmark_doc(year):
         url = f"https://www.census.gov/retail/mrts/www/benchmark/{year}/pdf/Introduction.pdf"
         title = f"Annual Revision of Monthly Retail and Food Services: Introduction / Explanation of Revisions ({year})"
         return fetch(url, "U.S. Census Bureau", title, "benchmark_report", f"retail-annual-{year}", "")
-    if 1996 <= year <= 2008:
+    if year == 2008:
+        # annpub07.pdf on the server is the March 2007 report (byte-identical to annpub06.pdf); the 2008 revision
+        # is documented by the summary on the 2008 annual-revision page (annrev08.html), found on manual review.
+        return fetch("https://www.census.gov/retail/mrts/www/benchmark/2008/html/summary.pdf", "U.S. Census Bureau",
+                     "Annual Revision of Monthly Retail and Food Services: Sales and Inventories, January 1992 Through "
+                     "March 2008 (summary)", "benchmark_report", "retail-annual-2008", "")
+    if 1996 <= year <= 2007:
         yy = str(year - 1)[2:]
         url = f"https://www2.census.gov/retail/releases/benchmark/annpub{yy}.pdf"
         sid, p = fetch(url, "U.S. Census Bureau", f"Annual Benchmark Report for Retail Trade and Food Services "
@@ -352,6 +358,14 @@ def retail_starts(text):
             nsa = nsa or first_month(s)
         elif "adjusted" in low[:80]:
             sa = sa or first_month(s)
+    if not sa:
+        # 2007-2017 wording: "New seasonal, trading-day, and holiday factors are computed and used to adjust sales for
+        # January YYYY through ..." (industry-specific exceptions start with "For NAICS ..." and are not headlines)
+        for s in re.split(r"(?<=\.)\s+", f):
+            if re.match(r"(seasonally adjusted estimates )?new seasonal, trading-day, and holiday factors are computed "
+                        r"and used to adjust sales", s.lower()):
+                sa = first_month(s)
+                break
     return sa, nsa
 
 
@@ -368,7 +382,7 @@ def cluster_retail(c, ev):
     low = flat(t).lower()
     if "new sample" in low or "sample revision" in low or "new mrts sample" in low:
         flags.append("sample_redesign")
-    if "naics" in low and ("restat" in low or "basis" in low):
+    if "naics" in low and "restat" in low:  # tightened 2026-10-03: "NAICS ... basis" alone is not a stated restatement
         flags.append("rebase_or_definition(NAICS)")
     if "employer-only" in low or "employer only" in low:
         flags.append("rebase_or_definition(employer-only)")
@@ -377,7 +391,7 @@ def cluster_retail(c, ev):
     stated_any = set()
     for s_ in re.split(r"(?<=\.)\s+", flat(t)):
         lw = s_.lower()
-        if "revis" in lw or "beginning" in lw:
+        if "revis" in lw or "beginning" in lw or "adjust sales" in lw or "far back" in lw:
             for mm in re.finditer(MON_RE, s_):
                 stated_any.add(f"{mm.group(2)}-{MONTHS.index(mm.group(1)) + 1:02d}-01")
     checks = []
@@ -568,9 +582,25 @@ def specials():
                                  "check": "comprehensive revision dated 1953 (month not stated); observed revision of all 1947-1952 "
                                  "values by ~40% is consistent with a change of reference base"}],
                                "methodology_change", "rebase_or_definition", "moderate")
-    out["FDC-CPI-19510302"] = ([{"source_id": sid, "quote": flat(" ".join(q50))[:600], "locator": "Key developments: 1950",
-                                 "check": "1950 weight updates listed (month not stated); observed revision of 1950-01..1950-12"}],
-                               "methodology_change", "", "weak")
+    # 1951: BLS Bulletin 1039 (interim adjustment of the CPI), read on FRASER in the built-in browser and saved as a
+    # dated excerpt capture of the full-text (OCR) page; found on manual review 2026-10-03.
+    fr = register_capture("https://fraser.stlouisfed.org/title/interim-adjustment-consumers-price-index-correction-new-unit-"
+                          "bias-rent-component-consumers-price-index-relative-importance-items-4427/fulltext",
+                          "U.S. Bureau of Labor Statistics (via FRASER, Federal Reserve Bank of St. Louis)",
+                          "Interim Adjustment of Consumers' Price Index: Correction of New Unit Bias in Rent Component of "
+                          "Consumers' Price Index and Relative Importance of Items (BLS Bulletin No. 1039)", "bulletin",
+                          "1951-06-29", "bls_bulletin1039_1951.fraser_fulltext.excerpt.txt", "2026-10-03T23:44:04Z",
+                          "d5466107542c2ba2820421509b29b06dc65ff8a26274adb48f6b61303af8eb82", 274347,
+                          doc_id="BLS Bulletin 1039",
+                          how="selected sentences of the FRASER full-text (OCR) page, built-in browser")
+    ft = open(os.path.join(EVID, "captures", "bls_bulletin1039_1951.fraser_fulltext.excerpt.txt"), encoding="utf-8").read()
+    out["FDC-CPI-19510302"] = ([{"source_id": fr, "quote": " ".join(l for l in ft.split("\n")[3:7]),
+                                 "locator": "Bulletin 1039 text (FRASER OCR full text; excerpt capture)",
+                                 "check": "stated: published indexes back to January 1950 recalculated; all-items index for "
+                                          "January 1950 raised by 1.3 points. Observed CPIAUCNS 1950-01 166.9 -> 168.2 (+1.3) "
+                                          "and revisions over 1950-01..1950-12 -> MATCH. Bulletin dated June 29, 1951 "
+                                          "(after this vintage); release date of the first adjusted index not stated"}],
+                               "methodology_change", "", "strong")
     # TSI releases screened out of R26 (R27_TSI_SCREENED). bts.gov refuses scripted downloads; the three release pages
     # below were read in the built-in browser (ordinary access, 2026-10-03) and saved as dated excerpt captures.
     def bts(slug, title, date, cap, html_sha, html_bytes, doc_id=""):
@@ -625,10 +655,56 @@ MTIS_MANUAL = {
                           "notice states retail and wholesale estimates were revised using 1997 Census of Retail Trade and "
                           "1997 Census of Wholesale Trade results; no revision start month stated (no numeric check); source "
                           "lines truncated at 140 characters in the server file", "annual_benchmark", "moderate"),
+    "FDC-MTIS-20010614": ("https://www2.census.gov/mtis/historical/mtis0104.pdf", "SPECIAL NOTICE",
+                          "notice states this and all subsequent releases use NAICS in place of SIC and that data series from "
+                          "January 1992 were released on a NAICS basis; observed earliest revised month 1992-01 (BUSINV, "
+                          "ISRATIO) -> MATCH", "rebase_or_definition", "strong"),
+    "FDC-MTIS-20060613": ("https://www2.census.gov/mtis/historical/mtis0604.pdf", "Notice of Revison",
+                          "notice states revised manufacturing shipments and inventories were released on May 19, 2006 (see "
+                          "release FDC-M3-20060519); the type of revision is not stated in this source", "unknown", "moderate"),
+    "FDC-MTIS-20070613": ("https://www2.census.gov/mtis/historical/mtis0704.pdf", "Notice of Revision",
+                          "notice states revised manufacturing shipments and inventories were released on May 18, 2007 (see "
+                          "release FDC-M3-20070518); the type of revision is not stated in this source", "unknown", "moderate"),
     "FDC-MTIS-20050915": ("https://www2.census.gov/mtis/historical/mtis0507.pdf", "Notice of Revison",
                           "notice states revised manufacturing shipments and inventories were released on August 19, 2005 "
                           "(see release FDC-M3-20050819); the type of revision is not stated in this source", "unknown",
                           "moderate"),
+}
+
+
+# Manual reading of documents where the automated start-month check reports DIFFERENT although the observed first
+# revised month lies inside a range the document states (2026-10-03). Overrides the recommendation and adds the note.
+MANUAL_ASSESS = {
+    "FDC-MARTS-20110429": ("annual_benchmark", "", "moderate",
+                           "manual: RSXFS SA start 2000-01 = stated; RSAFS 1995-01 = stated NAICS 722 exception ('as far back "
+                           "as January 1995'); RSAFSNA observed 1998-02 lies inside the stated NAICS 722 NSA range from "
+                           "January 1998 (first revised month one month later than stated)"),
+    "FDC-MARTS-20130531": ("annual_benchmark", "sample_redesign", "moderate",
+                           "manual: document states the estimates reflect a newly selected sample on a 2007 NAICS basis and "
+                           "that not adjusted sales (prior samples, historical corrections) and NAICS 446 adjusted sales are "
+                           "revised from January 1992; observed starts 1992-05 (SA) and 1992-06 (NSA) lie inside that range"),
+    "FDC-MARTS-20150513": ("annual_benchmark", "", "moderate",
+                           "manual: RSAFSNA start 2003-01 = stated; SA observed 2000-02 lies inside the stated range for NAICS "
+                           "levels affected by the NAICS 443112 revision (factors from January 2000)"),
+    "FDC-MARTS-20160715": ("unknown", "", "none",
+                           "manual: the 2016 annual revision is the separate release FDC-MARTS-20160513; no source explains this "
+                           "July vintage (depth 16, one month beyond the routine window)"),
+    "FDC-M3-19980729": ("unknown", "", "weak",
+                        "manual: the next full report (June 1998, issued 1998-08-06) says its data are consistent with the "
+                        "revised historical series released July 21, 1998, which ties this vintage's timing to that "
+                        "historical revision; no located source states what kind of revision it was (the archived May 1998 "
+                        "report's back page announcing upcoming revisions is not in the PDF)"),
+    "FDC-M3-20020424": ("unknown", "", "none",
+                        "manual: the located notice announces the benchmark revision for June 19, 2002, after this vintage; "
+                        "no source explains this April vintage"),
+    "FDC-MTIS-19980514": ("unknown", "", "none", "manual: release located (1998-05-14); its text carries no revision notice"),
+    "FDC-MTIS-20000512": ("unknown", "", "none",
+                          "manual: the archive copy for this release (mtis0003.txt) holds the data tables only, no text"),
+    "FDC-MTIS-20000614": ("unknown", "", "none",
+                          "manual: the archive copy for this release (mtis0004.txt) holds the data tables only, no text"),
+    "FDC-MRTS-20180314": ("unknown", "", "none",
+                          "manual: the 2018 annual revision is the separate release FDC-MRTS-20180525; its document does not "
+                          "explain this March vintage"),
 }
 
 
@@ -639,7 +715,7 @@ def mtis_manual(cid):
     t = open(path + ".txt", encoding="utf-8", errors="replace").read() if os.path.exists(path + ".txt") else text_of(path)
     lines = t.split("\n")
     i = next((k for k, l in enumerate(lines) if needle in l), None)
-    q = " ".join(l.strip() for l in lines[i:i + 2]) if i is not None else ""
+    q = " ".join(l.strip() for l in lines[i:i + (4 if needle == "SPECIAL NOTICE" else 2)]) if i is not None else ""
     return {"source_id": sid, "quote": q, "locator": "release header, notice paragraph", "check": check}, \
         (cause, "", conf, "manual reading of the release notice (keyword screen missed it)")
 
@@ -732,6 +808,13 @@ def main():
             rows, note = cluster_bls_feb(c, ev, c.release_program.lower())
         if rec is None:
             rec = recommend(c, ev, rows, note)
+        if c.release_cluster_id in MANUAL_ASSESS:
+            cause_, sec_, conf_, note_ = MANUAL_ASSESS[c.release_cluster_id]
+            rec = (cause_, sec_, conf_, note_)
+            for r_ in rows:
+                r_["check"] = (r_.get("check", "") + " || " + note_).strip(" |")
+            if not rows:
+                note = note_
         if c.release_cluster_id in MTIS_MANUAL:
             row, rec = mtis_manual(c.release_cluster_id)
             rows = [row] + [r for r in rows if r.get("source_id") != row["source_id"]]

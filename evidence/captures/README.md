@@ -20,3 +20,11 @@ These three captures were made the same way, with one difference: all three page
 | `bts_tsi_release_2021-06-09.excerpt.txt` | April 2021 Freight TSI, BTS 37-21 (dated on page: Wednesday, June 9, 2021) | 494c76fc3e4f2b70e26f63c5b5439ec911bb9948ea1d6e13edf9d8c23bdcb397 | 281,647 bytes, SHA-256 a13bc82d5d9c336b98302a3b8900c8b799e52b7b37b086b80060197937a5a57f |
 
 All three were captured at 2026-10-03T23:12:34Z. Each capture hash was computed in the browser and matches the local file.
+
+## BLS Bulletin 1039 (1951), captured 2026-10-03
+
+| File | Page | Capture SHA-256 | Page HTML at capture time |
+|---|---|---|---|
+| `bls_bulletin1039_1951.fraser_fulltext.excerpt.txt` | FRASER (Federal Reserve Bank of St. Louis) full-text page of BLS Bulletin No. 1039, *Interim Adjustment of Consumers' Price Index* (letter of transmittal dated June 29, 1951) | 9932c29567e806d5b26f447a39c56ddc5aa9d63713f8c6550687cdfd68f7ca53 | 274,347 bytes, SHA-256 d5466107542c2ba2820421509b29b06dc65ff8a26274adb48f6b61303af8eb82 |
+
+This capture was taken at 2026-10-03T23:44:04Z. It holds selected sentences from FRASER's OCR text of the scanned bulletin, so the OCR artifacts (broken words, soft hyphens) are kept as they appear. It is a capture of a library's full-text rendering, not the BLS original.

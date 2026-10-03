@@ -4,13 +4,13 @@ author: "Tosin Clement (Independent Researcher; ORCID 0009-0001-2055-5113; cleme
 date: "{{RELEASE_DATE}}"
 ---
 
-> **Status: DRAFT, not released.** 442 of 4,109 drift events do not yet carry a label verified by the label owner; causes shown are recommendations. Do not cite until the v0.1.0 release.
+> **Status: DRAFT, not released.** 431 of 4,109 drift events do not yet carry a label verified by the label owner; causes shown are recommendations. Do not cite until the v0.1.0 release.
 
 ## Abstract
 
 Published official statistics change. Advance estimates are revised, monthly surveys are benchmarked to annual surveys and censuses, seasonal factors are re-estimated, and indexes are rebased. Every such change shifts the data that downstream models were trained and evaluated on.
 
-FedDrift records these shifts for 17 monthly U.S. federal series from the Census Bureau, the Bureau of Labor Statistics and the Bureau of Transportation Statistics. From 6,312 ALFRED real-time vintages it derives 6,295 consecutive vintage pairs, of which 4,109 revise previously published values. Each such drift event records its vintage date, how far back and how much the series was revised, a Kolmogorov–Smirnov statistic on growth rates, and a cause label. In this draft, cause labels are recommendations awaiting the author's verification (3,667 of 4,109 verified).
+FedDrift records these shifts for 17 monthly U.S. federal series from the Census Bureau, the Bureau of Labor Statistics and the Bureau of Transportation Statistics. From 6,312 ALFRED real-time vintages it derives 6,295 consecutive vintage pairs, of which 4,109 revise previously published values. Each such drift event records its vintage date, how far back and how much the series was revised, a Kolmogorov–Smirnov statistic on growth rates, and a cause label. In this draft, cause labels are recommendations awaiting the author's verification (3,678 of 4,109 verified).
 
 FedDrift redistributes values only from public-domain agency files. The real-time layer ships as reconstruction code and hash-verified manifests. Two tasks are defined: revision-cause attribution (T1) and real-time revision correction (T2). On T2, no simple correction improves on the no-revision baseline B0 (MAE 0.490 pp): every 95% bootstrap interval for the MAE difference to B0 includes zero.
 
@@ -29,7 +29,7 @@ See `docs/METHODOLOGY.md`. In brief:
 - footprints of each consecutive pair, with a censored-depth flag where the revision reaches the start of the archived vintage (215 events);
 - rule proposals;
 - agency releases grouped into 231 review clusters;
-- evidence harvested from 330 agency documents, with automated consistency checks;
+- evidence harvested from 332 agency documents, with automated consistency checks;
 - labels decided by the author at rule, release and event level.
 
 ## 4. Technical validation
@@ -46,10 +46,10 @@ The main table is `data/processed/drift_events.csv`, one row per vintage pair; s
 | Label status | Events |
 |---|---:|
 | `rule_verified` | 3,653 |
-| `release_verified` | 2 |
-| `unknown_verified` | 11 |
+| `release_verified` | 4 |
+| `unknown_verified` | 20 |
 | `override_verified` | 1 |
-| `release_pending_review` | 442 |
+| `release_pending_review` | 431 |
 | **drift events total** | **4,109** |
 | `excluded_not_drift` (no value revised) | 2,186 |
 
@@ -57,7 +57,8 @@ The main table is `data/processed/drift_events.csv`, one row per vintage pair; s
 |---|---:|---:|---:|---:|
 | `advance_to_revised` | 3,401 | 3 | 0.156 | 0.083 |
 | `routine_reestimation` | 253 | 234 | 0.108 | 0.019 |
-| `unknown` | 11 | 238 | 0.674 | 0.027 |
+| `unknown` | 20 | 182 | 0.175 | 0.032 |
+| `annual_benchmark` | 2 | 77 | 0.494 | 0.108 |
 | `correction` | 1 | 255 | 0.159 | 0.032 |
 | `methodology_change` | 1 | 257 | 0.191 | 0.024 |
 
@@ -92,7 +93,7 @@ Tosin Clement: conceptualization, methodology, validation, data curation (all ve
 
 - Croushore, D., and Stark, T. (2001). A real-time data set for macroeconomists. *Journal of Econometrics*, 105(1), 111–130.
 - Federal Reserve Bank of St. Louis. ALFRED: Archival Federal Reserve Economic Data. https://alfred.stlouisfed.org/
-- Agency documents cited as evidence: `evidence/source_registry.csv` (330 documents).
+- Agency documents cited as evidence: `evidence/source_registry.csv` (332 documents).
 
 ## Figures
 

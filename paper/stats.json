@@ -19,14 +19,14 @@
  "n_depth_censored_events": 215,
  "label_status": {
   "rule_verified": 3653,
-  "release_pending_review": 442,
-  "unknown_verified": 11,
-  "release_verified": 2,
+  "release_pending_review": 431,
+  "unknown_verified": 20,
+  "release_verified": 4,
   "override_verified": 1
  },
- "n_verified": 3667,
- "n_unverified": 442,
- "n_final_unknown": 11,
+ "n_verified": 3678,
+ "n_unverified": 431,
+ "n_final_unknown": 20,
  "events_by_recommended_cause": [
   {
    "recommended_cause": "advance_to_revised",
@@ -37,10 +37,10 @@
   },
   {
    "recommended_cause": "annual_benchmark",
-   "n": 307,
+   "n": 290,
    "median_depth_months": 159.0,
-   "median_mean_abs_pct_revision": 0.3199,
-   "median_ks": 0.0353
+   "median_mean_abs_pct_revision": 0.2972,
+   "median_ks": 0.0347
   },
   {
    "recommended_cause": "correction",
@@ -58,9 +58,9 @@
   },
   {
    "recommended_cause": "rebase_or_definition",
-   "n": 4,
-   "median_depth_months": 235.0,
-   "median_mean_abs_pct_revision": 42.5609,
+   "n": 6,
+   "median_depth_months": 147.0,
+   "median_mean_abs_pct_revision": 16.2568,
    "median_ks": 0.1096
   },
   {
@@ -79,10 +79,10 @@
   },
   {
    "recommended_cause": "unknown",
-   "n": 23,
-   "median_depth_months": 164.0,
-   "median_mean_abs_pct_revision": 0.1908,
-   "median_ks": 0.0367
+   "n": 38,
+   "median_depth_months": 123.0,
+   "median_mean_abs_pct_revision": 0.2405,
+   "median_ks": 0.0463
   }
  ],
  "events_by_final_cause": [
@@ -92,6 +92,13 @@
    "median_depth_months": 3.0,
    "median_mean_abs_pct_revision": 0.1563,
    "median_ks": 0.0833
+  },
+  {
+   "final_cause": "annual_benchmark",
+   "n": 2,
+   "median_depth_months": 77.0,
+   "median_mean_abs_pct_revision": 0.4945,
+   "median_ks": 0.1076
   },
   {
    "final_cause": "correction",
@@ -116,19 +123,19 @@
   },
   {
    "final_cause": "unknown",
-   "n": 11,
-   "median_depth_months": 238.0,
-   "median_mean_abs_pct_revision": 0.674,
-   "median_ks": 0.0268
+   "n": 20,
+   "median_depth_months": 182.5,
+   "median_mean_abs_pct_revision": 0.1754,
+   "median_ks": 0.0322
   }
  ],
  "recommendation_confidence_by_release": {
-  "strong": 152,
-  "moderate": 44,
-  "weak": 18,
-  "none": 17
+  "strong": 158,
+  "moderate": 49,
+  "none": 23,
+  "weak": 1
  },
- "n_sources": 330,
+ "n_sources": 332,
  "copyright_tags": [
   "public domain: citation requested"
  ],

@@ -4,7 +4,7 @@
 
 **Version:** 0.1.0 (draft, not released) · **Maintainer:** Tosin Clement, ORCID [0009-0001-2055-5113](https://orcid.org/0009-0001-2055-5113) · **License:** code MIT, data CC BY 4.0 · **DOI:** {{ZENODO_DOI}}
 
-> **Status: DRAFT, not released.** 442 of 4,109 drift events do not yet carry a label verified by the label owner; causes shown are recommendations. Do not cite until the v0.1.0 release.
+> **Status: DRAFT, not released.** 431 of 4,109 drift events do not yet carry a label verified by the label owner; causes shown are recommendations. Do not cite until the v0.1.0 release.
 
 FedDrift records every revision of 17 monthly U.S. federal statistics. The series come from the Census Bureau (retail sales, manufacturers' orders, business inventories), the Bureau of Labor Statistics (CPI, PPI) and the Bureau of Transportation Statistics (Transportation Services Index). For each revision FedDrift gives:
 
@@ -20,7 +20,7 @@ The causes are advance-to-revised transitions, annual benchmarks, seasonal-facto
 - 17 series; 6,312 real-time vintages from 1949-03-24 to 2026-10-02; observations 1947-01 to 2026-08.
 - 6,295 consecutive vintage pairs. 4,109 are **drift events** (at least one published value revised). The other 2,186 only add new months.
 - Drift events by review level: 3,653 routine events under 7 rules; 456 non-routine events in 231 agency releases.
-- Evidence: 330 agency documents registered with URL, publication date and SHA-256.
+- Evidence: 332 agency documents registered with URL, publication date and SHA-256.
 - Agency files fetched directly from the agencies match ALFRED's newest vintage exactly for 16 of 17 series. The exception is explained in `data/processed/qa_report.md`.
 - Negative control: NSA CPI-U is revised in 0.97% of releases, against 8.68% for SA CPI-U.
 
@@ -29,14 +29,14 @@ The causes are advance-to-revised transitions, annual benchmarks, seasonal-facto
 | Label status | Events |
 |---|---:|
 | `rule_verified` | 3,653 |
-| `release_verified` | 2 |
-| `unknown_verified` | 11 |
+| `release_verified` | 4 |
+| `unknown_verified` | 20 |
 | `override_verified` | 1 |
-| `release_pending_review` | 442 |
+| `release_pending_review` | 431 |
 | **drift events total** | **4,109** |
 | `excluded_not_drift` (no value revised) | 2,186 |
 
-11 drift events carry the honest final label `unknown`: agency sources did not establish their cause.
+20 drift events carry the honest final label `unknown`: agency sources did not establish their cause.
 
 ### Drift events by verified cause
 
@@ -44,7 +44,8 @@ The causes are advance-to-revised transitions, annual benchmarks, seasonal-facto
 |---|---:|---:|---:|---:|
 | `advance_to_revised` | 3,401 | 3 | 0.156 | 0.083 |
 | `routine_reestimation` | 253 | 234 | 0.108 | 0.019 |
-| `unknown` | 11 | 238 | 0.674 | 0.027 |
+| `unknown` | 20 | 182 | 0.175 | 0.032 |
+| `annual_benchmark` | 2 | 77 | 0.494 | 0.108 |
 | `correction` | 1 | 255 | 0.159 | 0.032 |
 | `methodology_change` | 1 | 257 | 0.191 | 0.024 |
 
