@@ -1,187 +1,251 @@
 {
- "provenance_files": 17,
- "provenance_mismatch": 0,
- "vintages_total": 6312,
- "vintages_hash_mismatch": 0,
+ "checks": [
+  {
+   "id": "Q01",
+   "check": "Agency snapshot files match PROVENANCE.txt SHA-256",
+   "expected": "0 mismatches, 0 unlogged",
+   "actual": "0 mismatches, 0 unlogged, 17 files",
+   "status": "PASS"
+  },
+  {
+   "id": "Q02",
+   "check": "Every logged agency file is present (withheld BTS file excepted)",
+   "expected": "0 missing",
+   "actual": "0 missing (none)",
+   "status": "PASS"
+  },
+  {
+   "id": "Q03",
+   "check": "Every ALFRED vintage rebuilt from the FRED API matches its published manifest hash",
+   "expected": "0 mismatches",
+   "actual": "0 mismatches of 6312 vintages",
+   "status": "PASS"
+  },
+  {
+   "id": "Q04",
+   "check": "No vintage after the pinned snapshot date",
+   "expected": "0 vintages > 2026-10-03",
+   "actual": "0",
+   "status": "PASS"
+  },
+  {
+   "id": "Q05",
+   "check": "Agency anchor equals newest ALFRED vintage (half a unit in the last published digit)",
+   "expected": "100% for every series, or a documented timing exception",
+   "actual": "16/17 exact; exceptions: MRTSSM44X72USS 66.5% (mismatches ['2015-01-01', '2026-07-01'])",
+   "status": "NOTE"
+  },
+  {
+   "id": "Q06",
+   "check": "drift_events.csv columns equal the locked schema (config/schema.json)",
+   "expected": "50 columns in order",
+   "actual": "50 columns; missing []; extra []",
+   "status": "PASS"
+  },
+  {
+   "id": "Q07",
+   "check": "event_id unique; (series_id, vintage_next) unique",
+   "expected": "no duplicates",
+   "actual": "0 duplicate ids, 0 duplicate keys",
+   "status": "PASS"
+  },
+  {
+   "id": "Q08",
+   "check": "vintage_prev < vintage_next; earliest <= latest revised obs < vintage_next",
+   "expected": "0 violations",
+   "actual": "0 / 0 / 0",
+   "status": "PASS"
+  },
+  {
+   "id": "Q09",
+   "check": "Revision fields present for every drift event and empty for every non-event",
+   "expected": "0 / 0",
+   "actual": "missing {'earliest_revised_obs': 0, 'latest_revised_obs': 0, 'revision_depth_months': 0, 'mean_abs_pct_revision': 0}; non-events with revision fields 0",
+   "status": "PASS"
+  },
+  {
+   "id": "Q10",
+   "check": "final_cause and label_status use the controlled vocabularies",
+   "expected": "no unknown values",
+   "actual": "bad causes []; bad statuses []",
+   "status": "PASS"
+  },
+  {
+   "id": "Q11",
+   "check": "A label is verified only if a decision row names the reviewer and date; unverified events carry no final cause",
+   "expected": "0 / 0 / no reviewer outside labels/decisions",
+   "actual": "0 verified without reviewer/date; 0 unverified with a final cause; reviewers not in decision files: []",
+   "status": "PASS"
+  },
+  {
+   "id": "Q12",
+   "check": "Counts reconcile: pairs = drift events + excluded; drift events = rule-level + release-level; release-level = sum of cluster sizes",
+   "expected": "all equalities hold",
+   "actual": "pairs 6295 = 4109 + 2186; 4109 = 3667 + 442; clusters 220 hold 442",
+   "status": "PASS"
+  },
+  {
+   "id": "Q13",
+   "check": "Negative control: NSA CPI-U revised in under 2% of releases",
+   "expected": "< 2%",
+   "actual": "0.97% (SA CPI-U 8.68%)",
+   "status": "PASS"
+  },
+  {
+   "id": "Q14",
+   "check": "T2: every target used for fitting/selection is published before the first test input",
+   "expected": "train mature < val first; val mature < test first",
+   "actual": "{\"train_mature_max\": \"2008-12-24\", \"validation_first_min\": \"2009-01-14\", \"validation_mature_max\": \"2015-12-23\", \"test_first_min\": \"2016-01-06\"}",
+   "status": "PASS"
+  },
+  {
+   "id": "Q15",
+   "check": "T1: no agency release spans two splits",
+   "expected": "0 releases",
+   "actual": "0",
+   "status": "PASS"
+  },
+  {
+   "id": "Q16",
+   "check": "Evidence complete: every release has an evidence row, every routine rule an agency source, every cited source is registered, every downloaded source has a SHA-256",
+   "expected": "0 / 0 / 0 / 0",
+   "actual": "releases without evidence 0; rules without source []; unregistered []; downloads without hash 0",
+   "status": "PASS"
+  },
+  {
+   "id": "Q17",
+   "check": "Secret scan of the working tree (tokens, keys, credential files)",
+   "expected": "0 findings",
+   "actual": "0 findings []",
+   "status": "PASS"
+  },
+  {
+   "id": "Q18",
+   "check": "Release-package content rules (no ALFRED value rows, no keys, no cache, no withheld file)",
+   "expected": "0 violations",
+   "actual": "0 violations in 108 files []",
+   "status": "PASS"
+  },
+  {
+   "id": "Q19",
+   "check": "Git index and history contain no restricted file (ALFRED cache, withheld BTS file, credentials, evidence cache)",
+   "expected": "0 paths",
+   "actual": "0 []",
+   "status": "PASS"
+  },
+  {
+   "id": "Q20",
+   "check": "Every drift event carries a label verified by the label owner (release-gate condition)",
+   "expected": "0 unverified",
+   "actual": "4109 of 4109 unverified ({'rule_pending_review': 3667, 'release_pending_review': 442})",
+   "status": "BLOCKING"
+  }
+ ],
  "anchor_agreement": {
   "RSAFS": {
    "alfred_vintage": "2026-09-28",
    "common": 416,
-   "match": 416,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "RSXFS": {
    "alfred_vintage": "2026-09-28",
    "common": 416,
-   "match": 416,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "RSAFSNA": {
    "alfred_vintage": "2026-09-28",
    "common": 416,
-   "match": 416,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "MRTSSM44X72USS": {
    "alfred_vintage": "2026-09-16",
    "common": 415,
-   "match": 276,
    "match_rate": 0.66506,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": [
-    [
-     "2015-01-01",
-     428208.0,
-     428186.0
-    ],
-    [
-     "2015-02-01",
-     427119.0,
-     427105.0
-    ],
-    [
-     "2015-03-01",
-     433647.0,
-     433620.0
-    ],
-    [
-     "2015-04-01",
-     434470.0,
-     434514.0
-    ],
-    [
-     "2015-05-01",
-     437865.0,
-     437866.0
-    ]
+   "mismatch_range": [
+    "2015-01-01",
+    "2026-07-01"
    ]
   },
   "DGORDER": {
    "alfred_vintage": "2026-10-02",
    "common": 415,
-   "match": 415,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "AMTMNO": {
    "alfred_vintage": "2026-10-02",
    "common": 415,
-   "match": 415,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "NEWORDER": {
    "alfred_vintage": "2026-10-02",
    "common": 415,
-   "match": 415,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "BUSINV": {
    "alfred_vintage": "2026-09-16",
    "common": 415,
-   "match": 415,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "ISRATIO": {
    "alfred_vintage": "2026-09-16",
    "common": 415,
-   "match": 415,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "TOTBUSSMSA": {
    "alfred_vintage": "2026-09-16",
    "common": 415,
-   "match": 415,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "CPIAUCSL": {
    "alfred_vintage": "2026-09-11",
    "common": 955,
-   "match": 955,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "CPILFESL": {
    "alfred_vintage": "2026-09-11",
    "common": 835,
-   "match": 835,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "CPIAUCNS": {
    "alfred_vintage": "2026-09-11",
    "common": 955,
-   "match": 955,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "PPIFIS": {
    "alfred_vintage": "2026-09-10",
    "common": 202,
-   "match": 202,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "PPIACO": {
    "alfred_vintage": "2026-09-10",
    "common": 956,
-   "match": 956,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "TSIFRGHT": {
    "alfred_vintage": "2026-10-01",
    "common": 319,
-   "match": 319,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   },
   "TSITTL": {
    "alfred_vintage": "2026-10-01",
    "common": 319,
-   "match": 319,
    "match_rate": 1.0,
-   "only_in_agency": 0,
-   "only_in_alfred": 0,
-   "examples_mismatch": []
+   "mismatch_range": null
   }
  },
  "share_pairs_revised": {
@@ -202,13 +266,5 @@
   "TOTBUSSMSA": 0.9623,
   "TSIFRGHT": 1.0,
   "TSITTL": 1.0
- },
- "integrity": {
-  "pair_id unique": true,
-  "depth >= 0 where revised": true,
-  "share_revised in [0,1]": true,
-  "every pair has a rule": true,
-  "vintage_next > vintage_prev": true,
-  "n_revised <= n_overlap": true
  }
 }

@@ -1,97 +1,110 @@
 #!/usr/bin/env python3
-"""Pre-publication gate: refuse to publish while draft markers or secrets remain.
+"""FedDrift release gate. Exit 0 = clear for the requested stage; exit 1 = blocked (every blocker is listed).
 
-Scans a project directory for:
-  - DRAFT stamps and banners in text-bearing files (md, txt, html, py, js, csv, json, tex, cff)
-  - [VERIFY ...] and [ASK ...] tags, and bracketed placeholders like [insert], [DOI], [journal]
-  - likely secrets: tokens, private keys, .env files
-  - a missing LICENSE, README, or CITATION.cff (warning, not failure)
+Stages
+  pre-deposit  everything is final except the registered external identifiers in config/placeholders.json
+               (Zenodo DOI, release date, GitHub URL, arXiv id), which cannot exist before deposit.
+  final        nothing may remain: no draft marker and no placeholder of any kind.
 
-Exit code 0 means clear to publish; 1 means blocked. The human half of the gate
-(the author's own verification) cannot be scripted; this enforces the mechanical half.
+Checks
+  1. Secrets anywhere in the tree (tokens, keys, credential files) - always blocking.
+  2. Draft markers in publishable files (README, CITATION, docs/, paper/, data/processed/, labels/README.md,
+     evidence/): DRAFT, [VERIFY], [ASK], [TARGET], TODO, FIXME, bracketed placeholders, unregistered {{...}}.
+  3. Registered placeholders {{NAME}}: allowed at pre-deposit, blocking at final.
+  4. Every drift event carries a verified label (data/processed/label_status.json).
+  5. QA has no FAIL and no BLOCKING check (data/processed/qa.json).
+  6. Figures and documents were generated in final mode (paper/stats.json: final_mode = true).
+The human half of the gate - the label owner's own review - is recorded in labels/decisions/ and checked by 4.
 
-Usage:
-  python publish_gate.py <project_dir> [--allow-draft-in path/prefix ...]
+Usage:  python code/publish_gate.py <project_dir> --stage pre-deposit|final
 """
 
 import argparse
+import json
 import os
 import re
 import sys
 
-TEXT_EXT = {".md", ".txt", ".html", ".py", ".js", ".csv", ".json", ".tex", ".cff", ".yml", ".yaml", ".rst", ".bib"}
-SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv"}
-
+TEXT_EXT = {".md", ".txt", ".html", ".csv", ".json", ".cff", ".yml", ".yaml", ".bib", ".tex"}
+SKIP_DIRS = {".git", "__pycache__", ".venv", "venv", "dist", "evidence_cache", "alfred_cache", "_archive",
+             ".pytest_cache", "alfred_cache_run1"}
+PUBLISHABLE = ("README.md", "CITATION.cff", "CHANGELOG.md", "LICENSE-DATA.md", "docs/", "paper/", "data/processed/",
+               "labels/README.md", "evidence/", "zenodo/", "release/")
 DRAFT_PATTERNS = [
-    (re.compile(r"\bDRAFT\b"), "DRAFT stamp or banner"),
+    (re.compile(r"\bDRAFT\b"), "DRAFT marker"),
     (re.compile(r"\[VERIFY[^\]]*\]"), "[VERIFY] tag"),
     (re.compile(r"\[ASK[^\]]*\]"), "[ASK] tag"),
-    (re.compile(r"\[TARGET\]"), "[TARGET] tag (planning artifact, not publishable)"),
-    (re.compile(r"\[(insert|DOI|journal|tracking number|repository URL|n|date|name)[^\]]*\]", re.I),
-     "bracketed placeholder"),
-    (re.compile(r"XXXX-XXXX|zenodo\.XXXX+"), "placeholder identifier"),
+    (re.compile(r"\[TARGET\]"), "[TARGET] tag"),
+    (re.compile(r"\b(TODO|FIXME|TBD)\b"), "TODO/FIXME/TBD"),
+    (re.compile(r"\[(insert|DOI|journal|tracking number|repository URL|date|name)[^\]]*\]", re.I), "bracketed placeholder"),
 ]
-SECRET_PATTERNS = [
-    (re.compile(r"ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}"), "GitHub token"),
-    (re.compile(r"-----BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY-----"), "private key"),
-    (re.compile(r"(?i)(api[_-]?key|secret|token)\s*[=:]\s*['\"][A-Za-z0-9_\-]{16,}['\"]"), "hardcoded credential"),
+SECRETS = [
+    (re.compile(r"ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}"), "GitHub token"),
+    (re.compile(r"api_key=[0-9a-f]{32}"), "FRED API key"),
+    (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"), "private key"),
 ]
-REQUIRED = ["README.md", "LICENSE"]
-RECOMMENDED = ["CITATION.cff", ".gitignore"]
-
-
-def scan(root, allow_prefixes):
-    blockers, warnings = [], []
-    for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
-        for fn in filenames:
-            path = os.path.join(dirpath, fn)
-            rel = os.path.relpath(path, root)
-            if fn == ".env" or fn.endswith(".pem"):
-                blockers.append((rel, "secrets file present"))
-                continue
-            if os.path.splitext(fn)[1].lower() not in TEXT_EXT:
-                continue
-            try:
-                with open(path, encoding="utf-8", errors="ignore") as f:
-                    text = f.read()
-            except OSError:
-                continue
-            for pat, label in SECRET_PATTERNS:
-                if pat.search(text):
-                    blockers.append((rel, label))
-            allowed = any(rel.startswith(p) for p in allow_prefixes)
-            for pat, label in DRAFT_PATTERNS:
-                m = pat.search(text)
-                if m:
-                    line = text.count("\n", 0, m.start()) + 1
-                    (warnings if allowed else blockers).append((f"{rel}:{line}", label))
-    for req in REQUIRED:
-        if not os.path.exists(os.path.join(root, req)):
-            blockers.append((req, "required file missing"))
-    for rec in RECOMMENDED:
-        if not os.path.exists(os.path.join(root, rec)):
-            warnings.append((rec, "recommended file missing"))
-    return blockers, warnings
+SELF_PATTERN_FILES = {"code/publish_gate.py", "code/10_qa.py", "code/13_package.py", "tests/test_pipeline.py"}
+PH = re.compile(r"\{\{([A-Z0-9_]+)\}\}")
 
 
 def main():
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser()
     ap.add_argument("project_dir")
-    ap.add_argument("--allow-draft-in", nargs="*", default=[],
-                    help="relative path prefixes where draft markers are tolerated (e.g. docs/planning)")
+    ap.add_argument("--stage", choices=["pre-deposit", "final"], required=True)
     a = ap.parse_args()
     root = os.path.abspath(a.project_dir)
-    blockers, warnings = scan(root, a.allow_draft_in)
-    for rel, label in warnings:
-        print(f"warning  {label}: {rel}")
-    for rel, label in blockers:
-        print(f"BLOCKED  {label}: {rel}")
+    registered = json.load(open(os.path.join(root, "config", "placeholders.json")))["placeholders"]
+    blockers, noted = [], []
+    for d, dirs, files in os.walk(root):
+        dirs[:] = [x for x in dirs if x not in SKIP_DIRS]
+        for f in files:
+            rel = os.path.relpath(os.path.join(d, f), root)
+            if f == ".env" or f.endswith((".pem", ".key")):
+                blockers.append(f"credential file present: {rel}")
+                continue
+            try:
+                text = open(os.path.join(d, f), encoding="utf-8", errors="ignore").read()
+            except OSError:
+                continue
+            if rel not in SELF_PATTERN_FILES:
+                for p, lab in SECRETS:
+                    if p.search(text):
+                        blockers.append(f"{lab}: {rel}")
+            if os.path.splitext(f)[1].lower() not in TEXT_EXT or not rel.startswith(PUBLISHABLE):
+                continue
+            for p, lab in DRAFT_PATTERNS:
+                for m in p.finditer(text):
+                    blockers.append(f"{lab}: {rel}:{text.count(chr(10), 0, m.start()) + 1}")
+                    break
+            for m in PH.finditer(text):
+                name = m.group(1)
+                line = text.count("\n", 0, m.start()) + 1
+                if name not in registered:
+                    blockers.append(f"unregistered placeholder {{{{{name}}}}}: {rel}:{line}")
+                elif a.stage == "final":
+                    blockers.append(f"placeholder {{{{{name}}}}} must be filled ({registered[name]['final_action']}): {rel}:{line}")
+                else:
+                    noted.append(f"{name} @ {rel}:{line}")
+    sp = os.path.join(root, "data", "processed", "label_status.json")
+    st = json.load(open(sp)) if os.path.exists(sp) else {"n_unverified": "missing"}
+    if st.get("n_unverified") != 0:
+        blockers.append(f"labels: {st.get('n_unverified')} drift events without a verified label")
+    qp = os.path.join(root, "data", "processed", "qa.json")
+    qa = json.load(open(qp)) if os.path.exists(qp) else {"checks": [{"id": "QA", "status": "FAIL"}]}
+    bad = [f"{c['id']}={c['status']}" for c in qa["checks"] if c["status"] in ("FAIL", "BLOCKING")]
+    if bad:
+        blockers.append(f"QA not clean: {', '.join(bad)}")
+    stp = os.path.join(root, "paper", "stats.json")
+    if not (os.path.exists(stp) and json.load(open(stp)).get("final_mode") is True):
+        blockers.append("figures/documents not generated in final mode (run 11 and 12 with --final)")
+    for n in sorted(set(noted)):
+        print(f"allowed at pre-deposit: {n}")
+    for b in blockers:
+        print(f"BLOCKED  {b}")
     if blockers:
-        print(f"\n{len(blockers)} blocker(s). Resolve every one, then re-run. "
-              "Draft markers come off only after the author has verified the work.")
+        print(f"gate ({a.stage}): BLOCKED - {len(blockers)} blocker(s)")
         sys.exit(1)
-    print("gate: clear (mechanical checks passed; the author's own verification is still required)")
+    print(f"gate ({a.stage}): CLEAR")
 
 
 if __name__ == "__main__":

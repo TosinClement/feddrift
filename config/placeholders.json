@@ -1,0 +1,10 @@
+{
+  "note": "The only placeholders FedDrift documents may contain. Each names an identifier that cannot exist before the external action. code/publish_gate.py allows them at stage pre-deposit and blocks them at stage final.",
+  "placeholders": {
+    "ZENODO_DOI": {"meaning": "Version DOI minted by Zenodo for FedDrift v0.1.0", "final_action": "Zenodo: New upload > Reserve DOI; copy the reserved DOI into tools/fill_placeholders.py --set ZENODO_DOI=10.5281/zenodo.NNNNNNN"},
+    "ZENODO_CONCEPT_DOI": {"meaning": "Concept DOI (all versions)", "final_action": "shown on the Zenodo record after the first publish; set ZENODO_CONCEPT_DOI"},
+    "RELEASE_DATE": {"meaning": "Public release date of v0.1.0 (YYYY-MM-DD)", "final_action": "set to the day the GitHub release and Zenodo record are published"},
+    "GITHUB_REPO_URL": {"meaning": "Public GitHub repository URL", "final_action": "create the repository under the author's account; set GITHUB_REPO_URL=https://github.com/<user>/feddrift"},
+    "ARXIV_ID": {"meaning": "arXiv identifier of the data descriptor", "final_action": "after arXiv announces the submission, set ARXIV_ID (only in documents that cite the preprint)"}
+  }
+}
