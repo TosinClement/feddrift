@@ -108,7 +108,9 @@ def main():
             fpath = sel["_file"].iloc[0]
             note = f"BLS {s['anchor_bls_series']}"
         elif src == "bts_socrata":
-            fpath = os.path.join(base, "bts", f"{s['anchor_program']}.csv")
+            # always read the committed extract of the BTS-produced TSI columns, so a clone without the withheld
+            # full MTS file (third-party columns) builds byte-identical output; both files are in PROVENANCE.txt
+            fpath = os.path.join(base, "bts", f"{s['anchor_program']}.tsi_columns.csv")
             d = pd.read_csv(fpath, dtype=str)
             out = pd.DataFrame({"obs_date": d["date"].str[:10],
                                 "value": pd.to_numeric(d[s["anchor_bts_field"]], errors="coerce")})

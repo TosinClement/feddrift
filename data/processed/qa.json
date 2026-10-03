@@ -4,7 +4,7 @@
    "id": "Q01",
    "check": "Agency snapshot files match PROVENANCE.txt SHA-256",
    "expected": "0 mismatches, 0 unlogged",
-   "actual": "0 mismatches, 0 unlogged, 17 files",
+   "actual": "0 mismatches, 0 unlogged, 18 files",
    "status": "PASS"
   },
   {
@@ -123,7 +123,7 @@
    "id": "Q18",
    "check": "Release-package content rules (no ALFRED value rows, no keys, no cache, no withheld file)",
    "expected": "0 violations",
-   "actual": "0 violations in 108 files []",
+   "actual": "0 violations in 109 files []",
    "status": "PASS"
   },
   {

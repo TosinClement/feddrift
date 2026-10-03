@@ -19,6 +19,8 @@ import argparse
 import datetime as dt
 import os
 
+import pandas as pd
+
 from fd_common import AGENCY_RAW, http_get, load_panel, log_provenance
 
 CENSUS_URL = "https://www.census.gov/econ_getzippedfile/?programCode={program}"
@@ -69,7 +71,13 @@ def main():
     for ds in sorted({r["anchor_program"] for r in panel if r["anchor_source"] == "bts_socrata"}):
         url = BTS_URL.format(dataset=ds)
         r = http_get(url, params={"$limit": 50000, "$order": "date"})
-        save(r.content, os.path.join(out, "bts", f"{ds}.csv"), r.url, "BTS Monthly Transportation Statistics (Socrata)")
+        full = os.path.join(out, "bts", f"{ds}.csv")
+        save(r.content, full, r.url, "BTS Monthly Transportation Statistics (Socrata)")
+        fields = [p["anchor_bts_field"] for p in panel if p["anchor_program"] == ds]
+        ext = os.path.join(out, "bts", f"{ds}.tsi_columns.csv")
+        pd.read_csv(full, dtype=str)[["date"] + fields].to_csv(ext, index=False)
+        print(log_provenance(ext, f"derived: columns date, {', '.join(fields)} of {ds}.csv (logged above)",
+                             "BTS-produced TSI columns extracted from the withheld full MTS file; redistributable extract"))
         murl = BTS_META_URL.format(dataset=ds)
         m = http_get(murl)
         save(m.content, os.path.join(out, "bts", f"{ds}.metadata.json"), murl,
