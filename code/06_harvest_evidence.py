@@ -715,6 +715,12 @@ MTIS_MANUAL = {
 # Manual reading of documents where the automated start-month check reports DIFFERENT although the observed first
 # revised month lies inside a range the document states (2026-10-03). Overrides the recommendation and adds the note.
 MANUAL_ASSESS = {
+    "FDC-M3-20200528": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate. Benchmark issued May 15, 2020; the same-day ALFRED snapshot shows only "
+                        "routine revisions and the historical revisions first appear in this later snapshot (unexplained timing gap)"),
+    "FDC-M3-20250527": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate. Benchmark issued May 16, 2025; the same-day ALFRED snapshot shows only "
+                        "routine revisions and the historical revisions first appear in this later snapshot (unexplained timing gap)"),
     "FDC-M3-20190524": ("seasonal_factor_recompute", "", "strong",
                         "manual: the notice is a seasonal-model revision, not a benchmark: 'On May 16, 2019, monthly seasonally "
                         "adjusted data ... were revised for January 2002 through March 2019'; historical data not seasonally adjusted "
