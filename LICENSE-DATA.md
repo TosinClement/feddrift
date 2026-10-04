@@ -7,7 +7,7 @@ FedDrift's own data products are licensed under the **Creative Commons Attributi
 - `evidence/` (registry and quotes);
 - `paper/`, `zenodo/` and the documentation.
 
-Attribution: Clement, T. (2026). FedDrift: vintage-labeled distribution shift in U.S. federal economic and freight statistics (Version 0.1.0). Zenodo. https://doi.org/{{ZENODO_DOI}}
+Attribution: Clement, T. (2026). FedDrift: vintage-labeled distribution shift in U.S. federal economic and freight statistics (Version 0.1.0). Zenodo. https://doi.org/10.5281/zenodo.23143665
 
 Agency values in `data/raw/agency/` and `data/processed/anchor_vintage.csv` are works of the U.S. Government and are in the public domain in the United States; FedDrift claims no rights in them. Sources: U.S. Census Bureau; U.S. Bureau of Labor Statistics; U.S. Department of Transportation, Bureau of Transportation Statistics.
 

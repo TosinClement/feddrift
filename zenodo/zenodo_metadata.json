@@ -27,7 +27,7 @@
   ],
   "related_identifiers": [
    {
-    "identifier": "{{GITHUB_REPO_URL}}",
+    "identifier": "https://github.com/TosinClement/feddrift",
     "relation": "isSupplementTo",
     "scheme": "url"
    }

@@ -89,7 +89,7 @@ See `docs/ETHICS_AND_LIMITATIONS.md`.
 
 ## 8. Availability
 
-Code and data: {{GITHUB_REPO_URL}} and https://doi.org/{{ZENODO_DOI}}. Code is MIT; FedDrift data is CC BY 4.0; agency values are public domain. This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis.
+Code and data: https://github.com/TosinClement/feddrift and https://doi.org/10.5281/zenodo.23143665. Code is MIT; FedDrift data is CC BY 4.0; agency values are public domain. This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis.
 
 ## Author contributions and AI disclosure
 

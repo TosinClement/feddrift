@@ -2,7 +2,7 @@
 
 **Vintage-labeled distribution shift in U.S. federal economic and freight statistics**
 
-**Version:** 0.1.0 (released {{RELEASE_DATE}}) · **Maintainer:** Tosin Clement, ORCID [0009-0001-2055-5113](https://orcid.org/0009-0001-2055-5113) · **License:** code MIT, data CC BY 4.0 · **DOI:** {{ZENODO_DOI}}
+**Version:** 0.1.0 (released {{RELEASE_DATE}}) · **Maintainer:** Tosin Clement, ORCID [0009-0001-2055-5113](https://orcid.org/0009-0001-2055-5113) · **License:** code MIT, data CC BY 4.0 · **DOI:** 10.5281/zenodo.23143665
 
 FedDrift records every revision of 17 monthly U.S. federal statistics. The series come from the Census Bureau (retail sales, manufacturers' orders, business inventories), the Bureau of Labor Statistics (CPI, PPI) and the Bureau of Transportation Statistics (Transportation Services Index). For each revision FedDrift gives:
 
@@ -74,7 +74,7 @@ No simple correction improves on the no-revision baseline B0 (MAE 0.490 pp): eve
 ## Reproduce
 
 ```bash
-git clone {{GITHUB_REPO_URL}} feddrift && cd feddrift
+git clone https://github.com/TosinClement/feddrift feddrift && cd feddrift
 python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
 export FRED_API_KEY=your_key        # free: https://fredaccount.stlouisfed.org/apikeys
@@ -122,4 +122,4 @@ Tosin Clement designed FedDrift and owns every substantive labeling decision. Cl
 
 ## Citation
 
-Clement, T. (2026). *FedDrift: vintage-labeled distribution shift in U.S. federal economic and freight statistics* (Version 0.1.0) [Data set]. Zenodo. https://doi.org/{{ZENODO_DOI}}
+Clement, T. (2026). *FedDrift: vintage-labeled distribution shift in U.S. federal economic and freight statistics* (Version 0.1.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.23143665
