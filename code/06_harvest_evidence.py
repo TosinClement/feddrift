@@ -802,7 +802,11 @@ def recommend(c, ev, rows, note):
             "seasonal adjustment (program-level source R20/R22); no release-specific notice"
     if c.release_program == "M3":
         q = " ".join(r["quote"].lower() for r in rows)
-        if "semiconductor" in q and "R30_CENSUS_ANNUAL" not in rules:
+        # standing footnote in every 2001-2010s report; not a notice of a coverage change (fixed 2026-10-03)
+        q = q.replace("figures on new and unfilled orders exclude data for semiconductor manufacturing", "")
+        q = q.replace("unfilled orders to shipments ratio excludes semiconductor manufacturing", "")
+        if re.search(r"(add|includ|now cover)[^.]{0,80}semiconductor|semiconductor[^.]{0,80}(added|now included)", q) \
+                and "R30_CENSUS_ANNUAL" not in rules:
             return "methodology_change", "", "moderate", "M3 notice: revised estimates add the semiconductor industry"
         if "seasonal adjustment models" in q and "benchmark" not in q:
             return "seasonal_factor_recompute", "", "strong" if any(r.get("agency_issue_date") == c.vintage_date
@@ -819,7 +823,9 @@ def recommend(c, ev, rows, note):
                 "revision-related text found near this vintage but no dated benchmark notice"
     if c.release_program == "MTIS" and rows:
         q = " ".join(r["quote"].lower() for r in rows)
-        if "semiconductor" in q:
+        q = q.replace("figures on new and unfilled orders exclude data for semiconductor manufacturing", "")
+        q = q.replace("unfilled orders to shipments ratio excludes semiconductor manufacturing", "")
+        if re.search(r"(add|includ|now cover)[^.]{0,80}semiconductor|semiconductor[^.]{0,80}(added|now included)", q):
             return "methodology_change", "", "moderate", "MTIS notice: revised manufacturing estimates add an industry " \
                 "(coverage change), released outside the annual-revision season"
         if any(k in q for k in ["annual", "benchmark", "reflect revisions", "revisions to the", "were published",

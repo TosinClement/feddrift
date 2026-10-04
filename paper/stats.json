@@ -37,10 +37,10 @@
   },
   {
    "recommended_cause": "annual_benchmark",
-   "n": 290,
+   "n": 302,
    "median_depth_months": 159.0,
-   "median_mean_abs_pct_revision": 0.2972,
-   "median_ks": 0.0347
+   "median_mean_abs_pct_revision": 0.3364,
+   "median_ks": 0.035
   },
   {
    "recommended_cause": "correction",
@@ -51,10 +51,10 @@
   },
   {
    "recommended_cause": "methodology_change",
-   "n": 20,
-   "median_depth_months": 135.0,
-   "median_mean_abs_pct_revision": 0.5708,
-   "median_ks": 0.0441
+   "n": 6,
+   "median_depth_months": 139.5,
+   "median_mean_abs_pct_revision": 0.5616,
+   "median_ks": 0.0464
   },
   {
    "recommended_cause": "rebase_or_definition",
@@ -79,9 +79,9 @@
   },
   {
    "recommended_cause": "unknown",
-   "n": 40,
-   "median_depth_months": 117.5,
-   "median_mean_abs_pct_revision": 0.2039,
+   "n": 42,
+   "median_depth_months": 110.5,
+   "median_mean_abs_pct_revision": 0.2405,
    "median_ks": 0.0501
   }
  ],
@@ -144,10 +144,10 @@
   }
  ],
  "recommendation_confidence_by_release": {
-  "strong": 157,
-  "moderate": 48,
+  "strong": 162,
+  "moderate": 41,
   "none": 25,
-  "weak": 1
+  "weak": 3
  },
  "n_sources": 336,
  "copyright_tags": [
