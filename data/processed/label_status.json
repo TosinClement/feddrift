@@ -4,24 +4,24 @@
  "n_excluded": 2186,
  "by_status": {
   "rule_verified": 3653,
-  "release_pending_review": 295,
-  "release_verified": 126,
-  "unknown_verified": 34,
+  "release_pending_review": 231,
+  "release_verified": 188,
+  "unknown_verified": 36,
   "override_verified": 1
  },
  "by_review_level": {
   "rule": 3653,
   "release": 456
  },
- "n_verified": 3814,
- "n_unverified": 295,
- "n_final_unknown": 34,
+ "n_verified": 3878,
+ "n_unverified": 231,
+ "n_final_unknown": 36,
  "final_cause_counts": {
   "advance_to_revised": 3401,
   "routine_reestimation": 253,
   "seasonal_factor_recompute": 86,
-  "unknown": 34,
-  "annual_benchmark": 23,
+  "annual_benchmark": 85,
+  "unknown": 36,
   "correction": 7,
   "rebase_or_definition": 5,
   "methodology_change": 5

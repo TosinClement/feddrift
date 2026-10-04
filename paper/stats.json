@@ -19,14 +19,14 @@
  "n_depth_censored_events": 215,
  "label_status": {
   "rule_verified": 3653,
-  "release_pending_review": 295,
-  "release_verified": 126,
-  "unknown_verified": 34,
+  "release_pending_review": 231,
+  "release_verified": 188,
+  "unknown_verified": 36,
   "override_verified": 1
  },
- "n_verified": 3814,
- "n_unverified": 295,
- "n_final_unknown": 34,
+ "n_verified": 3878,
+ "n_unverified": 231,
+ "n_final_unknown": 36,
  "events_by_recommended_cause": [
   {
    "recommended_cause": "advance_to_revised",
@@ -95,10 +95,10 @@
   },
   {
    "final_cause": "annual_benchmark",
-   "n": 23,
-   "median_depth_months": 115.0,
-   "median_mean_abs_pct_revision": 0.2794,
-   "median_ks": 0.04
+   "n": 85,
+   "median_depth_months": 135.0,
+   "median_mean_abs_pct_revision": 0.2082,
+   "median_ks": 0.0392
   },
   {
    "final_cause": "correction",
@@ -137,15 +137,15 @@
   },
   {
    "final_cause": "unknown",
-   "n": 34,
-   "median_depth_months": 75.5,
-   "median_mean_abs_pct_revision": 0.1615,
-   "median_ks": 0.0568
+   "n": 36,
+   "median_depth_months": 89.0,
+   "median_mean_abs_pct_revision": 0.1466,
+   "median_ks": 0.0549
   }
  ],
  "recommendation_confidence_by_release": {
-  "strong": 162,
-  "moderate": 43,
+  "strong": 157,
+  "moderate": 48,
   "none": 25,
   "weak": 1
  },
@@ -221,7 +221,7 @@
   "T1_cause_attribution": {
    "status": "pending_author_labels",
    "n_drift_events": 4109,
-   "n_verified": 3814,
+   "n_verified": 3878,
    "splits": {
     "train": "vintage_next < 2010-01-01",
     "validation": "2010-01-01 <= vintage_next < 2015-01-01",

@@ -715,6 +715,26 @@ MTIS_MANUAL = {
 # Manual reading of documents where the automated start-month check reports DIFFERENT although the observed first
 # revised month lies inside a range the document states (2026-10-03). Overrides the recommendation and adds the note.
 MANUAL_ASSESS = {
+    "FDC-MARTS-20020503": ("annual_benchmark", "", "moderate",
+                           "label owner (2026-10-03): moderate, not strong. The report identifies the revision periods, but its "
+                           "two-column layout scrambles the extracted text; the January 1992 attribution partly relies on the report's title range. The standing paragraph on samples introduced with "
+                           "the 1999 ARTS and March 2001 MRTS describes earlier survey design, not a sample introduced by this release"),
+    "FDC-MARTS-20030430": ("annual_benchmark", "", "moderate",
+                           "label owner (2026-10-03): moderate, not strong. The report identifies the revision periods, but its "
+                           "two-column layout scrambles the extracted text. The standing paragraph on samples introduced with "
+                           "the 1999 ARTS and March 2001 MRTS describes earlier survey design, not a sample introduced by this release"),
+    "FDC-MARTS-20040330": ("annual_benchmark", "", "moderate",
+                           "label owner (2026-10-03): moderate, not strong. The report identifies the revision periods, but its "
+                           "two-column layout scrambles the extracted text. The standing paragraph on samples introduced with "
+                           "the 1999 ARTS and March 2001 MRTS describes earlier survey design, not a sample introduced by this release"),
+    "FDC-MARTS-20050331": ("annual_benchmark", "", "moderate",
+                           "label owner (2026-10-03): moderate, not strong. The report identifies the revision periods, but its "
+                           "two-column layout scrambles the extracted text. The standing paragraph on samples introduced with "
+                           "the 1999 ARTS and March 2001 MRTS describes earlier survey design, not a sample introduced by this release"),
+    "FDC-MARTS-20060330": ("annual_benchmark", "", "moderate",
+                           "label owner (2026-10-03): moderate, not strong. The report identifies the revision periods, but its "
+                           "two-column layout scrambles the extracted text. The standing paragraph on samples introduced with "
+                           "the 1999 ARTS and March 2001 MRTS describes earlier survey design, not a sample introduced by this release"),
     "FDC-MARTS-20110429": ("annual_benchmark", "", "moderate",
                            "manual: RSXFS SA start 2000-01 = stated; RSAFS 1995-01 = stated NAICS 722 exception ('as far back "
                            "as January 1995'); RSAFSNA observed 1998-02 lies inside the stated NAICS 722 NSA range from "
