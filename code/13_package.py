@@ -17,6 +17,7 @@ Writes dist/MANIFEST.sha256 (one line per archived file) next to the archive.
 """
 
 import argparse
+import gzip
 import hashlib
 import json
 import os
@@ -92,7 +93,10 @@ def main():
     os.makedirs(os.path.join(ROOT, "dist"), exist_ok=True)
     name = f"feddrift-{a.version}" + ("-DRAFT" if a.draft else "")
     out = os.path.join(ROOT, "dist", f"{name}.tar.gz")
-    with tarfile.open(out, "w:gz") as t:
+    # gzip header mtime fixed at 0 so the archive is byte-reproducible (fixed 2026-10-03; tarfile's "w:gz" stamps the
+    # current time into the gzip header)
+    with open(out, "wb") as raw, gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=0) as gz, \
+            tarfile.open(fileobj=gz, mode="w") as t:
         for rel in inc:
             info = t.gettarinfo(os.path.join(ROOT, rel), arcname=f"{name}/{rel}")
             info.mtime, info.uid, info.gid, info.uname, info.gname = 0, 0, 0, "", ""   # reproducible archive

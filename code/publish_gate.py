@@ -29,7 +29,8 @@ TEXT_EXT = {".md", ".txt", ".html", ".csv", ".json", ".cff", ".yml", ".yaml", ".
 SKIP_DIRS = {".git", "__pycache__", ".venv", "venv", "dist", "evidence_cache", "alfred_cache", "_archive",
              ".pytest_cache", "alfred_cache_run1"}
 PUBLISHABLE = ("README.md", "CITATION.cff", "CHANGELOG.md", "LICENSE-DATA.md", "docs/", "paper/", "data/processed/",
-               "labels/README.md", "evidence/", "zenodo/", "release/")
+               "labels/README.md", "evidence/", "zenodo/", "release/",
+               "config/", "labels/")  # config/ and labels/ added 2026-10-03: they ship in the archive
 DRAFT_PATTERNS = [
     (re.compile(r"\bDRAFT\b"), "DRAFT marker"),
     (re.compile(r"\[VERIFY[^\]]*\]"), "[VERIFY] tag"),
