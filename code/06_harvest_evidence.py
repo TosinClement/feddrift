@@ -701,13 +701,13 @@ MTIS_MANUAL = {
                           "ISRATIO) -> MATCH", "rebase_or_definition", "strong"),
     "FDC-MTIS-20060613": ("https://www2.census.gov/mtis/historical/mtis0604.pdf", "Notice of Revison",
                           "notice states revised manufacturing shipments and inventories were released on May 19, 2006 (see "
-                          "release FDC-M3-20060519); the type of revision is not stated in this source", "unknown", "moderate"),
+                          "release FDC-M3-20060519); the type of revision is not stated in this source; label owner (2026-10-03): cause carried from FDC-M3-20060519 (annual_benchmark), moderate", "annual_benchmark", "moderate"),
     "FDC-MTIS-20070613": ("https://www2.census.gov/mtis/historical/mtis0704.pdf", "Notice of Revision",
                           "notice states revised manufacturing shipments and inventories were released on May 18, 2007 (see "
-                          "release FDC-M3-20070518); the type of revision is not stated in this source", "unknown", "moderate"),
+                          "release FDC-M3-20070518); the type of revision is not stated in this source; label owner (2026-10-03): cause carried from FDC-M3-20070518 (annual_benchmark), moderate", "annual_benchmark", "moderate"),
     "FDC-MTIS-20050915": ("https://www2.census.gov/mtis/historical/mtis0507.pdf", "Notice of Revison",
                           "notice states revised manufacturing shipments and inventories were released on August 19, 2005 "
-                          "(see release FDC-M3-20050819); the type of revision is not stated in this source", "unknown",
+                          "(see release FDC-M3-20050819); the type of revision is not stated in this source; label owner (2026-10-03): cause carried from FDC-M3-20050819 (annual_benchmark), moderate", "annual_benchmark",
                           "moderate"),
 }
 

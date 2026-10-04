@@ -19,14 +19,14 @@
  "n_depth_censored_events": 215,
  "label_status": {
   "rule_verified": 3653,
-  "release_pending_review": 231,
-  "release_verified": 188,
-  "unknown_verified": 36,
+  "release_pending_review": 216,
+  "release_verified": 200,
+  "unknown_verified": 39,
   "override_verified": 1
  },
- "n_verified": 3878,
- "n_unverified": 231,
- "n_final_unknown": 36,
+ "n_verified": 3893,
+ "n_unverified": 216,
+ "n_final_unknown": 39,
  "events_by_recommended_cause": [
   {
    "recommended_cause": "advance_to_revised",
@@ -37,10 +37,10 @@
   },
   {
    "recommended_cause": "annual_benchmark",
-   "n": 302,
+   "n": 308,
    "median_depth_months": 159.0,
-   "median_mean_abs_pct_revision": 0.3364,
-   "median_ks": 0.035
+   "median_mean_abs_pct_revision": 0.3436,
+   "median_ks": 0.0351
   },
   {
    "recommended_cause": "correction",
@@ -79,10 +79,10 @@
   },
   {
    "recommended_cause": "unknown",
-   "n": 42,
-   "median_depth_months": 110.5,
-   "median_mean_abs_pct_revision": 0.2405,
-   "median_ks": 0.0501
+   "n": 36,
+   "median_depth_months": 89.0,
+   "median_mean_abs_pct_revision": 0.1754,
+   "median_ks": 0.0549
   }
  ],
  "events_by_final_cause": [
@@ -95,9 +95,9 @@
   },
   {
    "final_cause": "annual_benchmark",
-   "n": 85,
-   "median_depth_months": 135.0,
-   "median_mean_abs_pct_revision": 0.2082,
+   "n": 97,
+   "median_depth_months": 140.0,
+   "median_mean_abs_pct_revision": 0.2322,
    "median_ks": 0.0392
   },
   {
@@ -137,10 +137,10 @@
   },
   {
    "final_cause": "unknown",
-   "n": 36,
-   "median_depth_months": 89.0,
-   "median_mean_abs_pct_revision": 0.1466,
-   "median_ks": 0.0549
+   "n": 39,
+   "median_depth_months": 73.0,
+   "median_mean_abs_pct_revision": 0.134,
+   "median_ks": 0.0583
   }
  ],
  "recommendation_confidence_by_release": {
@@ -221,7 +221,7 @@
   "T1_cause_attribution": {
    "status": "pending_author_labels",
    "n_drift_events": 4109,
-   "n_verified": 3878,
+   "n_verified": 3893,
    "splits": {
     "train": "vintage_next < 2010-01-01",
     "validation": "2010-01-01 <= vintage_next < 2015-01-01",
