@@ -244,7 +244,9 @@ def main():
     reg = pd.read_csv(os.path.join(evd, "source_registry.csv"), dtype=str).fillna("")
     cev = pd.read_csv(os.path.join(evd, "cluster_evidence.csv"), dtype=str).fillna("")
     rev = pd.read_csv(os.path.join(evd, "rule_evidence.csv"), dtype=str).fillna("")
-    cited = {s for x in list(cev.source_ids) + list(rev.source_id) for s in str(x).split(";") if s}
+    ctx_p = os.path.join(evd, "contextual_evidence.csv")
+    ctx = pd.read_csv(ctx_p, dtype=str).fillna("") if os.path.exists(ctx_p) else pd.DataFrame(columns=["source_id"])
+    cited = {s for x in list(cev.source_ids) + list(rev.source_id) + list(ctx.source_id) for s in str(x).split(";") if s}
     unreg = sorted(cited - set(reg.source_id))
     nohash = int(((reg.retrieval == "direct_download") & (reg.sha256 == "")).sum())
     nocl = sorted(set(clusters.release_cluster_id) - set(cev.release_cluster_id))

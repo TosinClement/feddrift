@@ -123,7 +123,7 @@
    "id": "Q18",
    "check": "Release-package content rules (no ALFRED value rows, no keys, no cache, no withheld file)",
    "expected": "0 violations",
-   "actual": "0 violations in 125 files []",
+   "actual": "0 violations in 126 files []",
    "status": "PASS"
   },
   {

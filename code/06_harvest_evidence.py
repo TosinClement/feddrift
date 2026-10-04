@@ -8,6 +8,8 @@ This step reads public agency documents and writes:
   evidence/cluster_evidence.csv one row per release cluster: matched source(s), quoted text, locator, an
                                 automated consistency check against the observed footprint, and Claude's
                                 RECOMMENDED cause with a confidence grade
+  evidence/contextual_evidence.csv  sources the label owner reviewed for specific events and registered as
+                                context only; they do not establish the event's cause and do not change its label
 
 Everything here is a recommendation for the label owner. Nothing in this file is a verified label.
 
@@ -1036,6 +1038,45 @@ def recommend(c, ev, rows, note):
     return "unknown", "", "none", note or "no agency source located"
 
 
+# Contextual evidence: sources reviewed by the label owner for specific events, registered for transparency only.
+# They do NOT establish the cause of the observed revisions and do not change any label or evidence grade.
+CONTEXT_EVENTS_2022_12 = ["FD-RSAFS-20221215", "FD-RSXFS-20221215", "FD-RSAFSNA-20221215", "FD-MRTSSM44X72USS-20221215"]
+CONTEXT_NOTE_2022_12 = ("Contextual evidence reviewed during classification (decision of 2026-10-03 23:08 CT). Census documents "
+                        "that the advance (MARTS) estimates released on December 15, 2022 were the first from a new sample and "
+                        "that estimates from different samples were linked to be on a comparable basis. These sources do not "
+                        "establish that the observed revisions in this event were caused by the new sample: the new-sample "
+                        "value is the newly appended November 2022 observation, and the revised months follow the routine "
+                        "advance-to-revised and concurrent seasonal-adjustment pattern. Label kept as advance_to_revised "
+                        "with no secondary cause; evidence grade unchanged.")
+
+
+def contextual_evidence():
+    rows = []
+    faq_url = "https://www.census.gov/retail/marts_sample_revision_faqs.html"
+    s_faq, p_faq = fetch(faq_url, "U.S. Census Bureau", "Advance Monthly Retail Trade Survey: Sample Revision "
+                         "Frequently Asked Questions", "faq", must=True)
+    s_adv, p_adv = fetch("https://www2.census.gov/retail/releases/historical/marts/adv2211.pdf", "U.S. Census Bureau",
+                         "Advance Monthly Sales for Retail and Food Services, November 2022 (CB22-204)", "release",
+                         "CB22-204", "2022-12-15", must=True)
+    q_faq = ("Advance Monthly Retail Trade Survey estimates based on the new sample were released with the November 2022 "
+             "Advance Monthly Sales for Retail Trade and Food Services Report on December 15th, 2022. ... "
+             "Estimates from different samples have been linked to be on a comparable basis.")
+    q_adv = "The advance estimates in this report are the first estimates from a new sample."
+    for q, p_ in ((q_faq, p_faq), (q_adv, p_adv)):
+        for part in q.split(" ... "):
+            if flat(part) not in flat(text_of(p_)):
+                raise SystemExit(f"contextual quote not found in source: {part[:60]}")
+    for eid in CONTEXT_EVENTS_2022_12:
+        rows.append({"event_id": eid, "source_id": s_faq, "quote": q_faq,
+                     "locator": "FAQ: 'When were estimates ... released?' and 'Are the estimates ... comparable?'",
+                     "relation": "context_only", "notes": CONTEXT_NOTE_2022_12,
+                     "recorded_by_instruction_of": "Tosin Clement", "recorded_date": "2026-10-03"})
+        rows.append({"event_id": eid, "source_id": s_adv, "quote": q_adv, "locator": "page 1, Special Notice",
+                     "relation": "context_only", "notes": CONTEXT_NOTE_2022_12,
+                     "recorded_by_instruction_of": "Tosin Clement", "recorded_date": "2026-10-03"})
+    return pd.DataFrame(rows)
+
+
 def main():
     global OFFLINE
     ap = argparse.ArgumentParser()
@@ -1045,6 +1086,7 @@ def main():
     clusters = pd.read_csv(os.path.join(PROCESSED, "release_clusters.csv"))
     events = pd.read_csv(os.path.join(PROCESSED, "proposed_events.csv"))
     re_df = rule_evidence()
+    ctx_df = contextual_evidence()
     spec = specials()
     out = []
     for c in clusters.itertuples():
@@ -1106,6 +1148,7 @@ def main():
         print(f"{c.release_cluster_id:28s} {cause:26s} {conf:9s} {len(rows)} src")
     pd.DataFrame(out).to_csv(os.path.join(EVID, "cluster_evidence.csv"), index=False)
     re_df.to_csv(os.path.join(EVID, "rule_evidence.csv"), index=False)
+    ctx_df.to_csv(os.path.join(EVID, "contextual_evidence.csv"), index=False)
     reg = pd.DataFrame(sorted(REGISTRY.values(), key=lambda r: r["source_id"]))
     reg.to_csv(os.path.join(EVID, "source_registry.csv"), index=False)
     print(f"sources {len(reg)} | clusters {len(out)} | confidence: "

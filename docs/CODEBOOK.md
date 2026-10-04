@@ -75,6 +75,7 @@ Dates are ISO 8601. A **vintage** is the date a version of a series became part 
 | `data/manifests/alfred_manifest.json` | Series | Metadata, copyright tags, request parameters, cache hash |
 | `evidence/source_registry.csv` | Agency document | `source_id`, `publisher`, `title`, `doc_type`, `document_id`, `publication_date`, `url`, `retrieval`, `accessed_utc`, `sha256`, `bytes` |
 | `evidence/rule_evidence.csv` | Rule × source | `rule_id`, `source_id`, `quote`, `locator` |
+| `evidence/contextual_evidence.csv` | Event × source | `event_id`, `source_id`, `quote`, `locator`, `relation` (always `context_only`: reviewed, does not establish the cause, does not change the label), `notes`, `recorded_by_instruction_of`, `recorded_date` |
 | `evidence/cluster_evidence.csv` | Release | Sources, quotes, locator, agency issue date, `automated_check`, recommendation, `confidence`, `recommendation_basis` |
 | `labels/decisions/*.csv` | Author decision | Judgment calls, rule decisions, release decisions, event overrides; each with `verified_by` and `verified_date` |
 | `paper/tables/t2_overall.csv`, `t2_by_series.csv`, `t1_results.csv` | Baseline (× series) | MAE, RMSE, intervals; macro-F1, accuracy |
