@@ -4,7 +4,7 @@
 
 **Version:** 0.1.0 (draft, not released) · **Maintainer:** Tosin Clement, ORCID [0009-0001-2055-5113](https://orcid.org/0009-0001-2055-5113) · **License:** code MIT, data CC BY 4.0 · **DOI:** {{ZENODO_DOI}}
 
-> **Status: DRAFT, not released.** 396 of 4,109 drift events do not yet carry a label verified by the label owner; causes shown are recommendations. Do not cite until the v0.1.0 release.
+> **Status: DRAFT, not released.** 343 of 4,109 drift events do not yet carry a label verified by the label owner; causes shown are recommendations. Do not cite until the v0.1.0 release.
 
 FedDrift records every revision of 17 monthly U.S. federal statistics. The series come from the Census Bureau (retail sales, manufacturers' orders, business inventories), the Bureau of Labor Statistics (CPI, PPI) and the Bureau of Transportation Statistics (Transportation Services Index). For each revision FedDrift gives:
 
@@ -29,10 +29,10 @@ The causes are advance-to-revised transitions, annual benchmarks, seasonal-facto
 | Label status | Events |
 |---|---:|
 | `rule_verified` | 3,653 |
-| `release_verified` | 28 |
+| `release_verified` | 81 |
 | `unknown_verified` | 31 |
 | `override_verified` | 1 |
-| `release_pending_review` | 396 |
+| `release_pending_review` | 343 |
 | **drift events total** | **4,109** |
 | `excluded_not_drift` (no value revised) | 2,186 |
 
@@ -44,16 +44,17 @@ The causes are advance-to-revised transitions, annual benchmarks, seasonal-facto
 |---|---:|---:|---:|---:|
 | `advance_to_revised` | 3,401 | 3 | 0.156 | 0.083 |
 | `routine_reestimation` | 253 | 234 | 0.108 | 0.019 |
+| `seasonal_factor_recompute` | 48 | 61 | 0.034 | 0.079 |
 | `unknown` | 31 | 78 | 0.166 | 0.054 |
 | `annual_benchmark` | 23 | 115 | 0.279 | 0.040 |
-| `methodology_change` | 2 | 136 | 0.355 | 0.095 |
+| `correction` | 4 | 5 | 0.006 | 0.032 |
+| `methodology_change` | 4 | 181 | 0.167 | 0.033 |
 | `rebase_or_definition` | 2 | 113 | 2.497 | 0.104 |
-| `correction` | 1 | 255 | 0.159 | 0.032 |
 
 ## Benchmark tasks
 
 **T1 — revision-cause attribution.** Predict the cause of a drift event from its footprint. Splits are by vintage date (train before 2010, validation 2010–2014, test 2015 onward); the metric is macro-F1.
-T1 is scored only on labels verified by the label owner. Status: `pending_author_labels` (3,713 of 4,109 drift events verified).
+T1 is scored only on labels verified by the label owner. Status: `pending_author_labels` (3,766 of 4,109 drift events verified).
 
 **T2 — real-time revision correction.** Predict the month-over-month growth rate as it stands 36 months after first release, from the first-release value. Splits are leakage-free in calendar time; the test set covers first releases from 2016-01-01 to 2022-09-30 (1,349 observations, 17 series).
 

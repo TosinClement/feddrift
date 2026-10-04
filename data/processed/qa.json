@@ -137,7 +137,7 @@
    "id": "Q20",
    "check": "Every drift event carries a label verified by the label owner (release-gate condition)",
    "expected": "0 unverified",
-   "actual": "396 of 4109 unverified ({'rule_verified': 3653, 'release_pending_review': 396, 'unknown_verified': 31, 'release_verified': 28, 'override_verified': 1})",
+   "actual": "343 of 4109 unverified ({'rule_verified': 3653, 'release_pending_review': 343, 'release_verified': 81, 'unknown_verified': 31, 'override_verified': 1})",
    "status": "BLOCKING"
   }
  ],

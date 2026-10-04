@@ -19,13 +19,13 @@
  "n_depth_censored_events": 215,
  "label_status": {
   "rule_verified": 3653,
-  "release_pending_review": 396,
+  "release_pending_review": 343,
+  "release_verified": 81,
   "unknown_verified": 31,
-  "release_verified": 28,
   "override_verified": 1
  },
- "n_verified": 3713,
- "n_unverified": 396,
+ "n_verified": 3766,
+ "n_unverified": 343,
  "n_final_unknown": 31,
  "events_by_recommended_cause": [
   {
@@ -102,17 +102,17 @@
   },
   {
    "final_cause": "correction",
-   "n": 1,
-   "median_depth_months": 255.0,
-   "median_mean_abs_pct_revision": 0.1586,
+   "n": 4,
+   "median_depth_months": 5.0,
+   "median_mean_abs_pct_revision": 0.006,
    "median_ks": 0.0317
   },
   {
    "final_cause": "methodology_change",
-   "n": 2,
-   "median_depth_months": 135.5,
-   "median_mean_abs_pct_revision": 0.3549,
-   "median_ks": 0.0951
+   "n": 4,
+   "median_depth_months": 181.0,
+   "median_mean_abs_pct_revision": 0.1665,
+   "median_ks": 0.0334
   },
   {
    "final_cause": "rebase_or_definition",
@@ -127,6 +127,13 @@
    "median_depth_months": 234.0,
    "median_mean_abs_pct_revision": 0.1085,
    "median_ks": 0.019
+  },
+  {
+   "final_cause": "seasonal_factor_recompute",
+   "n": 48,
+   "median_depth_months": 61.0,
+   "median_mean_abs_pct_revision": 0.0339,
+   "median_ks": 0.0794
   },
   {
    "final_cause": "unknown",
@@ -214,7 +221,7 @@
   "T1_cause_attribution": {
    "status": "pending_author_labels",
    "n_drift_events": 4109,
-   "n_verified": 3713,
+   "n_verified": 3766,
    "splits": {
     "train": "vintage_next < 2010-01-01",
     "validation": "2010-01-01 <= vintage_next < 2015-01-01",
