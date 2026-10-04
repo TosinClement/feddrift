@@ -848,6 +848,20 @@ def main():
             rows, note = cluster_bls_feb(c, ev, c.release_program.lower())
         if rec is None:
             rec = recommend(c, ev, rows, note)
+        if (c.release_program == "CPI" and "R10_BLS_SA_FEB" in c.proposed_rules and not rows
+                and c.release_cluster_id not in spec):
+            # program-level BLS source (retrospective): the 1977 entry of the seasonal-adjustment timeline
+            tl_url = "https://www.bls.gov/cpi/seasonal-adjustment/timeline-seasonal-adjustment-methodology-changes.htm"
+            tl_sid = "SRC-" + hashlib.sha256(tl_url.encode()).hexdigest()[:10].upper()
+            tl_q = ("The updated seasonal data at the end of 1977 replaced data from 1967 to 1977. BLS announced that "
+                    "subsequent annual updates would replace 5 years of seasonal data.")
+            if int(c.vintage_date[:4]) >= 1978:
+                rows = [{"source_id": tl_sid, "quote": tl_q, "locator": "timeline entry 1977 (program-level, retrospective)",
+                         "check": note + (" | " if note else "") + "program-level: annual February replacement of 5 years of "
+                                  "seasonal data announced by BLS at the end of 1977; no release-specific document"}]
+            else:
+                rec = ("unknown", "", "none", "the BLS 5-year annual replacement policy was announced at the end of 1977, after "
+                       "this vintage; no source covers this February revision")
         if c.release_cluster_id in MANUAL_ASSESS:
             cause_, sec_, conf_, note_ = MANUAL_ASSESS[c.release_cluster_id]
             rec = (cause_, sec_, conf_, note_)
