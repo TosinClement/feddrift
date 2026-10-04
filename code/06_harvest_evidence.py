@@ -799,6 +799,34 @@ MANUAL_ASSESS = {
 }
 
 
+# Census Monthly Wholesale Trade annual revision (benchmark) reports, located on manual review 2026-10-03. They are the
+# component documents for MTIS releases whose notice cites a wholesale revision.
+WHOLESALE_DOC = {"FDC-MTIS-20030414": "2003", "FDC-MTIS-20040312": "2004", "FDC-MTIS-20050414": "2005",
+                 "FDC-MTIS-20060413": "2006", "FDC-MTIS-20070416": "2007", "FDC-MTIS-20080414": "2008",
+                 "FDC-MTIS-20090414": "2009", "FDC-MTIS-20100414": "2010", "FDC-MTIS-20110413": "2011",
+                 "FDC-MTIS-20120416": "2012", "FDC-MTIS-20130613": "2013", "FDC-MTIS-20140414": "2014",
+                 "FDC-MTIS-20150414": "2015", "FDC-MTIS-20160413": "2016", "FDC-MTIS-20170414": "2017",
+                 "FDC-MTIS-20180614": "2018", "FDC-MTIS-20190418": "2019"}
+
+
+def wholesale_row(cid):
+    y = WHOLESALE_DOC[cid]
+    name = f"{y}_mwts_revisions_notice.pdf" if y == "2019" else f"{y}_mwts_benchmark.pdf"
+    url = "https://www2.census.gov/wholesale/pdf/mwts/historic/old_benchmarks/" + name
+    title = (f"Monthly Wholesale Trade {y} Annual Revision Notice" if y == "2019"
+             else f"Monthly Wholesale Trade Survey annual revision (benchmark) report, {y}")
+    sid, path = fetch(url, "U.S. Census Bureau", title, "benchmark_report", f"mwts-annual-{y}", "")
+    if not sid:
+        return None
+    t = flat(text_of(path))
+    q = [m.group(0) for m in re.finditer(r"[^.]{0,40}(?:[Ss]easonally adjusted|Corresponding seasonally adjusted|"
+                                         r"[Uu]nadjusted|Not adjusted)[^.]{0,120}(?:are|were) revised for [^.]{0,80}\.", t)][:3]
+    iss = re.search(r"Issued (?:" + "|".join(MONTHS) + r") \d{4}|[Rr]eleased (?:on )?(?:" + "|".join(MONTHS) + r") \d{1,2}, \d{4}", t)
+    return {"source_id": sid, "quote": " ".join(q)[:1200] or (iss.group(0) if iss else ""),
+            "locator": "wholesale annual revision report" + (f" ({iss.group(0)})" if iss else ""),
+            "check": "component document (wholesale) for the revision named in the MTIS notice"}
+
+
 def mtis_manual(cid):
     url, needle, check, cause, conf = MTIS_MANUAL[cid]
     sid = "SRC-" + hashlib.sha256(url.encode()).hexdigest()[:10].upper()
@@ -919,6 +947,10 @@ def main():
             else:
                 rec = ("unknown", "", "none", "the BLS 5-year annual replacement policy was announced at the end of 1977, after "
                        "this vintage; no source covers this February revision")
+        if c.release_cluster_id in WHOLESALE_DOC:
+            wr = wholesale_row(c.release_cluster_id)
+            if wr:
+                rows = rows + [wr]
         if c.release_cluster_id in MANUAL_ASSESS:
             cause_, sec_, conf_, note_ = MANUAL_ASSESS[c.release_cluster_id]
             rec = (cause_, sec_, conf_, note_)

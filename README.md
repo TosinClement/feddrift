@@ -20,7 +20,7 @@ The causes are advance-to-revised transitions, annual benchmarks, seasonal-facto
 - 17 series; 6,312 real-time vintages from 1949-03-24 to 2026-10-02; observations 1947-01 to 2026-08.
 - 6,295 consecutive vintage pairs. 4,109 are **drift events** (at least one published value revised). The other 2,186 only add new months.
 - Drift events by review level: 3,653 routine events under 7 rules; 456 non-routine events in 231 agency releases.
-- Evidence: 336 agency documents registered with URL, publication date and SHA-256.
+- Evidence: 353 agency documents registered with URL, publication date and SHA-256.
 - Agency files fetched directly from the agencies match ALFRED's newest vintage exactly for 16 of 17 series. The exception is explained in `data/processed/qa_report.md`.
 - Negative control: NSA CPI-U is revised in 0.97% of releases, against 8.68% for SA CPI-U.
 
