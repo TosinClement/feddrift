@@ -715,6 +715,31 @@ MTIS_MANUAL = {
 # Manual reading of documents where the automated start-month check reports DIFFERENT although the observed first
 # revised month lies inside a range the document states (2026-10-03). Overrides the recommendation and adds the note.
 MANUAL_ASSESS = {
+    "FDC-M3-20190524": ("seasonal_factor_recompute", "", "strong",
+                        "manual: the notice is a seasonal-model revision, not a benchmark: 'On May 16, 2019, monthly seasonally "
+                        "adjusted data ... were revised for January 2002 through March 2019'; historical data not seasonally adjusted "
+                        "were unchanged. First ALFRED snapshot after May 16, 2019"),
+    "FDC-M3-20190604": ("seasonal_factor_recompute", "", "strong",
+                        "manual: as FDC-M3-20190524 (seasonal-model notice of May 16, 2019; not a benchmark)"),
+    "FDC-M3-20240514": ("seasonal_factor_recompute", "", "strong",
+                        "manual: the notice is a seasonal-model revision, not a benchmark: 'On May 14, 2024, monthly seasonally "
+                        "adjusted data ... were revised for January 2012 through March 2024'; historical data not seasonally "
+                        "adjusted were unchanged"),
+    "FDC-M3-20010521": ("rebase_or_definition", "annual_benchmark", "strong",
+                        "manual: the notice lists retabulating SIC-based monthly data to NAICS and benchmarking to the 1997 Economic "
+                        "Census and 1998-1999 ASM (mixed causes); notices give May 21 and May 25, 2001 as the issue date"),
+    "FDC-M3-20010525": ("rebase_or_definition", "annual_benchmark", "strong",
+                        "manual: as FDC-M3-20010521 (SIC-to-NAICS retabulation plus benchmark; issue date stated as May 21 or "
+                        "May 25, 2001)"),
+    "FDC-M3-20130524": ("unknown", "", "none",
+                        "manual: this snapshot restores values identical to the pre-benchmark snapshot of 2013-05-03; no government "
+                        "source explains it"),
+    "FDC-M3-20130528": ("unknown", "", "none",
+                        "manual: this snapshot reinstates values identical to the benchmark snapshot of 2013-05-17; no government "
+                        "source explains the reversal and reinstatement"),
+    "FDC-M3-19970618": ("unknown", "", "weak",
+                        "manual: the May 1997 full report says its data are consistent with the revised historical series released "
+                        "June 18, 1997 (= this snapshot); the type of revision is not stated (cf. FDC-M3-19980729)"),
     "FDC-MARTS-20020503": ("annual_benchmark", "", "moderate",
                            "label owner (2026-10-03): moderate, not strong. The report identifies the revision periods, but its "
                            "two-column layout scrambles the extracted text; the January 1992 attribution partly relies on the report's title range. The standing paragraph on samples introduced with "

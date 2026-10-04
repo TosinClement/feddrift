@@ -37,10 +37,10 @@
   },
   {
    "recommended_cause": "annual_benchmark",
-   "n": 308,
+   "n": 295,
    "median_depth_months": 159.0,
-   "median_mean_abs_pct_revision": 0.3436,
-   "median_ks": 0.0351
+   "median_mean_abs_pct_revision": 0.3311,
+   "median_ks": 0.0347
   },
   {
    "recommended_cause": "correction",
@@ -58,10 +58,10 @@
   },
   {
    "recommended_cause": "rebase_or_definition",
-   "n": 6,
-   "median_depth_months": 147.0,
+   "n": 8,
+   "median_depth_months": 113.0,
    "median_mean_abs_pct_revision": 16.2568,
-   "median_ks": 0.1096
+   "median_ks": 0.1043
   },
   {
    "recommended_cause": "routine_reestimation",
@@ -72,17 +72,17 @@
   },
   {
    "recommended_cause": "seasonal_factor_recompute",
-   "n": 89,
-   "median_depth_months": 60.0,
-   "median_mean_abs_pct_revision": 0.0579,
-   "median_ks": 0.0833
+   "n": 95,
+   "median_depth_months": 61.0,
+   "median_mean_abs_pct_revision": 0.0609,
+   "median_ks": 0.0769
   },
   {
    "recommended_cause": "unknown",
-   "n": 36,
-   "median_depth_months": 89.0,
-   "median_mean_abs_pct_revision": 0.1754,
-   "median_ks": 0.0549
+   "n": 41,
+   "median_depth_months": 108.0,
+   "median_mean_abs_pct_revision": 0.217,
+   "median_ks": 0.051
   }
  ],
  "events_by_final_cause": [
@@ -144,10 +144,10 @@
   }
  ],
  "recommendation_confidence_by_release": {
-  "strong": 162,
+  "strong": 159,
   "moderate": 41,
-  "none": 25,
-  "weak": 3
+  "none": 27,
+  "weak": 4
  },
  "n_sources": 336,
  "copyright_tags": [
