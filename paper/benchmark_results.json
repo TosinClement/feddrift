@@ -2,7 +2,7 @@
  "T1_cause_attribution": {
   "status": "pending_author_labels",
   "n_drift_events": 4109,
-  "n_verified": 3766,
+  "n_verified": 3814,
   "splits": {
    "train": "vintage_next < 2010-01-01",
    "validation": "2010-01-01 <= vintage_next < 2015-01-01",

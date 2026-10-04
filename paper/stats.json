@@ -19,14 +19,14 @@
  "n_depth_censored_events": 215,
  "label_status": {
   "rule_verified": 3653,
-  "release_pending_review": 343,
-  "release_verified": 81,
-  "unknown_verified": 31,
+  "release_pending_review": 295,
+  "release_verified": 126,
+  "unknown_verified": 34,
   "override_verified": 1
  },
- "n_verified": 3766,
- "n_unverified": 343,
- "n_final_unknown": 31,
+ "n_verified": 3814,
+ "n_unverified": 295,
+ "n_final_unknown": 34,
  "events_by_recommended_cause": [
   {
    "recommended_cause": "advance_to_revised",
@@ -102,24 +102,24 @@
   },
   {
    "final_cause": "correction",
-   "n": 4,
-   "median_depth_months": 5.0,
-   "median_mean_abs_pct_revision": 0.006,
-   "median_ks": 0.0317
+   "n": 7,
+   "median_depth_months": 8.0,
+   "median_mean_abs_pct_revision": 0.0657,
+   "median_ks": 0.1875
   },
   {
    "final_cause": "methodology_change",
-   "n": 4,
+   "n": 5,
    "median_depth_months": 181.0,
-   "median_mean_abs_pct_revision": 0.1665,
-   "median_ks": 0.0334
+   "median_mean_abs_pct_revision": 0.1908,
+   "median_ks": 0.0335
   },
   {
    "final_cause": "rebase_or_definition",
-   "n": 2,
+   "n": 5,
    "median_depth_months": 113.0,
-   "median_mean_abs_pct_revision": 2.4966,
-   "median_ks": 0.1038
+   "median_mean_abs_pct_revision": 14.0156,
+   "median_ks": 0.1018
   },
   {
    "final_cause": "routine_reestimation",
@@ -130,17 +130,17 @@
   },
   {
    "final_cause": "seasonal_factor_recompute",
-   "n": 48,
-   "median_depth_months": 61.0,
-   "median_mean_abs_pct_revision": 0.0339,
-   "median_ks": 0.0794
+   "n": 86,
+   "median_depth_months": 60.0,
+   "median_mean_abs_pct_revision": 0.0574,
+   "median_ks": 0.0833
   },
   {
    "final_cause": "unknown",
-   "n": 31,
-   "median_depth_months": 78.0,
-   "median_mean_abs_pct_revision": 0.166,
-   "median_ks": 0.0545
+   "n": 34,
+   "median_depth_months": 75.5,
+   "median_mean_abs_pct_revision": 0.1615,
+   "median_ks": 0.0568
   }
  ],
  "recommendation_confidence_by_release": {
@@ -221,7 +221,7 @@
   "T1_cause_attribution": {
    "status": "pending_author_labels",
    "n_drift_events": 4109,
-   "n_verified": 3766,
+   "n_verified": 3814,
    "splits": {
     "train": "vintage_next < 2010-01-01",
     "validation": "2010-01-01 <= vintage_next < 2015-01-01",

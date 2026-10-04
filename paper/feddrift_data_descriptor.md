@@ -4,13 +4,13 @@ author: "Tosin Clement (Independent Researcher; ORCID 0009-0001-2055-5113; cleme
 date: "{{RELEASE_DATE}}"
 ---
 
-> **Status: DRAFT, not released.** 343 of 4,109 drift events do not yet carry a label verified by the label owner; causes shown are recommendations. Do not cite until the v0.1.0 release.
+> **Status: DRAFT, not released.** 295 of 4,109 drift events do not yet carry a label verified by the label owner; causes shown are recommendations. Do not cite until the v0.1.0 release.
 
 ## Abstract
 
 Published official statistics change. Advance estimates are revised, monthly surveys are benchmarked to annual surveys and censuses, seasonal factors are re-estimated, and indexes are rebased. Every such change shifts the data that downstream models were trained and evaluated on.
 
-FedDrift records these shifts for 17 monthly U.S. federal series from the Census Bureau, the Bureau of Labor Statistics and the Bureau of Transportation Statistics. From 6,312 ALFRED real-time vintages it derives 6,295 consecutive vintage pairs, of which 4,109 revise previously published values. Each such drift event records its vintage date, how far back and how much the series was revised, a Kolmogorov–Smirnov statistic on growth rates, and a cause label. In this draft, cause labels are recommendations awaiting the author's verification (3,766 of 4,109 verified).
+FedDrift records these shifts for 17 monthly U.S. federal series from the Census Bureau, the Bureau of Labor Statistics and the Bureau of Transportation Statistics. From 6,312 ALFRED real-time vintages it derives 6,295 consecutive vintage pairs, of which 4,109 revise previously published values. Each such drift event records its vintage date, how far back and how much the series was revised, a Kolmogorov–Smirnov statistic on growth rates, and a cause label. In this draft, cause labels are recommendations awaiting the author's verification (3,814 of 4,109 verified).
 
 FedDrift redistributes values only from public-domain agency files. The real-time layer ships as reconstruction code and hash-verified manifests. Two tasks are defined: revision-cause attribution (T1) and real-time revision correction (T2). On T2, no simple correction improves on the no-revision baseline B0 (MAE 0.490 pp): every 95% bootstrap interval for the MAE difference to B0 includes zero.
 
@@ -46,10 +46,10 @@ The main table is `data/processed/drift_events.csv`, one row per vintage pair; s
 | Label status | Events |
 |---|---:|
 | `rule_verified` | 3,653 |
-| `release_verified` | 81 |
-| `unknown_verified` | 31 |
+| `release_verified` | 126 |
+| `unknown_verified` | 34 |
 | `override_verified` | 1 |
-| `release_pending_review` | 343 |
+| `release_pending_review` | 295 |
 | **drift events total** | **4,109** |
 | `excluded_not_drift` (no value revised) | 2,186 |
 
@@ -57,16 +57,16 @@ The main table is `data/processed/drift_events.csv`, one row per vintage pair; s
 |---|---:|---:|---:|---:|
 | `advance_to_revised` | 3,401 | 3 | 0.156 | 0.083 |
 | `routine_reestimation` | 253 | 234 | 0.108 | 0.019 |
-| `seasonal_factor_recompute` | 48 | 61 | 0.034 | 0.079 |
-| `unknown` | 31 | 78 | 0.166 | 0.054 |
+| `seasonal_factor_recompute` | 86 | 60 | 0.057 | 0.083 |
+| `unknown` | 34 | 76 | 0.162 | 0.057 |
 | `annual_benchmark` | 23 | 115 | 0.279 | 0.040 |
-| `correction` | 4 | 5 | 0.006 | 0.032 |
-| `methodology_change` | 4 | 181 | 0.167 | 0.033 |
-| `rebase_or_definition` | 2 | 113 | 2.497 | 0.104 |
+| `correction` | 7 | 8 | 0.066 | 0.188 |
+| `methodology_change` | 5 | 181 | 0.191 | 0.034 |
+| `rebase_or_definition` | 5 | 113 | 14.016 | 0.102 |
 
 ## 6. Benchmark tasks
 
-**T1.** T1 is scored only on labels verified by the label owner. Status: `pending_author_labels` (3,766 of 4,109 drift events verified).
+**T1.** T1 is scored only on labels verified by the label owner. Status: `pending_author_labels` (3,814 of 4,109 drift events verified).
 
 **T2** (1,349 test observations; train 1,655, validation 541):
 
