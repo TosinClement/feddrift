@@ -1,7 +1,7 @@
 ---
 title: "FedDrift: vintage-labeled distribution shift in U.S. federal economic and freight statistics"
 author: "Tosin Clement (Independent Researcher; ORCID 0009-0001-2055-5113; clementtosin92@gmail.com)"
-date: "{{RELEASE_DATE}}"
+date: "2026-10-04"
 ---
 
 ## Abstract

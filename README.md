@@ -2,7 +2,7 @@
 
 **Vintage-labeled distribution shift in U.S. federal economic and freight statistics**
 
-**Version:** 0.1.0 (released {{RELEASE_DATE}}) · **Maintainer:** Tosin Clement, ORCID [0009-0001-2055-5113](https://orcid.org/0009-0001-2055-5113) · **License:** code MIT, data CC BY 4.0 · **DOI:** 10.5281/zenodo.23143665
+**Version:** 0.1.0 (released 2026-10-04) · **Maintainer:** Tosin Clement, ORCID [0009-0001-2055-5113](https://orcid.org/0009-0001-2055-5113) · **License:** code MIT, data CC BY 4.0 · **DOI:** 10.5281/zenodo.23143665
 
 FedDrift records every revision of 17 monthly U.S. federal statistics. The series come from the Census Bureau (retail sales, manufacturers' orders, business inventories), the Bureau of Labor Statistics (CPI, PPI) and the Bureau of Transportation Statistics (Transportation Services Index). For each revision FedDrift gives:
 

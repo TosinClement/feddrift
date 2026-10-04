@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (unreleased; release date {{RELEASE_DATE}})
+## 0.1.0 (released 2026-10-04)
 
 First public version, built from the 2026-10-03 snapshot.
 

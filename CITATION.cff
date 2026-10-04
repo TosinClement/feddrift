@@ -3,7 +3,7 @@ message: "If you use FedDrift, please cite it as below."
 type: dataset
 title: "FedDrift: vintage-labeled distribution shift in U.S. federal economic and freight statistics"
 version: "0.1.0"
-date-released: "{{RELEASE_DATE}}"
+date-released: "2026-10-04"
 doi: "10.5281/zenodo.23143665"
 repository-code: "https://github.com/TosinClement/feddrift"
 license: CC-BY-4.0
