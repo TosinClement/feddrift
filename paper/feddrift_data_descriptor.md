@@ -29,7 +29,7 @@ See `docs/METHODOLOGY.md`. In brief:
 - footprints of each consecutive pair, with a censored-depth flag where the revision reaches the start of the archived vintage (215 events);
 - rule proposals;
 - agency releases grouped into 231 review clusters;
-- evidence harvested from 332 agency documents, with automated consistency checks;
+- evidence harvested from 336 agency documents, with automated consistency checks;
 - labels decided by the author at rule, release and event level.
 
 ## 4. Technical validation
@@ -95,7 +95,7 @@ Tosin Clement: conceptualization, methodology, validation, data curation (all ve
 
 - Croushore, D., and Stark, T. (2001). A real-time data set for macroeconomists. *Journal of Econometrics*, 105(1), 111–130.
 - Federal Reserve Bank of St. Louis. ALFRED: Archival Federal Reserve Economic Data. https://alfred.stlouisfed.org/
-- Agency documents cited as evidence: `evidence/source_registry.csv` (332 documents).
+- Agency documents cited as evidence: `evidence/source_registry.csv` (336 documents).
 
 ## Figures
 

@@ -582,6 +582,46 @@ def specials():
                                  "check": "comprehensive revision dated 1953 (month not stated); observed revision of all 1947-1952 "
                                  "values by ~40% is consistent with a change of reference base"}],
                                "methodology_change", "rebase_or_definition", "moderate")
+    # CPI reference-base changes and the 2000 correction: BLS documents located on manual review (2026-10-03).
+    def doc(url, title, pub, doc_id=""):
+        publ = "U.S. Bureau of Labor Statistics" + (" (via FRASER, Federal Reserve Bank of St. Louis)" if "fraser" in url else "")
+        sid_, p_ = fetch(url, publ, title, "release" if "cpi_" in url else "bulletin", doc_id, pub)
+        return sid_, flat(text_of(p_)) if p_ else ""
+    def one(t, needle, maxlen=700, upto="."):
+        i = t.lower().find(needle.lower())
+        if i < 0:
+            return ""
+        j = t.find(upto, i + len(needle))
+        return t[i:(j + len(upto)) if j >= 0 else i + maxlen][:maxlen]
+    sid, t = doc("https://fraser.stlouisfed.org/files/docs/publications/bls/bls_1140_1953.pdf",
+                 "The Consumer Price Index: A Layman's Guide (BLS Bulletin No. 1140)", "1953", "BLS Bulletin 1140")
+    out["FDC-CPI-19530227"] = ([{"source_id": sid, "quote": " ".join(x for x in [
+        one(t, "the Bureau in 1949 began a comprehensive program for revising the index"),
+        one(t, "from the average for the years 1947")] if x),
+        "locator": "Bulletin 1140 text", "check": "stated: the January 1953 index was the first on the revised basis, with "
+        "1947-49 = 100; observed: this vintage (January 1953 data) rescales all 1947-1952 values by about -40%, the size of a "
+        "1935-39 -> 1947-49 base change"}], "methodology_change", "rebase_or_definition", "strong")
+    sid, t = doc("https://fraser.stlouisfed.org/files/docs/publications/cpi/1970s/cpi_011971.pdf",
+                 "The Consumer Price Index, January 1971 (BLS release)", "1971-02")
+    out["FDC-CPI-19710219"] = ([{"source_id": sid, "quote": one(t, "Beginning with the release of data for January 1971"),
+        "locator": "release text, 'New base period for Consumer Price Index'", "check": "stated: reference base 1967=100 "
+        "beginning with January 1971 data; observed: this vintage (January 1971 data) rescales the whole history by a constant "
+        "ratio (-14%) -> MATCH"}], "rebase_or_definition", "", "strong")
+    sid, t = doc("https://fraser.stlouisfed.org/files/docs/publications/cpidr/1980s/cpi_011988.pdf",
+                 "CPI Detailed Report, Data for January 1988", "1988")
+    out["FDC-CPI-19880226"] = ([{"source_id": sid, "quote": one(t, "NOTE: Effective with the release of the January 1988 CPI"),
+        "locator": "cover and note", "check": "stated: official reference base changed from 1967=100 to 1982-84=100 effective "
+        "with the January 1988 CPI; observed: this vintage rescales CPIAUCNS (whole history) and CPIAUCSL (whole vintage "
+        "window) by a constant ratio (-66.6%) -> MATCH"}], "rebase_or_definition", "", "strong")
+    sid, t = doc("https://www.bls.gov/news.release/history/cpi_10182000.txt",
+                 "Consumer Price Index news release, September 2000 data (2000-10-18)", "2000-10-18")
+    q = one(t, "r = Revised percent changes based on indexes recalculated to correct for", 900, upto="made available on September 28.")
+    prev = out.get("FDC-CPI-20000928", ([], "", "", ""))[0]
+    out["FDC-CPI-20000928"] = ([{"source_id": sid, "quote": q, "locator": "note to the summary table",
+        "check": "stated: indexes recalculated to correct an error in the residential rent and owners' equivalent rent "
+        "components; corrected values made available on September 28 (= this vintage); observed revisions 2000-01..2000-08 "
+        "-> MATCH"}] + prev, "correction", "", "strong")
+
     # 1951: BLS Bulletin 1039 (interim adjustment of the CPI), read on FRASER in the built-in browser and saved as a
     # dated excerpt capture of the full-text (OCR) page; found on manual review 2026-10-03.
     fr = register_capture("https://fraser.stlouisfed.org/title/interim-adjustment-consumers-price-index-correction-new-unit-"

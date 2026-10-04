@@ -144,12 +144,12 @@
   }
  ],
  "recommendation_confidence_by_release": {
-  "strong": 158,
-  "moderate": 49,
+  "strong": 162,
+  "moderate": 45,
   "none": 23,
   "weak": 1
  },
- "n_sources": 332,
+ "n_sources": 336,
  "copyright_tags": [
   "public domain: citation requested"
  ],
