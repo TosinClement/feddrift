@@ -4,13 +4,11 @@ author: "Tosin Clement (Independent Researcher; ORCID 0009-0001-2055-5113; cleme
 date: "{{RELEASE_DATE}}"
 ---
 
-> **Status: DRAFT, not released.** 55 of 4,109 drift events do not yet carry a label verified by the label owner; causes shown are recommendations. Do not cite until the v0.1.0 release.
-
 ## Abstract
 
 Published official statistics change. Advance estimates are revised, monthly surveys are benchmarked to annual surveys and censuses, seasonal factors are re-estimated, and indexes are rebased. Every such change shifts the data that downstream models were trained and evaluated on.
 
-FedDrift records these shifts for 17 monthly U.S. federal series from the Census Bureau, the Bureau of Labor Statistics and the Bureau of Transportation Statistics. From 6,312 ALFRED real-time vintages it derives 6,295 consecutive vintage pairs, of which 4,109 revise previously published values. Each such drift event records its vintage date, how far back and how much the series was revised, a Kolmogorov–Smirnov statistic on growth rates, and a cause label. In this draft, cause labels are recommendations awaiting the author's verification (4,054 of 4,109 verified).
+FedDrift records these shifts for 17 monthly U.S. federal series from the Census Bureau, the Bureau of Labor Statistics and the Bureau of Transportation Statistics. From 6,312 ALFRED real-time vintages it derives 6,295 consecutive vintage pairs, of which 4,109 revise previously published values. Each such drift event records its vintage date, how far back and how much the series was revised, a Kolmogorov–Smirnov statistic on growth rates, and a cause label. The author verified every label against agency documents registered with URL, publication date and SHA-256; 50 events carry the label `unknown` because no source established their cause.
 
 FedDrift redistributes values only from public-domain agency files. The real-time layer ships as reconstruction code and hash-verified manifests. Two tasks are defined: revision-cause attribution (T1) and real-time revision correction (T2). On T2, no simple correction improves on the no-revision baseline B0 (MAE 0.490 pp): every 95% bootstrap interval for the MAE difference to B0 includes zero.
 
@@ -34,7 +32,7 @@ See `docs/METHODOLOGY.md`. In brief:
 
 ## 4. Technical validation
 
-QA checks (`data/processed/qa_report.md`): Q01 PASS, Q02 PASS, Q03 PASS, Q04 PASS, Q05 NOTE, Q06 PASS, Q07 PASS, Q08 PASS, Q09 PASS, Q10 PASS, Q11 PASS, Q12 PASS, Q13 PASS, Q14 PASS, Q15 PASS, Q16 PASS, Q17 PASS, Q18 PASS, Q19 PASS, Q20 BLOCKING.
+QA checks (`data/processed/qa_report.md`): Q01 PASS, Q02 PASS, Q03 PASS, Q04 PASS, Q05 NOTE, Q06 PASS, Q07 PASS, Q08 PASS, Q09 PASS, Q10 PASS, Q11 PASS, Q12 PASS, Q13 PASS, Q14 PASS, Q15 PASS, Q16 PASS, Q17 PASS, Q18 PASS, Q19 PASS, Q20 PASS.
 - Reconstruction: 0 mismatches of 6312 vintages.
 - Anchor agreement is exact for 16/17 series. The exception is the 2026-09-28 Census reissue of the MRTS file, which ALFRED had not vintaged by the snapshot date.
 - Negative control: NSA CPI-U is revised in 0.97% of releases, against 8.68% for SA CPI-U.
@@ -46,20 +44,19 @@ The main table is `data/processed/drift_events.csv`, one row per vintage pair; s
 | Label status | Events |
 |---|---:|
 | `rule_verified` | 3,653 |
-| `release_verified` | 354 |
-| `unknown_verified` | 46 |
+| `release_verified` | 405 |
+| `unknown_verified` | 50 |
 | `override_verified` | 1 |
-| `release_pending_review` | 55 |
 | **drift events total** | **4,109** |
 | `excluded_not_drift` (no value revised) | 2,186 |
 
 | Final cause | Events | Median depth (months) | Median mean abs. revision (%) | Median KS (growth) |
 |---|---:|---:|---:|---:|
 | `advance_to_revised` | 3,401 | 3 | 0.156 | 0.083 |
+| `annual_benchmark` | 283 | 159 | 0.349 | 0.035 |
 | `routine_reestimation` | 253 | 234 | 0.108 | 0.019 |
-| `annual_benchmark` | 238 | 152 | 0.344 | 0.036 |
-| `seasonal_factor_recompute` | 95 | 61 | 0.061 | 0.077 |
-| `unknown` | 46 | 108 | 0.175 | 0.053 |
+| `seasonal_factor_recompute` | 101 | 61 | 0.061 | 0.073 |
+| `unknown` | 50 | 104 | 0.175 | 0.053 |
 | `correction` | 7 | 8 | 0.066 | 0.188 |
 | `rebase_or_definition` | 7 | 113 | 14.016 | 0.102 |
 | `methodology_change` | 5 | 181 | 0.191 | 0.034 |
@@ -67,7 +64,13 @@ The main table is `data/processed/drift_events.csv`, one row per vintage pair; s
 
 ## 6. Benchmark tasks
 
-**T1.** T1 is scored only on labels verified by the label owner. Status: `pending_author_labels` (4,054 of 4,109 drift events verified).
+**T1.** Test split: 2,129 events (50 events labeled `unknown` are not scored).
+
+| Baseline | Macro-F1 | Accuracy |
+|---|---:|---:|
+| majority | 0.1466 | 0.7853 |
+| calendar | 0.3261 | 0.8102 |
+| footprint_tree | 0.3718 | 0.8704 |
 
 **T2** (1,349 test observations; train 1,655, validation 541):
 

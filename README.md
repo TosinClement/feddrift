@@ -2,9 +2,7 @@
 
 **Vintage-labeled distribution shift in U.S. federal economic and freight statistics**
 
-**Version:** 0.1.0 (draft, not released) · **Maintainer:** Tosin Clement, ORCID [0009-0001-2055-5113](https://orcid.org/0009-0001-2055-5113) · **License:** code MIT, data CC BY 4.0 · **DOI:** {{ZENODO_DOI}}
-
-> **Status: DRAFT, not released.** 55 of 4,109 drift events do not yet carry a label verified by the label owner; causes shown are recommendations. Do not cite until the v0.1.0 release.
+**Version:** 0.1.0 (released {{RELEASE_DATE}}) · **Maintainer:** Tosin Clement, ORCID [0009-0001-2055-5113](https://orcid.org/0009-0001-2055-5113) · **License:** code MIT, data CC BY 4.0 · **DOI:** {{ZENODO_DOI}}
 
 FedDrift records every revision of 17 monthly U.S. federal statistics. The series come from the Census Bureau (retail sales, manufacturers' orders, business inventories), the Bureau of Labor Statistics (CPI, PPI) and the Bureau of Transportation Statistics (Transportation Services Index). For each revision FedDrift gives:
 
@@ -29,24 +27,23 @@ The causes are advance-to-revised transitions, annual benchmarks, seasonal-facto
 | Label status | Events |
 |---|---:|
 | `rule_verified` | 3,653 |
-| `release_verified` | 354 |
-| `unknown_verified` | 46 |
+| `release_verified` | 405 |
+| `unknown_verified` | 50 |
 | `override_verified` | 1 |
-| `release_pending_review` | 55 |
 | **drift events total** | **4,109** |
 | `excluded_not_drift` (no value revised) | 2,186 |
 
-46 drift events carry the honest final label `unknown`: agency sources did not establish their cause.
+50 drift events carry the honest final label `unknown`: agency sources did not establish their cause.
 
 ### Drift events by verified cause
 
 | Final cause | Events | Median depth (months) | Median mean abs. revision (%) | Median KS (growth) |
 |---|---:|---:|---:|---:|
 | `advance_to_revised` | 3,401 | 3 | 0.156 | 0.083 |
+| `annual_benchmark` | 283 | 159 | 0.349 | 0.035 |
 | `routine_reestimation` | 253 | 234 | 0.108 | 0.019 |
-| `annual_benchmark` | 238 | 152 | 0.344 | 0.036 |
-| `seasonal_factor_recompute` | 95 | 61 | 0.061 | 0.077 |
-| `unknown` | 46 | 108 | 0.175 | 0.053 |
+| `seasonal_factor_recompute` | 101 | 61 | 0.061 | 0.073 |
+| `unknown` | 50 | 104 | 0.175 | 0.053 |
 | `correction` | 7 | 8 | 0.066 | 0.188 |
 | `rebase_or_definition` | 7 | 113 | 14.016 | 0.102 |
 | `methodology_change` | 5 | 181 | 0.191 | 0.034 |
@@ -55,7 +52,13 @@ The causes are advance-to-revised transitions, annual benchmarks, seasonal-facto
 ## Benchmark tasks
 
 **T1 — revision-cause attribution.** Predict the cause of a drift event from its footprint. Splits are by vintage date (train before 2010, validation 2010–2014, test 2015 onward); the metric is macro-F1.
-T1 is scored only on labels verified by the label owner. Status: `pending_author_labels` (4,054 of 4,109 drift events verified).
+Test split: 2,129 events (50 events labeled `unknown` are not scored).
+
+| Baseline | Macro-F1 | Accuracy |
+|---|---:|---:|
+| majority | 0.1466 | 0.7853 |
+| calendar | 0.3261 | 0.8102 |
+| footprint_tree | 0.3718 | 0.8704 |
 
 **T2 — real-time revision correction.** Predict the month-over-month growth rate as it stands 36 months after first release, from the first-release value. Splits are leakage-free in calendar time; the test set covers first releases from 2016-01-01 to 2022-09-30 (1,349 observations, 17 series).
 

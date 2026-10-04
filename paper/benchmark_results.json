@@ -1,13 +1,42 @@
 {
  "T1_cause_attribution": {
-  "status": "pending_author_labels",
-  "n_drift_events": 4109,
-  "n_verified": 4054,
-  "splits": {
-   "train": "vintage_next < 2010-01-01",
-   "validation": "2010-01-01 <= vintage_next < 2015-01-01",
-   "test": "vintage_next >= 2015-01-01"
-  }
+  "status": "scored_on_author_labels",
+  "seed": 20261003,
+  "tree_max_depth": 2,
+  "n": {
+   "train": 1272,
+   "validation": 658,
+   "test": 2129,
+   "unknown_not_scored": 50
+  },
+  "test_support": {
+   "advance_to_revised": 1672,
+   "routine_reestimation": 249,
+   "annual_benchmark": 158,
+   "seasonal_factor_recompute": 45,
+   "correction": 4,
+   "methodology_change": 1
+  },
+  "results": [
+   {
+    "baseline": "majority",
+    "n_test": 2129,
+    "macro_F1": 0.1466,
+    "accuracy": 0.7853
+   },
+   {
+    "baseline": "calendar",
+    "n_test": 2129,
+    "macro_F1": 0.3261,
+    "accuracy": 0.8102
+   },
+   {
+    "baseline": "footprint_tree",
+    "n_test": 2129,
+    "macro_F1": 0.3718,
+    "accuracy": 0.8704
+   }
+  ]
  },
  "T2_realtime_revision_correction": {
   "status": "scored",

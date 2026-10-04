@@ -1,0 +1,4 @@
+baseline,n_test,macro_F1,accuracy
+majority,2129,0.1466,0.7853
+calendar,2129,0.3261,0.8102
+footprint_tree,2129,0.3718,0.8704

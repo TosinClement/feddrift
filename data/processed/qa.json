@@ -123,7 +123,7 @@
    "id": "Q18",
    "check": "Release-package content rules (no ALFRED value rows, no keys, no cache, no withheld file)",
    "expected": "0 violations",
-   "actual": "0 violations in 124 files []",
+   "actual": "0 violations in 125 files []",
    "status": "PASS"
   },
   {
@@ -137,8 +137,8 @@
    "id": "Q20",
    "check": "Every drift event carries a label verified by the label owner (release-gate condition)",
    "expected": "0 unverified",
-   "actual": "55 of 4109 unverified ({'rule_verified': 3653, 'release_verified': 354, 'release_pending_review': 55, 'unknown_verified': 46, 'override_verified': 1})",
-   "status": "BLOCKING"
+   "actual": "0 of 4109 unverified ({'rule_verified': 3653, 'release_verified': 405, 'unknown_verified': 50, 'override_verified': 1})",
+   "status": "PASS"
   }
  ],
  "anchor_agreement": {

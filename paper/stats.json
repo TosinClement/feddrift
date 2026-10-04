@@ -2,7 +2,7 @@
  "version": "0.1.0",
  "snapshot_id": "2026-10-03",
  "alfred_realtime_end": "2026-10-03",
- "final_mode": false,
+ "final_mode": true,
  "n_series": 17,
  "n_vintages": 6312,
  "first_vintage": "1949-03-24",
@@ -19,14 +19,13 @@
  "n_depth_censored_events": 215,
  "label_status": {
   "rule_verified": 3653,
-  "release_verified": 354,
-  "release_pending_review": 55,
-  "unknown_verified": 46,
+  "release_verified": 405,
+  "unknown_verified": 50,
   "override_verified": 1
  },
- "n_verified": 4054,
- "n_unverified": 55,
- "n_final_unknown": 46,
+ "n_verified": 4109,
+ "n_unverified": 0,
+ "n_final_unknown": 50,
  "events_by_recommended_cause": [
   {
    "recommended_cause": "advance_to_revised",
@@ -37,10 +36,10 @@
   },
   {
    "recommended_cause": "annual_benchmark",
-   "n": 293,
+   "n": 285,
    "median_depth_months": 159.0,
-   "median_mean_abs_pct_revision": 0.3311,
-   "median_ks": 0.0346
+   "median_mean_abs_pct_revision": 0.3454,
+   "median_ks": 0.0349
   },
   {
    "recommended_cause": "correction",
@@ -51,10 +50,10 @@
   },
   {
    "recommended_cause": "methodology_change",
-   "n": 6,
-   "median_depth_months": 139.5,
-   "median_mean_abs_pct_revision": 0.5616,
-   "median_ks": 0.0464
+   "n": 4,
+   "median_depth_months": 127.0,
+   "median_mean_abs_pct_revision": 0.3306,
+   "median_ks": 0.0449
   },
   {
    "recommended_cause": "rebase_or_definition",
@@ -79,17 +78,17 @@
   },
   {
    "recommended_cause": "seasonal_factor_recompute",
-   "n": 95,
+   "n": 101,
    "median_depth_months": 61.0,
-   "median_mean_abs_pct_revision": 0.0609,
-   "median_ks": 0.0769
+   "median_mean_abs_pct_revision": 0.0608,
+   "median_ks": 0.0727
   },
   {
    "recommended_cause": "unknown",
-   "n": 41,
+   "n": 45,
    "median_depth_months": 108.0,
    "median_mean_abs_pct_revision": 0.217,
-   "median_ks": 0.051
+   "median_ks": 0.0519
   }
  ],
  "events_by_final_cause": [
@@ -102,10 +101,10 @@
   },
   {
    "final_cause": "annual_benchmark",
-   "n": 238,
-   "median_depth_months": 152.0,
-   "median_mean_abs_pct_revision": 0.3436,
-   "median_ks": 0.0363
+   "n": 283,
+   "median_depth_months": 159.0,
+   "median_mean_abs_pct_revision": 0.3492,
+   "median_ks": 0.0351
   },
   {
    "final_cause": "correction",
@@ -144,24 +143,24 @@
   },
   {
    "final_cause": "seasonal_factor_recompute",
-   "n": 95,
+   "n": 101,
    "median_depth_months": 61.0,
-   "median_mean_abs_pct_revision": 0.0609,
-   "median_ks": 0.0769
+   "median_mean_abs_pct_revision": 0.0608,
+   "median_ks": 0.0727
   },
   {
    "final_cause": "unknown",
-   "n": 46,
-   "median_depth_months": 108.0,
+   "n": 50,
+   "median_depth_months": 104.5,
    "median_mean_abs_pct_revision": 0.1754,
    "median_ks": 0.0532
   }
  ],
  "recommendation_confidence_by_release": {
-  "strong": 120,
-  "moderate": 80,
-  "none": 27,
-  "weak": 4
+  "strong": 106,
+  "moderate": 93,
+  "none": 29,
+  "weak": 3
  },
  "n_sources": 359,
  "copyright_tags": [
@@ -208,7 +207,7 @@
   "Q17": "PASS",
   "Q18": "PASS",
   "Q19": "PASS",
-  "Q20": "BLOCKING"
+  "Q20": "PASS"
  },
  "reconstruction": "0 mismatches of 6312 vintages",
  "share_pairs_revised": {
@@ -233,14 +232,43 @@
  "cpiaucns_revising_vintages": 9,
  "benchmark": {
   "T1_cause_attribution": {
-   "status": "pending_author_labels",
-   "n_drift_events": 4109,
-   "n_verified": 4054,
-   "splits": {
-    "train": "vintage_next < 2010-01-01",
-    "validation": "2010-01-01 <= vintage_next < 2015-01-01",
-    "test": "vintage_next >= 2015-01-01"
-   }
+   "status": "scored_on_author_labels",
+   "seed": 20261003,
+   "tree_max_depth": 2,
+   "n": {
+    "train": 1272,
+    "validation": 658,
+    "test": 2129,
+    "unknown_not_scored": 50
+   },
+   "test_support": {
+    "advance_to_revised": 1672,
+    "routine_reestimation": 249,
+    "annual_benchmark": 158,
+    "seasonal_factor_recompute": 45,
+    "correction": 4,
+    "methodology_change": 1
+   },
+   "results": [
+    {
+     "baseline": "majority",
+     "n_test": 2129,
+     "macro_F1": 0.1466,
+     "accuracy": 0.7853
+    },
+    {
+     "baseline": "calendar",
+     "n_test": 2129,
+     "macro_F1": 0.3261,
+     "accuracy": 0.8102
+    },
+    {
+     "baseline": "footprint_tree",
+     "n_test": 2129,
+     "macro_F1": 0.3718,
+     "accuracy": 0.8704
+    }
+   ]
   },
   "T2_realtime_revision_correction": {
    "status": "scored",
