@@ -19,13 +19,13 @@
  "n_depth_censored_events": 215,
  "label_status": {
   "rule_verified": 3653,
-  "release_verified": 307,
-  "release_pending_review": 102,
+  "release_verified": 354,
+  "release_pending_review": 55,
   "unknown_verified": 46,
   "override_verified": 1
  },
- "n_verified": 4007,
- "n_unverified": 102,
+ "n_verified": 4054,
+ "n_unverified": 55,
  "n_final_unknown": 46,
  "events_by_recommended_cause": [
   {
@@ -37,10 +37,10 @@
   },
   {
    "recommended_cause": "annual_benchmark",
-   "n": 295,
+   "n": 293,
    "median_depth_months": 159.0,
    "median_mean_abs_pct_revision": 0.3311,
-   "median_ks": 0.0347
+   "median_ks": 0.0346
   },
   {
    "recommended_cause": "correction",
@@ -71,6 +71,13 @@
    "median_ks": 0.019
   },
   {
+   "recommended_cause": "sample_redesign",
+   "n": 2,
+   "median_depth_months": 94.5,
+   "median_mean_abs_pct_revision": 0.444,
+   "median_ks": 0.0652
+  },
+  {
    "recommended_cause": "seasonal_factor_recompute",
    "n": 95,
    "median_depth_months": 61.0,
@@ -95,10 +102,10 @@
   },
   {
    "final_cause": "annual_benchmark",
-   "n": 193,
-   "median_depth_months": 159.0,
-   "median_mean_abs_pct_revision": 0.3671,
-   "median_ks": 0.0373
+   "n": 238,
+   "median_depth_months": 152.0,
+   "median_mean_abs_pct_revision": 0.3436,
+   "median_ks": 0.0363
   },
   {
    "final_cause": "correction",
@@ -129,6 +136,13 @@
    "median_ks": 0.019
   },
   {
+   "final_cause": "sample_redesign",
+   "n": 2,
+   "median_depth_months": 94.5,
+   "median_mean_abs_pct_revision": 0.444,
+   "median_ks": 0.0652
+  },
+  {
    "final_cause": "seasonal_factor_recompute",
    "n": 95,
    "median_depth_months": 61.0,
@@ -144,8 +158,8 @@
   }
  ],
  "recommendation_confidence_by_release": {
-  "strong": 136,
-  "moderate": 64,
+  "strong": 120,
+  "moderate": 80,
   "none": 27,
   "weak": 4
  },
@@ -221,7 +235,7 @@
   "T1_cause_attribution": {
    "status": "pending_author_labels",
    "n_drift_events": 4109,
-   "n_verified": 4007,
+   "n_verified": 4054,
    "splits": {
     "train": "vintage_next < 2010-01-01",
     "validation": "2010-01-01 <= vintage_next < 2015-01-01",
