@@ -40,6 +40,10 @@ The pipeline was run from a fresh `git clone` of the repository, in a new virtua
 | `labels/review/FedDrift_label_review.xlsx` | Container timestamps | xlsx (zip) entry times; the cell contents are identical |
 | `paper/figures/*.png` | Pixel-level anti-aliasing | Font rasterization differs between the system matplotlib build and the PyPI wheel. The plotted data are identical |
 
+## Final labeling state (2026-10-03, after all label decisions)
+
+All 4,109 drift events carry verified labels. Recorded QA status: 19 checks PASS (Q01-Q04, Q06-Q20) and Q05 NOTE. Q05 is the documented timing difference for MRTSSM44X72USS: Census reissued the MRTS file on 2026-09-28 with its annual revision, while ALFRED's newest MRTS vintage in the pinned snapshot is 2026-09-16. NOTE means "passes with a documented, explained exception"; the release gate and packager block only on FAIL or BLOCKING. Tests: 12 passed, 1 skipped (the unverified-label refusal test cannot run when every label is verified; the refusal path was exercised separately on an isolated copy).
+
 ## Determinism
 
 - **ALFRED:** queried with `realtime_end` pinned in `config/snapshot.json`, so later vintages never enter a rebuild.

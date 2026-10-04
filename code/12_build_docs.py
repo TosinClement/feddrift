@@ -380,6 +380,14 @@ def main():
     s = json.load(open(os.path.join(PAPER, "stats.json")))
     if a.final and not s["final_mode"]:
         raise SystemExit("--final refused: paper/stats.json was not generated in final mode (run 11 --final first)")
+    if a.final:
+        # fail closed on the CURRENT label and QA state, not only on stats.json from an earlier run (added 2026-10-03)
+        st = json.load(open(os.path.join(ROOT, "data", "processed", "label_status.json")))
+        qa = json.load(open(os.path.join(ROOT, "data", "processed", "qa.json")))
+        bad = [c["id"] for c in qa["checks"] if c["status"] in ("FAIL", "BLOCKING")]
+        if st["n_unverified"] or bad:
+            raise SystemExit(f"--final refused: {st['n_unverified']} drift events lack a verified label; "
+                             f"QA not clean: {bad}")
     if not a.final:
         s["final_mode"] = False
     open(os.path.join(ROOT, "README.md"), "w").write(readme(s))

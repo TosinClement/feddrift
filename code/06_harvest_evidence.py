@@ -565,9 +565,13 @@ def specials():
     q = sentences(t, ["incorrect as published for may 2016 through august 2016"], limit=1)
     out["FDC-CPI-20161018"] = ([{"source_id": sid, "quote": " ".join(q), "locator": "web page",
                                  "check": "stated May-Aug 2016 vs observed 2016-05..2016-08 -> MATCH"}], "correction", "", "strong")
-    s2 = register_reader("https://slgs.gov/news/2000/release-09-28/", "Bureau of the Public Debt (U.S. Treasury)",
-                         "Statement on CPI Revision and Inflation-Indexed Securities (September 28, 2000)", "statement",
-                         "2000-09-28", "2026-10-03T18:30:00Z", "read with a web reader")
+    # Earlier (before 2026-10-04) this source was only quoted from a web reader, with no local file. It is now a dated
+    # browser excerpt capture of the page's <main> text; no original server file was obtained.
+    s2 = register_capture("https://slgs.gov/news/2000/release-09-28/", "Bureau of the Public Debt (U.S. Treasury)",
+                          "Statement on CPI Revision and Inflation-Indexed Securities (September 28, 2000)", "statement",
+                          "2000-09-28", "treasury_slgs_statement_2000-09-28.excerpt.txt", "2026-10-04T04:01:58Z",
+                          "d31ad4aff98b471de432332709b4516cb75a17f7ecd5995d448cc0feca628e4f", 43128,
+                          how="full text of the page's <main> element, built-in browser")
     out["FDC-CPI-20000928"] = ([{"source_id": s2, "quote": "The Bureau of Labor Statistics today released revised index "
                                  "numbers for the consumer price index numbers previously reported for January through August 2000.",
                                  "locator": "web page", "check": "stated Jan-Aug 2000 vs observed 2000-01..2000-08 -> MATCH; "

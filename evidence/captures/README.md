@@ -28,3 +28,11 @@ All three were captured at 2026-10-03T23:12:34Z. Each capture hash was computed 
 | `bls_bulletin1039_1951.fraser_fulltext.excerpt.txt` | FRASER (Federal Reserve Bank of St. Louis) full-text page of BLS Bulletin No. 1039, *Interim Adjustment of Consumers' Price Index* (letter of transmittal dated June 29, 1951) | 9932c29567e806d5b26f447a39c56ddc5aa9d63713f8c6550687cdfd68f7ca53 | 274,347 bytes, SHA-256 d5466107542c2ba2820421509b29b06dc65ff8a26274adb48f6b61303af8eb82 |
 
 This capture was taken at 2026-10-03T23:44:04Z. It holds selected sentences from FRASER's OCR text of the scanned bulletin, so the OCR artifacts (broken words, soft hyphens) are kept as they appear. It is a capture of a library's full-text rendering, not the BLS original.
+
+## Treasury statement on the 2000 CPI revision, captured 2026-10-04
+
+| File | Page | Capture SHA-256 | Page HTML at capture time |
+|---|---|---|---|
+| `treasury_slgs_statement_2000-09-28.excerpt.txt` | Bureau of the Public Debt, *Statement on CPI Revision and Inflation-Indexed Securities* (dated on page: September 28, 2000), served at slgs.gov (TreasuryDirect) | 77c865c01776d6e53f8a2dc9495426f7ce167fc43077569bf590d4456732e017 | 43,128 bytes, SHA-256 d31ad4aff98b471de432332709b4516cb75a17f7ecd5995d448cc0feca628e4f |
+
+Captured at 2026-10-04T04:01:58Z from one page load the user approved in the built-in browser. The capture is the full `<main>` text, including the site's navigation lines, exactly as hashed in the browser; the hash matches the local file. Before this capture the source was cited only from a web-reader quote with no local file (see `evidence/evidence_limitations.csv`). This is a capture of rendered page text, not the original 2000 file. It is secondary evidence: the label for FDC-CPI-20000928 rests on the BLS source SRC-F5255A6C17.
