@@ -19,13 +19,13 @@
  "n_depth_censored_events": 215,
  "label_status": {
   "rule_verified": 3653,
-  "release_verified": 254,
-  "release_pending_review": 155,
+  "release_verified": 307,
+  "release_pending_review": 102,
   "unknown_verified": 46,
   "override_verified": 1
  },
- "n_verified": 3954,
- "n_unverified": 155,
+ "n_verified": 4007,
+ "n_unverified": 102,
  "n_final_unknown": 46,
  "events_by_recommended_cause": [
   {
@@ -95,10 +95,10 @@
   },
   {
    "final_cause": "annual_benchmark",
-   "n": 140,
-   "median_depth_months": 158.5,
-   "median_mean_abs_pct_revision": 0.3964,
-   "median_ks": 0.04
+   "n": 193,
+   "median_depth_months": 159.0,
+   "median_mean_abs_pct_revision": 0.3671,
+   "median_ks": 0.0373
   },
   {
    "final_cause": "correction",
@@ -144,12 +144,12 @@
   }
  ],
  "recommendation_confidence_by_release": {
-  "strong": 157,
-  "moderate": 43,
+  "strong": 136,
+  "moderate": 64,
   "none": 27,
   "weak": 4
  },
- "n_sources": 353,
+ "n_sources": 359,
  "copyright_tags": [
   "public domain: citation requested"
  ],
@@ -221,7 +221,7 @@
   "T1_cause_attribution": {
    "status": "pending_author_labels",
    "n_drift_events": 4109,
-   "n_verified": 3954,
+   "n_verified": 4007,
    "splits": {
     "train": "vintage_next < 2010-01-01",
     "validation": "2010-01-01 <= vintage_next < 2015-01-01",

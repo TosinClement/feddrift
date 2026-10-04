@@ -715,6 +715,48 @@ MTIS_MANUAL = {
 # Manual reading of documents where the automated start-month check reports DIFFERENT although the observed first
 # revised month lies inside a range the document states (2026-10-03). Overrides the recommendation and adds the note.
 MANUAL_ASSESS = {
+    "FDC-MTIS-20030414": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20040312": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20080414": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20090414": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20100414": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20110413": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20120416": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20140414": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20150414": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20160413": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20170414": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20190418": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale report via the MTIS notice"),
+    "FDC-MTIS-20050414": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; retail and wholesale benchmarks carried via the MTIS notice"),
+    "FDC-MTIS-20060413": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; retail and wholesale benchmarks carried via the MTIS notice"),
+    "FDC-MTIS-20070416": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; retail and wholesale benchmarks carried via the MTIS notice"),
+    "FDC-MTIS-20200415": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale revisions notice via the MTIS notice"),
+    "FDC-MTIS-20210415": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale revisions notice via the MTIS notice"),
+    "FDC-MTIS-20220414": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale revisions notice via the MTIS notice"),
+    "FDC-MTIS-20230414": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale revisions notice via the MTIS notice"),
+    "FDC-MTIS-20240415": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale revisions notice via the MTIS notice"),
+    "FDC-MTIS-20250416": ("annual_benchmark", "", "moderate",
+                        "label owner (2026-10-03): moderate; annual_benchmark carried from the Census wholesale revisions notice via the MTIS notice"),
     "FDC-M3-20200528": ("annual_benchmark", "", "moderate",
                         "label owner (2026-10-03): moderate. Benchmark issued May 15, 2020; the same-day ALFRED snapshot shows only "
                         "routine revisions and the historical revisions first appear in this later snapshot (unexplained timing gap)"),
@@ -806,14 +848,18 @@ WHOLESALE_DOC = {"FDC-MTIS-20030414": "2003", "FDC-MTIS-20040312": "2004", "FDC-
                  "FDC-MTIS-20090414": "2009", "FDC-MTIS-20100414": "2010", "FDC-MTIS-20110413": "2011",
                  "FDC-MTIS-20120416": "2012", "FDC-MTIS-20130613": "2013", "FDC-MTIS-20140414": "2014",
                  "FDC-MTIS-20150414": "2015", "FDC-MTIS-20160413": "2016", "FDC-MTIS-20170414": "2017",
-                 "FDC-MTIS-20180614": "2018", "FDC-MTIS-20190418": "2019"}
+                 "FDC-MTIS-20180614": "2018", "FDC-MTIS-20190418": "2019",
+                 # 2020-2025 revisions notices: overlooked in the first search (folder listing truncated); identified
+                 # by the label owner 2026-10-03
+                 "FDC-MTIS-20200415": "2020", "FDC-MTIS-20210415": "2021", "FDC-MTIS-20220414": "2022",
+                 "FDC-MTIS-20230414": "2023", "FDC-MTIS-20240415": "2024", "FDC-MTIS-20250416": "2025"}
 
 
 def wholesale_row(cid):
     y = WHOLESALE_DOC[cid]
-    name = f"{y}_mwts_revisions_notice.pdf" if y == "2019" else f"{y}_mwts_benchmark.pdf"
+    name = f"{y}_mwts_revisions_notice.pdf" if int(y) >= 2019 else f"{y}_mwts_benchmark.pdf"
     url = "https://www2.census.gov/wholesale/pdf/mwts/historic/old_benchmarks/" + name
-    title = (f"Monthly Wholesale Trade {y} Annual Revision Notice" if y == "2019"
+    title = (f"Monthly Wholesale Trade {y} Revisions Notice" if int(y) >= 2019
              else f"Monthly Wholesale Trade Survey annual revision (benchmark) report, {y}")
     sid, path = fetch(url, "U.S. Census Bureau", title, "benchmark_report", f"mwts-annual-{y}", "")
     if not sid:
